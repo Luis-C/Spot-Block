@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/************************** End of Material Set-up ***************************/
+
+// global variables for theming
+:root {
+  --chicago-maroon: #861f41;
+  --burnt-orange: #e87722;
+  --hokie-stone: #75787b;
+  --yardline-white: #ffffff;
+  --burnt-orange-web-digital: #c64600;
+  // clear versions, for consistency 30% opacity
+  --chicago-maroon-c: #861f414d;
+  --burnt-orange-c: #e877224d;
+  --hokie-stone-c: #75787b4d;
+  --yardline-white-c: #ffffff4d;
+  --burnt-orange-web-digital-c: #c646004d;
+}
+
+html,
+body {
+  width: 100%;
+}
+
+body {
+  background-color: var(--hokie-stone);
+  background-image: url("./assets/images/testImg2.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.mat-card {
+  background-color: var(--hokie-stone-c);
+  backdrop-filter: blur(5px);
+}
