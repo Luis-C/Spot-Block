@@ -1,7 +1,9 @@
-export class Spot {
-  // TODO: define fields
-  id: number;
-  location: string;
-  // some info about when it is available
-  // Dict <time, available>
+import { Person } from "./person";
+
+export interface Spot {
+  lot: string;
+  coord: string;
+  owner: Person;
+  current_bid: number;
+  rent_time: number;
 }

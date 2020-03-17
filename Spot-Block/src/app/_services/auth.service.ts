@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { User } from "../_models/user";
+import { Person } from "../_models/person";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
-  public currentUser: Observable<User>;
+  public currentUser: Observable<Person>;
 
   constructor() {}
 }
