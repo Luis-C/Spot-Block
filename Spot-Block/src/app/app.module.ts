@@ -8,9 +8,10 @@ import { MaterialModule } from "./material-module/material-module.module";
 import { LoginComponent } from "./login/login.component";
 import { HomeComponent } from "./home/home.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { SpotComponent } from './spot/spot.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, SpotComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
