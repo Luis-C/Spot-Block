@@ -53,6 +53,8 @@ class [[eosio::contract("person")]] person : public eosio::contract {
                         row.funds = row.funds - amount;
                     }
                     else {
+                        print("Error: Transaction failed." +
+                              "User does not have enough money for this transaction.");
                         hasEnough = 0;
                     }
                 });
@@ -62,6 +64,23 @@ class [[eosio::contract("person")]] person : public eosio::contract {
                         row.funds = row.funds + amount;
                     }
                 });
+            }
+        }
+
+        [[eosio::action]]
+        void insert(name accountID, int initialFunds, std::string ownedSpot = "") {
+            require_auth();
+            user_index users_table(get_self(), get_first_receiver().value);
+            auto account = users_table.find(accountID.value);
+            if (account == users_table.end()) {
+                users_table.emplace(accountID, [&](auto& row) {
+                    row.ID = accountID;
+                    row.funds = initialFunds;
+                    row.spot = ownedSpot;
+                });
+            }
+            else {
+                print("Error: Account already exists.");
             }
         }
 
