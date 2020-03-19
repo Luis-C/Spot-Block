@@ -2,7 +2,7 @@
 
 using namespace eosio;
 
-class [[eosio::contract]] person : public contract {
+class [[eosio::contract("person")]] person : public eosio::contract {
     public:
         using contract::contract;
 
@@ -13,11 +13,16 @@ class [[eosio::contract]] person : public contract {
         }
         
         [[eosio::action]]
-        void pay(name userID, person reveiver, int amount) {
+        void pay(name userID, name receiverID, int amount) {
             //transfer payment
-            //check auth and take amount
+            //check auth and setup table
             require_auth(userID);
-            this.funds -= amount;
+            user_index users_table(get_self(), get_first_receiver().value);
+            auto pay_er = users_table.find(userID.value);
+            auto receiver = users_table.find(receiverID.value);
+
+            //take funds from pay-er
+            pay_er.funds -= amount;
             
             //find person, give money
             receiver.funds += amount;
