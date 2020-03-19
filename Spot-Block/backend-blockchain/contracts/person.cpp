@@ -1,4 +1,5 @@
 #include <eosio/eosio.hpp>
+#include "spot.cpp"
 
 using namespace eosio;
 
@@ -7,9 +8,32 @@ class [[eosio::contract("person")]] person : public eosio::contract {
         using contract::contract;
 
         [[eosio::action]]
-        void bid(std::string spotID, int bidAmount) {
+        void bid(name userID, name spotID, int bidAmount) {
             //bit on a spot
+            require_auth(userID);
+            user_index users_table(get_self(), get_first_receiver().value);
             
+            //get user
+            auto bidder = users_table.find(userID.value);
+            
+            //get spot
+            //auto spot = spots_table.find(spotID.value);
+
+            int hasEnough = 1;
+            if (bidder != users_table.end()) { //&& spot != spots_table.end()) {
+                //Check if has enough and take money
+                users_table.modify(bidder, userID, [&](auto& row) {
+                    if (row.funds < bidAmount) {
+                        hasEnough = 0;
+                    }
+                });
+                //pay money if had enough
+                //users_table.modify(spot, spotID, [&](auto& row) {
+                    //if (hasEnough == 1) {
+                       //row.bid = bidAmount;
+                    //}
+                //});
+            }
         }
         
         [[eosio::action]]
@@ -50,7 +74,7 @@ class [[eosio::contract("person")]] person : public eosio::contract {
             int funds;
 
             uint64_t primary_key () const {
-                return ID;
+                return ID.value;
             }
         };
 
