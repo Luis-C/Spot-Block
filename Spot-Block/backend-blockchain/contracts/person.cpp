@@ -12,10 +12,10 @@ class [[eosio::contract("person")]] person : public eosio::contract {
             //bit on a spot
             require_auth(userID);
             user_index users_table(get_self(), get_first_receiver().value);
-            
+
             //get user
             auto bidder = users_table.find(userID.value);
-            
+
             //get spot
             //auto spot = spots_table.find(spotID.value);
 
@@ -35,7 +35,7 @@ class [[eosio::contract("person")]] person : public eosio::contract {
                 //});
             }
         }
-        
+
         [[eosio::action]]
         void pay(name userID, name receiverID, int amount) {
             //transfer payment
@@ -53,8 +53,7 @@ class [[eosio::contract("person")]] person : public eosio::contract {
                         row.funds = row.funds - amount;
                     }
                     else {
-                        print("Error: Transaction failed." +
-                              "User does not have enough money for this transaction.");
+                        print("Error: Transaction failed. User does not have enough money for this transaction.");
                         hasEnough = 0;
                     }
                 });
@@ -69,7 +68,7 @@ class [[eosio::contract("person")]] person : public eosio::contract {
 
         [[eosio::action]]
         void insert(name accountID, int initialFunds, std::string ownedSpot = "") {
-            require_auth();
+            require_auth(accountID);
             user_index users_table(get_self(), get_first_receiver().value);
             auto account = users_table.find(accountID.value);
             if (account == users_table.end()) {
