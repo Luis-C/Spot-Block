@@ -21,11 +21,24 @@ class [[eosio::contract("person")]] person : public eosio::contract {
             auto pay_er = users_table.find(userID.value);
             auto receiver = users_table.find(receiverID.value);
 
-            //take funds from pay-er
-            pay_er.funds -= amount;
-            
-            //find person, give money
-            receiver.funds += amount;
+            int hasEnough = 1;
+            if (pay_er != users_table.end() && receiver != users_table.end()) {
+                //Check if has enough and take money
+                users_table.modify(pay_er, userID, [&](auto& row) {
+                    if (row.funds >= amount) {
+                        row.funds = row.funds - amount;
+                    }
+                    else {
+                        hasEnough = 0;
+                    }
+                });
+                //pay money if had enough
+                users_table.modify(receiver, receiverID, [&](auto& row) {
+                    if (hasEnough == 1) {
+                        row.funds = row.funds + amount;
+                    }
+                });
+            }
         }
 
         person(name receiver, name code, datastream<const char*> ds):contract(receiver, code, ds) {}
