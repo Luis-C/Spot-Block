@@ -7,14 +7,23 @@ class [[eosio::contract]] spot : public contract {
         using contract::contract;
 
         [[eosio::action]]
-        void rented(name tempOwner) {
-            //set owner to rentee for time of renting
+        void putForRent(std::string time) {
+            //create a bit
 
         }
 
-        [[eosio::action]]
-        void expire() {
-            //set owner back to main owner
 
+    private:
+        struct [[eosio::table]] spot {
+            name ID;
+            name owner;
+            std::string lot;
+            std::string coord;
+            name rentee;
+            std::string time;
+
+            uint64_t primary_key() const {
+                return ID.value;
+            }
         }
 };
