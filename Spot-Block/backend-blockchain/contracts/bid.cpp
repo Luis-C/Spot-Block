@@ -7,6 +7,11 @@ class [[eosio::contract]] bid : public eosio::contract {
         using contract::contract
 
         [[eosio::action]]
+        void finish() {
+            //close the bid, rent spot if there was a bid
+            
+        }
+
         
 
     private:
