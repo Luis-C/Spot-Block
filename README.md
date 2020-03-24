@@ -2,7 +2,7 @@
 
 Parking bidding using blockchain
 
-# Build for Deployment:
+# Build for Deployment (GitHub Pages):
 
 ```Powershell
 ng build --prod --output-path ../docs --base-href /Spot-Block/
