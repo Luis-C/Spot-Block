@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { NotificationsService } from "../_services/notifications.service";
 import { Spot } from "../_models/spot";
+import { BlockchainService } from "../_services/blockchain.service";
 
 @Component({
   selector: "app-search",
@@ -10,6 +11,7 @@ import { Spot } from "../_models/spot";
 })
 export class SearchComponent implements OnInit {
   searchForm: FormGroup;
+  // @Output() searchResult: Spot[];
   // for demo only
   demoSpot: Spot = {
     lot: "Some Parking Lot",
@@ -19,7 +21,11 @@ export class SearchComponent implements OnInit {
     rent_time: 3
   };
 
-  constructor(private fb: FormBuilder, private notif: NotificationsService) {}
+  constructor(
+    private fb: FormBuilder,
+    private notif: NotificationsService,
+    private blockchain: BlockchainService
+  ) {}
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -32,5 +38,7 @@ export class SearchComponent implements OnInit {
   search() {
     console.log(this.searchForm.value);
     this.notif.notImplemented();
+    // TODO: send query to blockchain
+    // this.blockchain.query(this.searchForm.value);
   }
 }
