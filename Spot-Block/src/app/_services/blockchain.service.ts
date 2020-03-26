@@ -34,16 +34,16 @@ export class BlockchainService {
       code: 'spotblock',
       scope: 'spotblock',
     };
-    query.table = table;
+    query["table"] = table;
 
     if (limit != 0)
-      query.limit = limit;
-    if (!(upperbound === null)
-      query.upper_bound = upperbound;
+      query["limit"] = limit;
+    if (!(upperbound === null))
+      query["upper_bound"] = upperbound;
     if (!(lowerbound === null))
-      query.lower_bound = lowerbound;
+      query{"lower_bound"] = lowerbound;
     if (!(secondary_key === null))
-      query.table_key = secondary_key;
+      query["table_key"] = secondary_key;
 
     var x;
     try {
