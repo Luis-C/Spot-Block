@@ -1,18 +1,18 @@
-import { Injectable } from '@angular/core';
-import { Api, JsonRpc, RpcError } from 'eosjs';
-import { JsSignatureProvider } from 'eosjs/dist/eosjs-jssig';
+import { Injectable } from "@angular/core";
+import { Api, JsonRpc, RpcError } from "eosjs";
+import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
+import { BlockchainQuery } from "../_models/query";
 
-declare function require(name:string);
-const fetch = require('node-fetch');
+declare function require(name: string);
+const fetch = require("node-fetch");
 
-const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
+const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class BlockchainService {
-
-  constructor() { }
+  constructor() {}
 
   /*
    * Function to read from a table in the block chain.
@@ -26,31 +26,32 @@ export class BlockchainService {
    * @return an array of json objects, an empty array if nothing and null if
    * the query failed for some reason
    */
-  async query_table(table: string, upperbound: string, lowerbound: string,
-    limit: number, secondary_key) {
-
-    var query = {
+  async query_table(
+    table: string,
+    limit: number = 0,
+    upperbound?: string,
+    lowerbound?: string,
+    secondary_key?
+  ) {
+    let query: BlockchainQuery = {
       json: true,
-      code: 'spotblock',
-      scope: 'spotblock',
+      code: "spotblock",
+      scope: "spotblock",
+      table: table,
+      limit: limit
     };
-    query["table"] = table;
 
-    if (limit != 0)
-      query["limit"] = limit;
-    if (!(upperbound === null))
-      query["upper_bound"] = upperbound;
-    if (!(lowerbound === null))
-      query["lower_bound"] = lowerbound;
-    if (!(secondary_key === null))
-      query["table_key"] = secondary_key;
+    if (upperbound) query.upper_bound = upperbound;
+    if (lowerbound) query.lower_bound = lowerbound;
+    if (secondary_key) query.table_key = secondary_key;
 
-    var x;
+    let x;
+
     try {
       const resp = await rpc.get_table_rows(query);
       console.log(resp.rows);
       x = resp.rows;
-    } catch(e) {
+    } catch (e) {
       x = null;
     }
 
