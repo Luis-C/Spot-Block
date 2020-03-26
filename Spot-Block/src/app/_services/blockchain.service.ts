@@ -41,7 +41,7 @@ export class BlockchainService {
     if (!(upperbound === null))
       query["upper_bound"] = upperbound;
     if (!(lowerbound === null))
-      query{"lower_bound"] = lowerbound;
+      query["lower_bound"] = lowerbound;
     if (!(secondary_key === null))
       query["table_key"] = secondary_key;
 
