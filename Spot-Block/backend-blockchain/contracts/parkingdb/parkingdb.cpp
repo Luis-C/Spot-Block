@@ -1,4 +1,5 @@
 #include <eosio/eosio.hpp>
+//#include "spot.cpp"
 
 using namespace eosio;
 
@@ -63,6 +64,21 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         }
 
 //FUCTIONALITY ACTIONS
+
+        [[eosio::action]]
+        void finish(name auctionID){
+            require_auth(_self);
+            auto auction = auctions_table.find(auctionID.value);
+            auto spot = spots_table.find(auction->spot.value);
+            auto owner = users_table.find(spot->owner.value);
+            users_table.modify( owner, _self, [&]( auto& row ) {
+                row.funds = owner->funds + auction->highestBid;
+            });
+            spots_table.modify( spot, _self, [&]( auto& row ) {
+                row.rentee = auction->currentBidder;
+            });
+            auctions_table.erase(auction);
+        }
 
         [[eosio::action]]
         void bid(name userID, name auctionID, int bidAmount) {
@@ -134,7 +150,6 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         }
 
 //Assigning a spot
-
         [[eosio::action]]
         void assignspot(name accountID, name spotID) {
             require_auth(_self);
@@ -162,7 +177,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 users_table.emplace(_self, [&](auto& row) {
                     row.ID = accountID;
                     row.funds = initialFunds;
-                    row.spot = ownedSpot;
+                    row.spot = spotID;
                 });
             }
             else {

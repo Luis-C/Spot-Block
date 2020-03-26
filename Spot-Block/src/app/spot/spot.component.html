@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card *ngIf="spot != undefined">
   <mat-card-header>
     <mat-card-title>Current Bid: $ {{ spot.current_bid }}</mat-card-title>
     <mat-card-subtitle>Rent Time: {{ spot.rent_time }} hrs</mat-card-subtitle>

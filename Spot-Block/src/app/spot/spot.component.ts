@@ -3,6 +3,9 @@ import { Spot } from "../_models/spot";
 
 /**
  * Reusable component to display a Spot
+ *
+ * Usage:
+ * <app-spot [spot]="someSpot"></app-spot>
  */
 @Component({
   selector: "app-spot",
