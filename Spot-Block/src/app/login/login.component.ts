@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  login() {
+  async login() {
     this.notif.notImplemented();
     console.log(this.loginForm.value);
 
