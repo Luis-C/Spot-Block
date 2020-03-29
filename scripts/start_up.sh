@@ -42,6 +42,6 @@ cleos set abi spotblock /var/www/contracts/person.abi
 
 #start up the angular project, this is for testing only
 cd /var/www/html
-ng serve --host 0.0.0.0 --port 80
+#ng serve --host 0.0.0.0 --port 80
 #start up apache for production, must be in foreground
 
