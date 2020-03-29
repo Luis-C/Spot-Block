@@ -1,8 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Output } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { NotificationsService } from "../_services/notifications.service";
 import { Spot } from "../_models/spot";
 import { BlockchainService } from "../_services/blockchain.service";
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: "app-search",
@@ -11,15 +12,10 @@ import { BlockchainService } from "../_services/blockchain.service";
 })
 export class SearchComponent implements OnInit {
   searchForm: FormGroup;
-  // @Output() searchResult: Spot[];
-  // for demo only
-  demoSpot: Spot = {
-    lot: "Some Parking Lot",
-    coord: "some coords",
-    owner: undefined,
-    current_bid: 1000,
-    rent_time: 3
-  };
+  // After a search is performed the component emits the results
+  @Output() searchResult: BehaviorSubject<Spot[]> = new BehaviorSubject<Spot[]>(
+    undefined
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -35,10 +31,66 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  search() {
+  async search() {
     console.log(this.searchForm.value);
     this.notif.notImplemented();
-    // TODO: send query to blockchain
-    // this.blockchain.query(this.searchForm.value);
+    // TODO: send query to blockchain & emit the results
+    // let result: Spot[] = await this.blockchain.query(this.searchForm.value);
+    // this.searchResult.next(result);
+
+    // for demo only
+    let demoSpotArr: Spot[] = [
+      {
+        lot: "Some Parking Lot",
+        coord: "some coords",
+        owner: undefined,
+        current_bid: 1000,
+        rent_time: 3
+      },
+      {
+        lot: "Another Parking Lot",
+        coord: "some coords",
+        owner: undefined,
+        current_bid: 500,
+        rent_time: 2
+      },
+      {
+        lot: "Parking Lot",
+        coord: "some coords",
+        owner: undefined,
+        current_bid: 700,
+        rent_time: 2
+      },
+      {
+        lot: "Parking Lot",
+        coord: "some coords",
+        owner: undefined,
+        current_bid: 700,
+        rent_time: 2
+      },
+      {
+        lot: "Parking Lot",
+        coord: "some coords",
+        owner: undefined,
+        current_bid: 700,
+        rent_time: 2
+      },
+      {
+        lot: "Parking Lot",
+        coord: "some coords",
+        owner: undefined,
+        current_bid: 700,
+        rent_time: 2
+      },
+      {
+        lot: "Parking Lot",
+        coord: "some coords",
+        owner: undefined,
+        current_bid: 700,
+        rent_time: 2
+      }
+    ];
+
+    this.searchResult.next(demoSpotArr);
   }
 }

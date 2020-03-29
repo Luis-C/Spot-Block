@@ -2,12 +2,12 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { LoginComponent } from "./login/login.component";
 import { HomeComponent } from "./home/home.component";
-import { SearchComponent } from "./search/search.component";
+import { SpotListComponent } from "./spot-list/spot-list.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "home", component: HomeComponent },
-  { path: "search", component: SearchComponent },
+  { path: "search", component: SpotListComponent },
   { path: "**", redirectTo: "login" }
 ];
 

@@ -10,9 +10,10 @@ import { HomeComponent } from "./home/home.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SpotComponent } from './spot/spot.component';
 import { SearchComponent } from './search/search.component';
+import { SpotListComponent } from './spot-list/spot-list.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, SpotComponent, SearchComponent],
+  declarations: [AppComponent, LoginComponent, HomeComponent, SpotComponent, SearchComponent, SpotListComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
