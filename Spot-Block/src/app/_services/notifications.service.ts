@@ -12,7 +12,8 @@ export class NotificationsService {
    */
   notImplemented() {
     this.snackBar.open("Action not implemented", "ok", {
-      duration: 4000
+      duration: 4000,
+      panelClass: "translucent"
     });
   }
 
@@ -21,6 +22,9 @@ export class NotificationsService {
    * @param message the message to be displayed.
    */
   displayMessage(message: string) {
-    this.snackBar.open(message, "ok", { duration: 4000 });
+    this.snackBar.open(message, "ok", {
+      duration: 4000,
+      panelClass: "translucent"
+    });
   }
 }
