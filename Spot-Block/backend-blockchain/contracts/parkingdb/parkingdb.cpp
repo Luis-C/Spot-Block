@@ -234,10 +234,16 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             name owner;
             std::string lot;
             std::string coord;
+	    std::string currentRentee;
+	    std::string currentTime;
 	    std::map rentees;
 
             uint64_t primary_key() const {
                 return ID.value;
+            }
+
+	    std::string secondary_key() const {
+                return lot;
             }
         };
 
@@ -261,6 +267,14 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
 
             uint64_t primary_key() const {
                 return ID.value;
+            }
+
+	    int secondary_key() const {
+                return highestBid;
+            }
+
+	    std::string ternary const {
+                return use_time;
             }
         };
 
