@@ -1,6 +1,6 @@
 From centos:7
 RUN yum -y install httpd
-#COPY /dist/Spot-Block /var/www/html
+#COPY /Spot-Block/dist/Spot-Block /var/www/html
 COPY /Spot-Block /var/www/html
 COPY /Spot-Block/backend-blockchain/ /var/www/
 COPY /scripts /
@@ -19,6 +19,7 @@ RUN wget https://github.com/EOSIO/eos/releases/download/v2.0.0/eosio-2.0.0-1.el7
 RUN yum -y install ./eosio-2.0.0-1.el7.x86_64.rpm
 EXPOSE 80
 EXPOSE 8888
+EXPOSE 9090
 CMD ["/bin/bash"]
 ##
 #CMD ["/usr/sbin/httpd", "-D", "FOREGROUND"]
