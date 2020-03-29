@@ -75,7 +75,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 row.funds = owner->funds + auction->highestBid;
             });
             spots_table.modify( spot, _self, [&]( auto& row ) {
-                row.rentee = auction->currentBidder;
+                row.rentees.insert({auction.use_time, auction->currentBidder};
             });
             auctions_table.erase(auction);
         }
@@ -195,8 +195,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                         row.owner = owner;
                         row.lot = lot;
                         row.coord = coord;
-                        row.rentee = ""_n;
-                        row.time = "";
+                        row.rentees<std::string, std::string> = {};
                 });
             }
 
@@ -235,8 +234,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             name owner;
             std::string lot;
             std::string coord;
-            name rentee;
-            std::string time;
+	    std::map rentees;
 
             uint64_t primary_key() const {
                 return ID.value;
