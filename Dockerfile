@@ -12,6 +12,7 @@ RUN yum install -y git
 RUN curl -sL https://rpm.nodesource.com/setup_10.x | bash -
 RUN yum install -y nodejs
 RUN npm install eosjs
+RUN npm install express
 RUN npm install node-fetch
 RUN npm install -n -g @angular/cli 
 RUN npm install stream
