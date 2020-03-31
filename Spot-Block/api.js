@@ -39,6 +39,48 @@ chain_api.get('/insert', async function (req, res) {
   res.end(result);
 });
 
+/*
+chain_api.get('/createspot', async function (req, res) {
+  console.log("Call: Create Spot");
+  const result = await api.transact({
+    actions: [{
+      account: 'spotblock',
+      name: 'create spot',
+      authorization: [{
+        
+      }],
+    }]
+  }, {
+    blocksBehind: 3,
+    expireSeconds: 30,
+  });
+  res.end(result);
+});
+
+
+
+chain_api.get('/finish', async function (req, res) {
+  console.log("Call: Insert");
+  const result = await api.transact({
+    actions: [{
+      account: 'spotblock',
+      name: 'finish',
+      authorization: [{
+        actor: 'testBid1',
+        permission: 'active',
+      }],
+      data: {
+        accountID: 'testBid1',
+      },
+    }]
+  }, {
+    blocksBehind: 3,
+    expireSeconds: 30,
+  });
+  res.end(result);
+}); */
+
+
 var server = chain_api.listen(9090, function() {
   var host = server.address().address;
   var port = server.address().port;
