@@ -10,12 +10,11 @@ const { JsSignatureProvider } = require('eosjs/dist/eosjs-jssig');      // devel
 const fetch = require('node-fetch');                                    // node only; not needed in browsers
 const { TextEncoder, TextDecoder } = require('util');                   // node only; native TextEncoder/Decoder
 
-//const defaultPrivateKey = "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3"; //eosio private key
-//const signatureProvider = new JsSignatureProvider([defaultPrivateKey]);
-
 const rpc = new JsonRpc('http://127.0.0.1:8888', { fetch });
-//const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
 
+/*
+ * test it is running
+ */
 chain_api.get('/test', function (req, res) {
   console.log("test");
   res.end("test");
@@ -97,9 +96,8 @@ chain_api.post('/createSpot', async(req, res) => {
 });
 
 /*
- *  * fields should be key, user, spotid and use_time
- *   * user must be spotblock
- *    */
+ *  fields should be key, user, spotid and use_time
+ */
 chain_api.post('/createAuc', async(req, res) => {
   console.log("Call: createAuc");
   const signatureProvider = new JsSignatureProvider([req.body.key]);
@@ -132,53 +130,113 @@ chain_api.post('/createAuc', async(req, res) => {
   }
 });
 
-/*chain_api.post('/pay', async function (req, res) {
-  console.log("Call: Pay");
-  const currApi = new Api({rpc, JsSignatureProvider([req.body.privKey]), textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
-  const result = await api.transact({
-    actions: [{
-      account: 'spotblock',
-      name: 'pay',
-      authorization: [{
-        actor: req.body.userID,
-        permission: 'active',
-      }],
-      data: {
-        userID: req.body.userID,
-        recieverID: req.body.recieverID,
-        amount: req.body,amount,
-      }
-    }]
-  }, {
-    blocksBehind: 3,
-    expireSeconds: 30,
-  });
-  res.end(result);
+/*
+ * fields should be key, user, accountid, and spotid
+ */
+chain_api.post('/assignSpot', async(req, res) => {
+  console.log("Call: assignSpot");
+  const signatureProvider = new JsSignatureProvider([req.body.key]);
+  const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
+
+  try {
+    const result = await api.transact({
+      actions: [{
+        account: 'spotblock',
+        name: 'assignspot',
+        authorization: [{
+          actor: req.body.user,
+          permission: 'active',
+        }],
+        data: {
+          accountID: req.body.accountid,
+          spotID: req.body.spotid,
+       },
+      }]
+    }, {
+      blocksBehind: 3,
+      expireSeconds: 30,
+    });
+    console.log("Spot assigned");
+    res.end("Spot assigned.");
+  } catch(e) {
+    console.log("error");
+    console.log(e.message);
+    res.end(e.message);
+  }
 });
 
+/*
+ * fields should be key, user, userid, auctionid, bidamount
+ */
+chain_api.post('/bid', async(req, res) => {
+  console.log("Call: bid");
+  const signatureProvider = new JsSignatureProvider([req.body.key]);
+  const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
 
-chain_api.get('/finish', async function (req, res) {
-  console.log("Call: Insert");
-  const result = await api.transact({
-    actions: [{
-      account: 'spotblock',
-      name: 'finish',
-      authorization: [{
-        actor: 'testBid1',
-        permission: 'active',
-      }],
-      data: {
-        accountID: 'testBid1',
-      },
-    }]
-  }, {
-    blocksBehind: 3,
-    expireSeconds: 30,
-  });
-  res.end(result);
-}); */
+  try {
+    const result = await api.transact({
+      actions: [{
+        account: 'spotblock',
+        name: 'bid',
+        authorization: [{
+          actor: req.body.user,
+          permission: 'active',
+        }],
+        data: {
+          userID: req.body.userid,
+          auctionID: req.body.auctionid,
+          bidAmount: req.body.bidamount,
+       },
+      }]
+    }, {
+      blocksBehind: 3,
+      expireSeconds: 30,
+    });
+    console.log("Bid placed");
+    res.end("Bid placed.");
+  } catch(e) {
+    console.log("error");
+    console.log(e.message);
+    res.end(e.message);
+  }
+});
 
+/*
+ * fields should be key, userID, receiverID, amount
+ */
+chain_api.post('/pay', async function (req, res) {
+  console.log("Call: Pay");
+  const signatureProvider = new JsSignatureProvider([req.body.key]);
+  const api = new Api({rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
 
+  try {
+    const result = await api.transact({
+      actions: [{
+        account: 'spotblock',
+        name: 'pay',
+        authorization: [{
+          actor: req.body.userID,
+          permission: 'active',
+        }],
+        data: {
+          userID: req.body.userID,
+          receiverID: req.body.receiverID,
+          amount: req.body.amount,
+        }
+      }]
+    }, {
+      blocksBehind: 3,
+      expireSeconds: 30,
+    });
+    res.end("Paid");
+  } catch(e) {
+    console.log("error");
+    console.log(e.message);
+    res.end(e.message);
+  }
+})
+
+//starts server on 9090
 var server = chain_api.listen(9090, function() {
   var host = server.address().address;
   var port = server.address().port;
