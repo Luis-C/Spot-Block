@@ -1,8 +1,10 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var chain_api = express();
+
 chain_api.use(bodyParser.urlencoded({extended: true}));
 chain_api.use(bodyParser.json());
+
 const { Api, JsonRpc, RpcError } = require('eosjs');
 const { JsSignatureProvider } = require('eosjs/dist/eosjs-jssig');      // development only
 const fetch = require('node-fetch');                                    // node only; not needed in browsers
@@ -19,28 +21,42 @@ chain_api.get('/test', function (req, res) {
   res.end("test");
 });
 
-chain_api.post('/insert', async function (req, res) {
+chain_api.post('/testPost', function (req, res) {
+        console.log(req.body);
+        res.end("complete");
+});
+
+/*
+ * fields should be key, user, account, fund, and spot
+ */
+chain_api.post('/insert', async(req, res) => {
   console.log("Call: insert");
-  const currApi = new Api({rpc, JsSignatureProvider([req.body.privKey]), textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
-  const result = await api.transact({
-    actions: [{
-      account: 'spotblock',
-      name: 'insert',
-      authorization: [{
-        actor: req.body.accountID,
-        permission: 'active',
-      }],
-      data: {
-        accountID: req.body.accountID,
-        initialFunds: req.body.initialFunds,
-        ownedSpot: req.body.ownedSpot,
-      },
-    }]
-  }, {
-    blocksBehind: 3,
-    expireSeconds: 30,
-  });
-  res.end(result);
+  const signatureProvider = new JsSignatureProvider([req.body.key]);
+  const api = new Api({ rpc, signatureProvider, textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
+
+  try {
+    const result = await api.transact({
+      actions: [{
+        account: 'spotblock',
+        name: 'createuser',
+        authorization: [{
+          actor: req.body.user,
+          permission: 'active',
+        }],
+        data: {
+          accountID: req.body.account,
+          initialFunds: req.body.funds,
+          ownedSpot: req.body.spot,
+       },
+      }]
+    }, {
+      blocksBehind: 3,
+      expireSeconds: 30,
+    });
+    res.end(result);
+  } catch(e) {
+    res.end(JSON.stringify(e.json, null, 2));
+  }
 });
 
 chain_api.post('/testPost', async function (req, res) {
@@ -81,7 +97,7 @@ chain_api.get('/createspot', async function (req, res) {
       account: 'spotblock',
       name: 'create spot',
       authorization: [{
-        
+
       }],
     }]
   }, {
