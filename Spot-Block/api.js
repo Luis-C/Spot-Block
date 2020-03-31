@@ -217,6 +217,9 @@ chain_api.post('/pay', async function (req, res) {
         authorization: [{
           actor: req.body.userID,
           permission: 'active',
+        }, {
+          actor: req.body.receiverID
+          permission: 'active',
         }],
         data: {
           userID: req.body.userID,
@@ -234,7 +237,7 @@ chain_api.post('/pay', async function (req, res) {
     console.log(e.message);
     res.end(e.message);
   }
-})
+});
 
 //starts server on 9090
 var server = chain_api.listen(9090, function() {
