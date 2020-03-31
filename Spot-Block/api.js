@@ -1,5 +1,8 @@
 var express = require('express');
+var bodyParser = require('body-parser');
 var chain_api = express();
+chain_api.use(bodyParser.urlencoded({extended: true}));
+chain_api.use(bodyParser.json());
 const { Api, JsonRpc, RpcError } = require('eosjs');
 const { JsSignatureProvider } = require('eosjs/dist/eosjs-jssig');      // development only
 const fetch = require('node-fetch');                                    // node only; not needed in browsers
@@ -16,20 +19,21 @@ chain_api.get('/test', function (req, res) {
   res.end("test");
 });
 
-chain_api.get('/insert', async function (req, res) {
+chain_api.post('/insert', async function (req, res) {
   console.log("Call: insert");
+  const currApi = new Api({rpc, JsSignatureProvider([req.body.privKey]), textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
   const result = await api.transact({
     actions: [{
       account: 'spotblock',
       name: 'insert',
       authorization: [{
-        actor: 'test1',
+        actor: req.body.accountID,
         permission: 'active',
       }],
       data: {
-        accountID: 'test1',
-        initialFunds: 20,
-        ownedSpot: '',
+        accountID: req.body.accountID,
+        initialFunds: req.body.initialFunds,
+        ownedSpot: req.body.ownedSpot,
       },
     }]
   }, {
@@ -39,21 +43,27 @@ chain_api.get('/insert', async function (req, res) {
   res.end(result);
 });
 
-/*
+chain_api.post('/testPost', async function (req, res) {
+  console.log("Call: testPost");
+  console.log(req.body);
+});
+
+
 chain_api.post('/pay', async function (req, res) {
   console.log("Call: Pay");
+  const currApi = new Api({rpc, JsSignatureProvider([req.body.privKey]), textDecoder: new TextDecoder(), textEncoder: new TextEncoder() });
   const result = await api.transact({
     actions: [{
       account: 'spotblock',
       name: 'pay',
       authorization: [{
-        actor: '',
+        actor: req.body.userID,
         permission: 'active',
       }],
       data: {
-        userID: '',
-        revieverID: '',
-        amount: ,
+        userID: req.body.userID,
+        recieverID: req.body.recieverID,
+        amount: req.body,amount,
       }
     }]
   }, {
@@ -63,7 +73,7 @@ chain_api.post('/pay', async function (req, res) {
   res.end(result);
 });
 
-
+/*
 chain_api.get('/createspot', async function (req, res) {
   console.log("Call: Create Spot");
   const result = await api.transact({
