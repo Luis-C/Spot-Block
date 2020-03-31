@@ -11,9 +11,20 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SpotComponent } from './spot/spot.component';
 import { SearchComponent } from './search/search.component';
 import { SpotListComponent } from './spot-list/spot-list.component';
+import { PurchaseComponent } from './purchase/purchase.component';
+import { SellComponent } from './sell/sell.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, SpotComponent, SearchComponent, SpotListComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    HomeComponent,
+    SpotComponent,
+    SearchComponent,
+    SpotListComponent,
+    PurchaseComponent,
+    SellComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
