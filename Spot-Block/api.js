@@ -40,6 +40,30 @@ chain_api.get('/insert', async function (req, res) {
 });
 
 /*
+chain_api.post('/pay', async function (req, res) {
+  console.log("Call: Pay");
+  const result = await api.transact({
+    actions: [{
+      account: 'spotblock',
+      name: 'pay',
+      authorization: [{
+        actor: '',
+        permission: 'active',
+      }],
+      data: {
+        userID: '',
+        revieverID: '',
+        amount: ,
+      }
+    }]
+  }, {
+    blocksBehind: 3,
+    expireSeconds: 30,
+  });
+  res.end(result);
+});
+
+
 chain_api.get('/createspot', async function (req, res) {
   console.log("Call: Create Spot");
   const result = await api.transact({

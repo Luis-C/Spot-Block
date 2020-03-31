@@ -286,7 +286,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         user_index users_table;
 
         typedef eosio::multi_index<"spots"_n, spot_struct,
-		eosio::indexed_by<"secid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::sec_key>>
+		eosio::indexed_by<"secid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::sec_key>>,
 		eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::third_key>>> spot_index;
         spot_index spots_table;
 
