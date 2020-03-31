@@ -37,8 +37,8 @@ cleos create account eosio test1 $(cat pub_key.txt)
 #add more accounts here ...
 
 #add code 
-cleos set code spotblock /var/www/contracts/person.wasm
-cleos set abi spotblock /var/www/contracts/person.abi
+cleos set code spotblock /var/www/contracts/parkingdb/parkingdb.wasm
+cleos set abi spotblock /var/www/contracts/parkingdb/parkingdb.abi
 
 #start up the angular project, this is for testing only
 cd /var/www/html
