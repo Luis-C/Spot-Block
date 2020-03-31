@@ -128,11 +128,18 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             //transfer payment
             //check auth and setup table
             require_auth(userID);
-            auto pay_er = users_table.find(userID.value);
-            auto receiver = users_table.find(receiverID.value);
+            //auto pay_er = users_table.find(userID.value);
+            //auto receiver = users_table.find(receiverID.value);
+
+            require_recipient(userID);
+            require_recipient(receiverID);
+
+            if (sub(userID, amount))
+              add(receiverID, amount);
+
             // TODO: undefined behavior of when the received isn't in the table
-            int hasEnough = 1;
-            if (pay_er != users_table.end() && receiver != users_table.end()) {
+            //int hasEnough = 1;
+            /*if (pay_er != users_table.end() && receiver != users_table.end()) {
                 //Check if has enough and take money
                 users_table.modify(pay_er, userID, [&](auto& row) {
                     if (row.funds >= amount) {
@@ -149,7 +156,30 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                         row.funds = row.funds + amount;
                     }
                 });
+            }*/
+        }
+
+        void add(name userID, int amount) {
+          auto account = users_table.find(userID.value);
+          users_table.modify(account, userID, [&](auto& row) {
+            row.funds = row.funds + amount;
+          });
+        }
+
+        bool sub(name userID, int amount) {
+          auto account = users_table.find(userID.value);
+          bool enough = false;
+          users_table.modify(account, userID, [&](auto& row) {
+            if (row.funds >= amount) {
+              row.funds = row.funds - amount;
+              enough = true;
             }
+            else {
+              print("Error: Transaction failed. User does not have enough money for this transaction.");
+              enough = false;
+            }
+          });
+          return enough;
         }
 
 //Assigning a spot
