@@ -1,5 +1,16 @@
-<mat-toolbar class="header">
+<mat-toolbar class="header" color="primary" *ngIf="!isUser">
+  <!--<mat-toolbar class="header" color="primary">-->
   {{ title }}
+</mat-toolbar>
+<mat-toolbar class="header" color="primary" *ngIf="isUser">
+  <!--<mat-toolbar class="header" color="primary">-->
+  <!-- <span>Spot-Block</span> -->
+  <!-- <span class="empty-space"></span> -->
+  <button mat-button><mat-icon>home</mat-icon></button>
+  <button mat-button routerLink="/search">Purchase</button>
+  <button mat-button routerLink="/search">Bid</button>
+  <button mat-button routerLink="/search">Sell</button>
+  <button mat-button class="pull-right" (click)="logout()">Logout</button>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
