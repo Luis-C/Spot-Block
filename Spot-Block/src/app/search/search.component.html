@@ -2,21 +2,25 @@
   <mat-card class="search-card">
     <!-- 1 -->
     <mat-form-field appearance="outline" color="accent">
-      <mat-label>Field 1</mat-label>
-      <input matInput formControlName="val1" />
+      <mat-label>Table</mat-label>
+      <input matInput formControlName="table" />
     </mat-form-field>
     <!-- 2 -->
     <mat-form-field appearance="outline" color="accent">
-      <mat-label>Field 2</mat-label>
-      <input matInput formControlName="val2" />
+      <mat-label>limit</mat-label>
+      <input matInput formControlName="limit" type="number" />
     </mat-form-field>
     <!-- 3 -->
-    <mat-form-field>
+    <mat-form-field appearance="outline" color="accent">
+      <mat-label>Secondary Key</mat-label>
+      <input matInput formControlName="secondary_key" />
+    </mat-form-field>
+    <!-- <mat-form-field>
       <mat-label>Pick a Date:</mat-label>
       <input matInput [matDatepicker]="picker2" formControlName="val3" />
       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
+    </mat-form-field> -->
 
     <!-- Search Button -->
     <button mat-button [disabled]="searchForm.invalid" (click)="search()">

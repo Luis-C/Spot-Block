@@ -25,9 +25,9 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
-      val1: [""],
-      val2: [""],
-      val3: [""]
+      table: [""],
+      limit: [""],
+      secondary_key: [""]
     });
   }
 
@@ -35,62 +35,63 @@ export class SearchComponent implements OnInit {
     console.log(this.searchForm.value);
     this.notif.notImplemented();
     // TODO: send query to blockchain & emit the results
-    // let result: Spot[] = await this.blockchain.query(this.searchForm.value);
-    // this.searchResult.next(result);
+    let result: Spot[] = await this.blockchain.query_table(
+      this.searchForm.value
+    );
+    this.searchResult.next(result);
 
     // for demo only
-    let demoSpotArr: Spot[] = [
-      {
-        lot: "Some Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 1000,
-        rent_time: 3
-      },
-      {
-        lot: "Another Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 500,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      }
-    ];
-
-    this.searchResult.next(demoSpotArr);
+    // let demoSpotArr: Spot[] = [
+    //   {
+    //     lot: "Some Parking Lot",
+    //     coord: "some coords",
+    //     owner: undefined,
+    //     current_bid: 1000,
+    //     rent_time: 3
+    //   },
+    //   {
+    //     lot: "Another Parking Lot",
+    //     coord: "some coords",
+    //     owner: undefined,
+    //     current_bid: 500,
+    //     rent_time: 2
+    //   },
+    //   {
+    //     lot: "Parking Lot",
+    //     coord: "some coords",
+    //     owner: undefined,
+    //     current_bid: 700,
+    //     rent_time: 2
+    //   },
+    //   {
+    //     lot: "Parking Lot",
+    //     coord: "some coords",
+    //     owner: undefined,
+    //     current_bid: 700,
+    //     rent_time: 2
+    //   },
+    //   {
+    //     lot: "Parking Lot",
+    //     coord: "some coords",
+    //     owner: undefined,
+    //     current_bid: 700,
+    //     rent_time: 2
+    //   },
+    //   {
+    //     lot: "Parking Lot",
+    //     coord: "some coords",
+    //     owner: undefined,
+    //     current_bid: 700,
+    //     rent_time: 2
+    //   },
+    //   {
+    //     lot: "Parking Lot",
+    //     coord: "some coords",
+    //     owner: undefined,
+    //     current_bid: 700,
+    //     rent_time: 2
+    //   }
+    // ];
+    // this.searchResult.next(demoSpotArr);
   }
 }
