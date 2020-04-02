@@ -3,11 +3,10 @@ import { Api, JsonRpc, RpcError } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
 import { BlockchainQuery } from "../_models/query";
 import { HttpClient } from "@angular/common/http";
-
 declare function require(name: string);
 const fetch = require("node-fetch");
 
-const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
+const rpc = new JsonRpc("http://192.168.99.100:8888", { fetch });
 
 @Injectable({
   providedIn: "root"
@@ -15,7 +14,8 @@ const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 export class BlockchainService {
   constructor(private http: HttpClient) {}
 
-  private PATH = "http://localhost:9090/";
+  private PATH = "http://192.168.99.100:9090/";
+  // private PATH = "http://localhost:9090/";
 
   test() {
     return this.http.get(`${this.PATH}test`);
@@ -35,17 +35,17 @@ export class BlockchainService {
    */
   async query_table(
     table: string,
-    limit: number = 0,
+    limit?: number,
+    secondary_key?: string,
     upperbound?: string,
-    lowerbound?: string,
-    secondary_key?
+    lowerbound?: string
   ) {
     let query: BlockchainQuery = {
       json: true,
       code: "spotblock",
       scope: "spotblock",
       table: table,
-      limit: limit
+      limit: limit ?? 0
     };
 
     if (upperbound) query.upper_bound = upperbound;

@@ -23,7 +23,7 @@ docker build -t <your docker name>/<name for your container> .
 then run this:
 
 ```
-run -p 80:80 -p 8888:8888 -it <docker name>/<name you used>
+docker run -p 80:80 -p 8888:8888 -p 9090:9090 -it <docker name>/<name you used>
 ```
 
 this will take you into a shell in the container there will be a bash script in

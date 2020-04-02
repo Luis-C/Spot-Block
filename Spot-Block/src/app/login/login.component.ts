@@ -64,7 +64,6 @@ export class LoginComponent implements OnInit {
     console.log(this.loginForm.value);
 
     // TODO: send form to the backend
-
     this.blockchain.test().subscribe(resp => console.log(resp));
   }
 }

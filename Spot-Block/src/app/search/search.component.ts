@@ -25,73 +25,22 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
-      table: [""],
-      limit: [""],
-      secondary_key: [""]
+      table: undefined,
+      limit: undefined,
+      secondary_key: undefined
     });
   }
 
   async search() {
-    console.log(this.searchForm.value);
     this.notif.notImplemented();
     // TODO: send query to blockchain & emit the results
     let result: Spot[] = await this.blockchain.query_table(
-      this.searchForm.value
+      this.searchForm.value.table,
+      this.searchForm.value.limit,
+      this.searchForm.value.secondary_key
     );
-    this.searchResult.next(result);
 
-    // for demo only
-    // let demoSpotArr: Spot[] = [
-    //   {
-    //     lot: "Some Parking Lot",
-    //     coord: "some coords",
-    //     owner: undefined,
-    //     current_bid: 1000,
-    //     rent_time: 3
-    //   },
-    //   {
-    //     lot: "Another Parking Lot",
-    //     coord: "some coords",
-    //     owner: undefined,
-    //     current_bid: 500,
-    //     rent_time: 2
-    //   },
-    //   {
-    //     lot: "Parking Lot",
-    //     coord: "some coords",
-    //     owner: undefined,
-    //     current_bid: 700,
-    //     rent_time: 2
-    //   },
-    //   {
-    //     lot: "Parking Lot",
-    //     coord: "some coords",
-    //     owner: undefined,
-    //     current_bid: 700,
-    //     rent_time: 2
-    //   },
-    //   {
-    //     lot: "Parking Lot",
-    //     coord: "some coords",
-    //     owner: undefined,
-    //     current_bid: 700,
-    //     rent_time: 2
-    //   },
-    //   {
-    //     lot: "Parking Lot",
-    //     coord: "some coords",
-    //     owner: undefined,
-    //     current_bid: 700,
-    //     rent_time: 2
-    //   },
-    //   {
-    //     lot: "Parking Lot",
-    //     coord: "some coords",
-    //     owner: undefined,
-    //     current_bid: 700,
-    //     rent_time: 2
-    //   }
-    // ];
-    // this.searchResult.next(demoSpotArr);
+    this.notif.displayMessage(`Returned ${result.length} results!`);
+    this.searchResult.next(result);
   }
 }
