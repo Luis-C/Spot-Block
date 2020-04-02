@@ -1,0 +1,309 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT ",
+    "version": "eosio::abi/1.1",
+    "types": [],
+    "structs": [
+        {
+            "name": "assignspot",
+            "base": "",
+            "fields": [
+                {
+                    "name": "accountID",
+                    "type": "name"
+                },
+                {
+                    "name": "spotID",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "auction_struct",
+            "base": "",
+            "fields": [
+                {
+                    "name": "ID",
+                    "type": "name"
+                },
+                {
+                    "name": "spot",
+                    "type": "name"
+                },
+                {
+                    "name": "use_time",
+                    "type": "string"
+                },
+                {
+                    "name": "finish_time",
+                    "type": "string"
+                },
+                {
+                    "name": "highestBid",
+                    "type": "int32"
+                },
+                {
+                    "name": "currentBidder",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "bid",
+            "base": "",
+            "fields": [
+                {
+                    "name": "userID",
+                    "type": "name"
+                },
+                {
+                    "name": "auctionID",
+                    "type": "name"
+                },
+                {
+                    "name": "bidAmount",
+                    "type": "int32"
+                }
+            ]
+        },
+        {
+            "name": "createauc",
+            "base": "",
+            "fields": [
+                {
+                    "name": "spotid",
+                    "type": "name"
+                },
+                {
+                    "name": "use_time",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "createspot",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "name"
+                },
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "lot",
+                    "type": "string"
+                },
+                {
+                    "name": "coord",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "createuser",
+            "base": "",
+            "fields": [
+                {
+                    "name": "accountID",
+                    "type": "name"
+                },
+                {
+                    "name": "initialFunds",
+                    "type": "int32"
+                },
+                {
+                    "name": "spotID",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "debugatable",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "debugstable",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "debugutable",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "finish",
+            "base": "",
+            "fields": [
+                {
+                    "name": "auctionID",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "pair_string_name",
+            "base": "",
+            "fields": [
+                {
+                    "name": "key",
+                    "type": "string"
+                },
+                {
+                    "name": "value",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "pay",
+            "base": "",
+            "fields": [
+                {
+                    "name": "userID",
+                    "type": "name"
+                },
+                {
+                    "name": "receiverID",
+                    "type": "name"
+                },
+                {
+                    "name": "amount",
+                    "type": "int32"
+                }
+            ]
+        },
+        {
+            "name": "spot_struct",
+            "base": "",
+            "fields": [
+                {
+                    "name": "ID",
+                    "type": "name"
+                },
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "lot",
+                    "type": "string"
+                },
+                {
+                    "name": "coord",
+                    "type": "string"
+                },
+                {
+                    "name": "currentRentee",
+                    "type": "string"
+                },
+                {
+                    "name": "currentTime",
+                    "type": "string"
+                },
+                {
+                    "name": "rentees",
+                    "type": "pair_string_name[]"
+                }
+            ]
+        },
+        {
+            "name": "user",
+            "base": "",
+            "fields": [
+                {
+                    "name": "ID",
+                    "type": "name"
+                },
+                {
+                    "name": "spot",
+                    "type": "name"
+                },
+                {
+                    "name": "funds",
+                    "type": "int32"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "name": "assignspot",
+            "type": "assignspot",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "bid",
+            "type": "bid",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "createauc",
+            "type": "createauc",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "createspot",
+            "type": "createspot",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "createuser",
+            "type": "createuser",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "debugatable",
+            "type": "debugatable",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "debugstable",
+            "type": "debugstable",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "debugutable",
+            "type": "debugutable",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "finish",
+            "type": "finish",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "pay",
+            "type": "pay",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "auctions",
+            "type": "auction_struct",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "spots",
+            "type": "spot_struct",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "users",
+            "type": "user",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": []
+}
