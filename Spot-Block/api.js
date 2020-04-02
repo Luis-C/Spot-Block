@@ -13,11 +13,19 @@ const { TextEncoder, TextDecoder } = require("util"); // node only; native TextE
 const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 
 /*
+ * This Stops the has been blocked by CORS policy:
+ * No 'Access-Control-Allow-Origin' header is present on the requested resource.
+ * Error from appearing.
+ */
+const cors = require("cors");
+chain_api.use(cors());
+
+/*
  * test it is running
  */
 chain_api.get("/test", function(req, res) {
   console.log("test");
-  res.end("test");
+  res.json("test");
 });
 
 /*
