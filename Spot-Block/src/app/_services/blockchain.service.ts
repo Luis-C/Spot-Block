@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Api, JsonRpc, RpcError } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
 import { BlockchainQuery } from "../_models/query";
+import { HttpClient } from "@angular/common/http";
 
 declare function require(name: string);
 const fetch = require("node-fetch");
@@ -12,7 +13,13 @@ const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
   providedIn: "root"
 })
 export class BlockchainService {
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  private PATH = "http://localhost:9090/";
+
+  test() {
+    return this.http.get(`${this.PATH}test`);
+  }
 
   /*
    * Function to read from a table in the block chain.
