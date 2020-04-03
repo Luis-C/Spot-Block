@@ -5,6 +5,7 @@ COPY /Spot-Block /var/www/html
 COPY /Spot-Block/backend-blockchain/ /var/www/
 COPY /scripts /
 RUN chmod +x start_up.sh
+RUN chmod +x create_test_accounts.sh
 ##for testing
 RUN yum install -y wget
 RUN yum install -y vim
