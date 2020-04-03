@@ -306,7 +306,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 return ID.value;
             }
 
-	    int sec_key() const {
+	    uint64_t sec_key() const {
                 return highestBid;
             }
 
@@ -319,12 +319,12 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         user_index users_table;
 
         typedef eosio::multi_index<"spots"_n, spot_struct> spot_index;
-    //eosio::indexed_by<"secid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::sec_key>>,
-		//eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::third_key>>> spot_index;
+                //eosio::indexed_by<"secid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::sec_key>>,
+		//eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::third_key>>> table() spot_index;
         spot_index spots_table;
 
         typedef eosio::multi_index<"auctions"_n, auction_struct> auction_index;
-		//eosio::indexed_by<"secid"_n, eosio::const_mem_fun<auction_struct, int, &auction_struct::sec_key>>,
+		//eosio::indexed_by<"secid"_n, eosio::const_mem_fun<auction_struct, uint64_t, &auction_struct::sec_key>>,
 		//eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<auction_struct, std::string, &auction_struct::third_key>>> auction_index;
         auction_index auctions_table;
 };
