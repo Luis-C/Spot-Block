@@ -76,7 +76,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 row.funds = owner->funds + auction->highestBid;
             });
             spots_table.modify( spot, _self, [&]( auto& row ) {
-                const std::string tmp1 = auction->use_time;
+                const uint64_t tmp1 = auction->use_time;
                 const name tmp2 = auction->currentBidder;
                 row.rentees.insert(std::make_pair(tmp1, tmp2));
             });
@@ -219,7 +219,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         }
 
         [[eosio::action]]
-        void createspot(name id, name owner, std::string lot, std::string coord){
+        void createspot(name id, name owner, uint64_t lot, std::string coord){
             require_auth(_self);
             auto check = spots_table.find(id.value);
             if( check == spots_table.end() ){
@@ -228,14 +228,14 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                         row.owner = owner;
                         row.lot = lot;
                         row.coord = coord;
-                        row.rentees = std::map<std::string, name>();
+                        row.rentees = std::map<uint64_t, name>();
                 });
             }
 
         }
 
         [[eosio::action]]
-        void createauc(name spotid, std::string use_time){ //TODO: need to be able to assign a created spot to a created user, where neither had posession of the other during creations
+        void createauc(name spotid, uint64_t use_time){ //TODO: need to be able to assign a created spot to a created user, where neither had posession of the other during creations
             auto spot = spots_table.find(spotid.value);
             if( spot != spots_table.end() ){
                 require_auth(spot->owner);
@@ -245,7 +245,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                         row.ID = spotid; //TODO: diff naming scheme so a spot can be auctioned for two times?
                         row.spot = spotid;
                         row.use_time = use_time;
-                        row.finish_time = "TODO"; //TODO: IDK how to do time
+                        row.finish_time = 0; //TODO: IDK how to do time
                         row.highestBid = 0;
                         row.currentBidder = ""_n; //TODO: potential change to allow spot auction for same time on 2 different days
                     });
@@ -265,23 +265,19 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         struct [[eosio::table]] spot_struct {
             name ID;
             name owner;
-            std::string lot;
+            uint64_t lot;
             std::string coord;
-	    std::string currentRentee;
-	    std::string currentTime;
-	    std::map<std::string, name> rentees;
+	        std::string currentRentee;
+	        std::string currentTime;
+	        std::map<uint64_t, name> rentees;
 
             uint64_t primary_key() const {
                 return ID.value;
             }
 
-	    std::string sec_key() const {
+	        uint64_t sec_key() const {
                 return lot;
             }
-
-	    std::string third_key() const {
-                 return coord;
-	    }
         };
 
         struct [[eosio::table]] user {
@@ -297,8 +293,8 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         struct [[eosio::table]] auction_struct {
             name ID;
             name spot;
-            std::string use_time; //use_time+2 hours
-            std::string finish_time;
+            uint64_t use_time; //use_time+2 hours
+            uint64_t finish_time;
             int highestBid;
             name currentBidder;
 
@@ -310,7 +306,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 return highestBid;
             }
 
-	    std::string third_key() const {
+	    uint64_t third_key() const {
                 return use_time;
             }
         };
@@ -318,13 +314,12 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         typedef eosio::multi_index<"users"_n, user> user_index;
         user_index users_table;
 
-        typedef eosio::multi_index<"spots"_n, spot_struct> spot_index;
-                //eosio::indexed_by<"secid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::sec_key>>,
-		//eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::third_key>>> table() spot_index;
+        typedef eosio::multi_index<"spots"_n, spot_struct, 
+                eosio::indexed_by<"secid"_n, eosio::const_mem_fun<spot_struct, uint64_t, &spot_struct::sec_key>>> spot_index;
         spot_index spots_table;
 
-        typedef eosio::multi_index<"auctions"_n, auction_struct> auction_index;
-		//eosio::indexed_by<"secid"_n, eosio::const_mem_fun<auction_struct, uint64_t, &auction_struct::sec_key>>,
-		//eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<auction_struct, std::string, &auction_struct::third_key>>> auction_index;
+        typedef eosio::multi_index<"auctions"_n, auction_struct, //> auction_index;
+		        eosio::indexed_by<"secid"_n, eosio::const_mem_fun<auction_struct, uint64_t, &auction_struct::sec_key>>,
+		        eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<auction_struct, uint64_t, &auction_struct::third_key>>> auction_index;
         auction_index auctions_table;
 };

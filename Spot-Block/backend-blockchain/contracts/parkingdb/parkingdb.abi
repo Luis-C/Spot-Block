@@ -31,11 +31,11 @@
                 },
                 {
                     "name": "use_time",
-                    "type": "string"
+                    "type": "uint64"
                 },
                 {
                     "name": "finish_time",
-                    "type": "string"
+                    "type": "uint64"
                 },
                 {
                     "name": "highestBid",
@@ -75,7 +75,7 @@
                 },
                 {
                     "name": "use_time",
-                    "type": "string"
+                    "type": "uint64"
                 }
             ]
         },
@@ -93,7 +93,7 @@
                 },
                 {
                     "name": "lot",
-                    "type": "string"
+                    "type": "uint64"
                 },
                 {
                     "name": "coord",
@@ -145,12 +145,12 @@
             ]
         },
         {
-            "name": "pair_string_name",
+            "name": "pair_uint64_name",
             "base": "",
             "fields": [
                 {
                     "name": "key",
-                    "type": "string"
+                    "type": "uint64"
                 },
                 {
                     "name": "value",
@@ -190,7 +190,7 @@
                 },
                 {
                     "name": "lot",
-                    "type": "string"
+                    "type": "uint64"
                 },
                 {
                     "name": "coord",
@@ -206,7 +206,7 @@
                 },
                 {
                     "name": "rentees",
-                    "type": "pair_string_name[]"
+                    "type": "pair_uint64_name[]"
                 }
             ]
         },
