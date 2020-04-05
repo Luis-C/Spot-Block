@@ -15,20 +15,20 @@ const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 
 /*
  * test it is running
- *
+ */
 chain_api.get("/test", function(req, res) {
   console.log("test");
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify({response: "test"}));
-});*/
+});
 
 /*
  * expose metrics
- */
+ *
 chain_api.get("/metrics", function(req, res) {
   res.set('Content-Type', Prometheus.register.contentType);
   res.end(Prometheus.register.metrics());
-});
+});*/
 
 /*
  * fields should be key, user, account, fund, and spot
