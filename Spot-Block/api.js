@@ -5,6 +5,7 @@ var chain_api = express();
 chain_api.use(bodyParser.urlencoded({ extended: true }));
 chain_api.use(bodyParser.json());
 
+//const Prometheus = require('prom-client');
 const { Api, JsonRpc, RpcError } = require("eosjs");
 const { JsSignatureProvider } = require("eosjs/dist/eosjs-jssig"); // development only
 const fetch = require("node-fetch"); // node only; not needed in browsers
@@ -14,11 +15,19 @@ const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 
 /*
  * test it is running
- */
+ *
 chain_api.get("/test", function(req, res) {
   console.log("test");
   res.setHeader('Content-Type', 'application/json');
   res.end(JSON.stringify({response: "test"}));
+});*/
+
+/*
+ * expose metrics
+ */
+chain_api.get("/metrics", function(req, res) {
+  res.set('Content-Type', Prometheus.register.contentType);
+  res.end(Prometheus.register.metrics());
 });
 
 /*
@@ -73,7 +82,7 @@ chain_api.post("/createUser", async (req, res) => {
 });
 
 /*
- * fields should be key, user, id, owner, lot, and coord
+ * fields should be key, user, id, owner, and lot
  * user must be spotblock
  */
 chain_api.post("/createSpot", async (req, res) => {
@@ -100,10 +109,9 @@ chain_api.post("/createSpot", async (req, res) => {
               }
             ],
             data: {
-              id: req.body.id,
-              owner: req.body.owner,
-              lot: req.body.lot,
-              coord: req.body.coord
+              spotID: req.body.id,
+              ownerID: req.body.owner,
+              lot: req.body.lot
             }
           }
         ]
@@ -125,7 +133,7 @@ chain_api.post("/createSpot", async (req, res) => {
 });
 
 /*
- *  fields should be key, user, spotid and use_time
+ *  fields should be key, user, spotid, time, day, and month
  */
 chain_api.post("/createAuc", async (req, res) => {
   console.log("Call: createAuc");
@@ -151,8 +159,10 @@ chain_api.post("/createAuc", async (req, res) => {
               }
             ],
             data: {
-              spotid: req.body.spotid,
-              use_time: req.body.use_time
+              spotID: req.body.spotid,
+              uTime: req.body.time,
+              uDay: req.body.day,
+              uMonth: req.body.month
             }
           }
         ]
@@ -264,60 +274,6 @@ chain_api.post("/bid", async (req, res) => {
     console.log("Bid placed");
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify({response: "Bid placed"}));
-  } catch (e) {
-    console.log("error");
-    console.log(e.message);
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({response: e.message}));
-  }
-});
-
-/*
- * fields should be key, userID, receiverID, amount
- */
-chain_api.post("/pay", async function(req, res) {
-  console.log("Call: Pay");
-  const signatureProvider = new JsSignatureProvider([req.body.key]);
-  const api = new Api({
-    rpc,
-    signatureProvider,
-    textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
-  });
-
-  try {
-    const result = await api.transact(
-      {
-        actions: [
-          {
-            account: "spotblock",
-            name: "pay",
-            authorization: [
-              {
-                actor: req.body.userID,
-                permission: "active"
-              },
-              {
-                actor: req.body.receiverID,
-                permission: "active"
-              }
-            ],
-            data: {
-              userID: req.body.userID,
-              receiverID: req.body.receiverID,
-              amount: req.body.amount
-            }
-          }
-        ]
-      },
-      {
-        blocksBehind: 3,
-        expireSeconds: 30
-      }
-    );
-    console.log("Paid");
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({response: "Paid"}));
   } catch (e) {
     console.log("error");
     console.log(e.message);
