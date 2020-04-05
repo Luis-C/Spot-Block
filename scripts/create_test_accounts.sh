@@ -24,6 +24,7 @@ do
   cleos wallet private_keys -n "${i}_wallet" < password.txt | grep "\"" | sed -n 2p | cut -d '"' -f 2 > priv_key.txt
   #import eosio private key???
   echo "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3" | cleos wallet import -n "${i}_wallet"
+  cleos create account eosio "$i" $(cat pub_key.txt)
   #go back up a dir
   cd ..
 done

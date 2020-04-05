@@ -28,6 +28,7 @@ cleos wallet unlock < password.txt
 #get wallet public key
 cleos wallet create_key > pub_key.txt
 echo "$(cat pub_key.txt | cut -d '"' -f 2)" > pub_key.txt
+cleos wallet private_keys < password.txt | grep "\"" | sed -n 2p | cut -d '"' -f 2 > priv_key.txt
 #import eosio private key
 echo "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3" | cleos wallet import
 
