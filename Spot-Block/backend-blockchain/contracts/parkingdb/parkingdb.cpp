@@ -3,84 +3,38 @@
 //#include "spot.cpp"
 
 using namespace eosio;
-
+//TODO: Switch the if else to eosio.assert
 class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
     public:
         using contract::contract;
-
-
-// DEBUG FUNCTIONS
-        [[eosio::action]]
-        void debugutable(){
-            for ( auto itr = users_table.begin(); itr != users_table.end(); itr++ ) {
-                print("{ ");
-                print("ID: ");
-                print(itr->ID);
-                print(", SPOT: ");
-                print(itr->spot);
-                print(", FUNDS: ");
-                print(itr->funds);\
-                print(" } ");
-            }
-        }
-
-        [[eosio::action]]
-        void debugstable(){
-            for ( auto itr = spots_table.begin(); itr != spots_table.end(); itr++ ) {
-                print("{ ");
-                print("ID: ");
-                print(itr->ID);
-                print(", OWNER: ");
-                print(itr->owner);
-                print(", LOT: ");
-                print(itr->lot);
-                print(", COORD: ");
-                print(itr->coord);
-                print(", RENTEE: ");
-                print(itr->currentRentee);
-                print(", TIME: ");
-                print(itr->currentTime);
-                print(" } ");
-            }
-        }
-
-        [[eosio::action]]
-        void debugatable(){
-            for ( auto itr = auctions_table.begin(); itr != auctions_table.end(); itr++ ) {
-                print("{ ");
-                print("ID: ");
-                print(itr->ID);
-                print(", SPOT: ");
-                print(itr->spot);
-                print(", USE_TIME: ");
-                print(itr->use_time);
-                print(", FINISH_TIME: ");
-                print(itr->finish_time);\
-                print(", HIGHESTBID: ");
-                print(itr->highestBid);\
-                print(", CURRENTBIDDER: ");
-                print(itr->currentBidder);\
-                print(" } ");
-            }
-        }
-
 //FUCTIONALITY ACTIONS
 
         [[eosio::action]]
-        void finish(name auctionID){
+        void finish(uint64_t fMonth, uint64_t fDay, uint64_t fTime){    //As long as the back-end script feeds every proper 2 hour time, this works.
             require_auth(_self);
-            auto auction = auctions_table.find(auctionID.value);
-            auto spot = spots_table.find(auction->spot.value);
-            auto owner = users_table.find(spot->owner.value);
-            users_table.modify( owner, _self, [&]( auto& row ) {
-                row.funds = owner->funds + auction->highestBid;
-            });
-            spots_table.modify( spot, _self, [&]( auto& row ) {
-                const std::string tmp1 = auction->use_time;
-                const name tmp2 = auction->currentBidder;
-                row.rentees.insert(std::make_pair(tmp1, tmp2));
-            });
-            auctions_table.erase(auction);
+            for ( auto auction = auctions_table.begin(); auction != auctions_table.end(); auction++ ) {
+                if(auction->fMonth == fMonth){
+                    if(auction->fDay == fDay){
+                        if(auction->fTime == fTime){
+                            auto spot = spots_table.find(auction->spot.value);
+                            auto owner = users_table.find(spot->owner.value);
+                            users_table.modify( owner, _self, [&]( auto& row ) {
+                                row.funds = owner->funds + auction->highestBid;
+                            });
+                            std::string str_day = std::to_string(auction->uDay);
+                            std::string str_month = std::to_string(auction->uMonth);
+                            std::string str_time = std::to_string(auction->uTime);
+                            std::string str_permis = str_month + "/" + str_day +"@" + str_time;
+                            spots_table.modify( spot, _self, [&]( auto& row ) {
+                                const std::string tmp1 = str_permis;
+                                const name tmp2 = auction->currentBidder;
+                            row.rentees.insert(std::make_pair(tmp1, tmp2));
+                            });
+                            auctions_table.erase(auction);
+                        }
+                    }
+                }
+            }
         }
 
         [[eosio::action]]
@@ -95,7 +49,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                         if(user->funds >= bidAmount){
                             users_table.modify( user, _self, [&]( auto& row ) {
                                 row.funds = user->funds - bidAmount;
-                            });             //Do race conditions exist for blockchains??
+                            });
                             if( auction->highestBid != 0){ //no need to refund first time someone bids
                                 users_table.modify( users_table.find(auction->currentBidder.value), _self, [&]( auto& row ) {
                                     row.funds = user->funds + auction->highestBid;
@@ -123,65 +77,6 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             }
         }
 
-        [[eosio::action]] //TODO: I think delete this??
-        void pay(name userID, name receiverID, int amount) {
-            //transfer payment
-            //check auth and setup table
-            require_auth(userID);
-            //auto pay_er = users_table.find(userID.value);
-            //auto receiver = users_table.find(receiverID.value);
-
-            require_recipient(userID);
-            require_recipient(receiverID);
-
-            if (sub(userID, amount))
-              add(receiverID, amount);
-
-            // TODO: undefined behavior of when the received isn't in the table
-            //int hasEnough = 1;
-            /*if (pay_er != users_table.end() && receiver != users_table.end()) {
-                //Check if has enough and take money
-                users_table.modify(pay_er, userID, [&](auto& row) {
-                    if (row.funds >= amount) {
-                        row.funds = row.funds - amount;
-                    }
-                    else {
-                        print("Error: Transaction failed. User does not have enough money for this transaction.");
-                        hasEnough = 0;
-                    }
-                });
-                //pay money if had enough
-                users_table.modify(receiver, receiverID, [&](auto& row) {
-                    if (hasEnough == 1) {
-                        row.funds = row.funds + amount;
-                    }
-                });
-            }*/
-        }
-
-        void add(name userID, int amount) {
-          auto account = users_table.find(userID.value);
-          users_table.modify(account, userID, [&](auto& row) {
-            row.funds = row.funds + amount;
-          });
-        }
-
-        bool sub(name userID, int amount) {
-          auto account = users_table.find(userID.value);
-          bool enough = false;
-          users_table.modify(account, userID, [&](auto& row) {
-            if (row.funds >= amount) {
-              row.funds = row.funds - amount;
-              enough = true;
-            }
-            else {
-              print("Error: Transaction failed. User does not have enough money for this transaction.");
-              enough = false;
-            }
-          });
-          return enough;
-        }
-
 //Assigning a spot
         [[eosio::action]]
         void assignspot(name accountID, name spotID) {
@@ -203,7 +98,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
 //Adding Structs
 
         [[eosio::action]]
-        void createuser(name accountID, int initialFunds, name spotID) {
+        void createuser(name accountID, uint64_t initialFunds, name spotID) {
             require_auth(_self);
             auto account = users_table.find(accountID.value);
             if (account == users_table.end()) {
@@ -219,75 +114,123 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         }
 
         [[eosio::action]]
-        void createspot(name id, name owner, std::string lot, std::string coord){
+        void createspot(name spotID, name ownerID, uint64_t lot){
             require_auth(_self);
-            auto check = spots_table.find(id.value);
-            if( check == spots_table.end() ){
+            auto checkSpot = spots_table.find(spotID.value);
+            if( checkSpot == spots_table.end() ){
                 spots_table.emplace(_self, [&](auto& row) {
-                        row.ID = id;
-                        row.owner = owner;
+                        row.ID = spotID;
+                        row.owner = ownerID; // ownerID must be a legitimate user but there is no check of such
                         row.lot = lot;
-                        row.coord = coord;
                         row.rentees = std::map<std::string, name>();
                 });
+            }
+            else{
+                print("Error: Spot already exists.");
             }
 
         }
 
         [[eosio::action]]
-        void createauc(name spotid, std::string use_time){ //TODO: need to be able to assign a created spot to a created user, where neither had posession of the other during creations
-            auto spot = spots_table.find(spotid.value);
-            if( spot != spots_table.end() ){
-                require_auth(spot->owner);
-                auto check = auctions_table.find(spotid.value);
-                if( check == auctions_table.end() ){
-                    auctions_table.emplace(_self, [&](auto& row) {
-                        row.ID = spotid; //TODO: diff naming scheme so a spot can be auctioned for two times?
-                        row.spot = spotid;
-                        row.use_time = use_time;
-                        row.finish_time = "TODO"; //TODO: IDK how to do time
-                        row.highestBid = 0;
-                        row.currentBidder = ""_n; //TODO: potential change to allow spot auction for same time on 2 different days
-                    });
-                }
-
-
+        void createauc(name spotID, uint64_t uTime, uint64_t uDay, uint64_t uMonth){   // BUG: possible to put up an auction within the 24 hours of it
+            if(uTime % 2 != 0){
+                print("Not a legitimate use time. Needs to be even hours");
             }
             else{
-                print("That spot does not exist");
+                auto spot = spots_table.find(spotID.value);
+                if( spot != spots_table.end() ){
+                    require_auth(spot->owner); // This should check that the user exists
+                    std::string str_day = std::to_string(uDay);
+                    std::string str_month = std::to_string(uMonth);
+                    std::string str_time = std::to_string(uTime);
+                    std::string str_spotID = spotID.to_string();
+                    std::string str_aucID = str_spotID + "." + str_month + "." + str_day +"." + str_time; // Note that spotIDs can't be too long since 9 other chars are needed
+                    name auctionID = name{str_aucID};
+                    auto check = auctions_table.find(auctionID.value);
+                    if( check == auctions_table.end() ){
+                        auctions_table.emplace(_self, [&](auto& row) {
+                        row.ID = auctionID;
+                        row.spot = spotID;
+                        row.uTime = uTime;
+                        row.uDay = uDay;
+                        row.uMonth = uMonth;
+                        row.fTime = row.uTime;
+                        if(uMonth == 1){
+                            if(uDay == 1){
+                                row.fDay = 31;
+                                row.fMonth = 12;
+                            }
+                            else{
+                                row.fDay = row.uDay - 1;
+                                row.fMonth = 1;
+                            }
+                        }
+                        if(uMonth == 2 || uMonth == 4 || uMonth == 6 || uMonth == 8 || uMonth == 9 || uMonth == 11){
+                            if(uDay == 1){
+                                row.fDay = 31;
+                                row.fMonth = row.uMonth - 1;;
+                            }
+                            else{
+                                row.fDay = row.uDay - 1;
+                                row.fMonth = row.uMonth;
+                            }
+                        }
+                        if(uMonth == 5 || uMonth == 7 || uMonth == 10 || uMonth == 11){
+                            if(uDay == 1){
+                                row.fDay = 30;
+                                row.fMonth = row.uMonth - 1;;
+                            }
+                            else{
+                                row.fDay = row.uDay - 1;
+                                row.fMonth = row.uMonth;
+                            }
+                        }
+                        if(uMonth == 3){
+                            if(uDay == 1){
+                                row.fDay = 28;
+                                row.fMonth = 1;;
+                            }
+                            else{
+                                row.fDay = row.uDay - 1;
+                                row.fMonth = 2;
+                            }
+                        }
+                        row.highestBid = 0;
+                        row.currentBidder = ""_n;
+                        });
+                    }
+                    else{
+                        print("This auction already exists");
+                    }
+                }
+                else{
+                    print("That spot does not exist");
+                }
             }
-
         }
 
         parkingdb(name receiver, name code, datastream<const char*> ds):contract(receiver, code, ds), users_table(receiver, receiver.value), spots_table(receiver, receiver.value), auctions_table(receiver, receiver.value) {}
 
     private:
         struct [[eosio::table]] spot_struct {
-            name ID;
-            name owner;
-            std::string lot;
-            std::string coord;
-	    std::string currentRentee;
-	    std::string currentTime;
-	    std::map<std::string, name> rentees;
+            name ID; // One letter for lot, two chars for spot identifier
+            name owner; // must match user_struct::ID
+            uint64_t lot;
+	        std::map<std::string, name> rentees;
 
             uint64_t primary_key() const {
                 return ID.value;
             }
 
-	    std::string sec_key() const {
+	        uint64_t sec_key() const {
                 return lot;
             }
-
-	    std::string third_key() const {
-                 return coord;
-	    }
         };
 
-        struct [[eosio::table]] user {
+        struct [[eosio::table]] user_struct {
             name ID;
-            name spot;
-            int funds;
+            name spot; // must match spot_struct::ID
+            uint64_t funds;
 
             uint64_t primary_key () const {
                 return ID.value;
@@ -295,36 +238,49 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         };
 
         struct [[eosio::table]] auction_struct {
-            name ID;
-            name spot;
-            std::string use_time; //use_time+2 hours
-            std::string finish_time;
-            int highestBid;
-            name currentBidder;
+            name ID; // Form of "{spot}.{month}.{day}.{time}"
+            name spot; // must match spot_struct::ID
+            uint64_t uTime;  // u = use
+            uint64_t uDay;
+            uint64_t uMonth;
+            uint64_t fTime; // f = auction finish
+            uint64_t fDay;
+            uint64_t fMonth;
+            uint64_t highestBid;
+            name currentBidder; // must match user_struct::ID
 
             uint64_t primary_key() const {
                 return ID.value;
             }
 
-	    int sec_key() const {
+	        uint64_t sec_key() const {
                 return highestBid;
             }
 
-	    std::string third_key() const {
-                return use_time;
+	        uint64_t third_key() const {
+                return uTime;
+            }
+
+            uint64_t fourth_key() const {
+                return uDay;
+            }
+
+            uint64_t fifth_key() const {
+                return uMonth;
             }
         };
 
-        typedef eosio::multi_index<"users"_n, user> user_index;
+        typedef eosio::multi_index<"users"_n, user_struct> user_index;
         user_index users_table;
 
-        typedef eosio::multi_index<"spots"_n, spot_struct> spot_index;
-    //eosio::indexed_by<"secid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::sec_key>>,
-		//eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<spot_struct, std::string, &spot_struct::third_key>>> spot_index;
+        typedef eosio::multi_index<"spots"_n, spot_struct,
+                eosio::indexed_by<"secid"_n, eosio::const_mem_fun<spot_struct, uint64_t, &spot_struct::sec_key>>> spot_index;
         spot_index spots_table;
 
-        typedef eosio::multi_index<"auctions"_n, auction_struct> auction_index;
-		//eosio::indexed_by<"secid"_n, eosio::const_mem_fun<auction_struct, int, &auction_struct::sec_key>>,
-		//eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<auction_struct, std::string, &auction_struct::third_key>>> auction_index;
+        typedef eosio::multi_index<"auctions"_n, auction_struct, //> auction_index;
+		        eosio::indexed_by<"secid"_n, eosio::const_mem_fun<auction_struct, uint64_t, &auction_struct::sec_key>>,
+		        eosio::indexed_by<"thirdid"_n, eosio::const_mem_fun<auction_struct, uint64_t, &auction_struct::third_key>>,
+                eosio::indexed_by<"fourthid"_n, eosio::const_mem_fun<auction_struct, uint64_t, &auction_struct::fourth_key>>,
+                eosio::indexed_by<"fifthid"_n, eosio::const_mem_fun<auction_struct, uint64_t, &auction_struct::fifth_key>>> auction_index;
         auction_index auctions_table;
 };

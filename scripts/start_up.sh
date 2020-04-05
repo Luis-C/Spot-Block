@@ -18,6 +18,9 @@ nodeos -e -p eosio \
 --http-server-address 0.0.0.0:8888 \
 --verbose-http-errors >> nodeos.log 2>&1 &
 
+#give nodeos enough time to start up 
+echo "Starting Nodeos\n"
+sleep 5
 #create default wallet
 cleos wallet create --file password.txt
 cleos wallet open
@@ -28,13 +31,12 @@ echo "$(cat pub_key.txt | cut -d '"' -f 2)" > pub_key.txt
 #import eosio private key
 echo "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3" | cleos wallet import
 
-#give nodeos a second to start-up
+#give some more time for stuff to execute
 sleep 2
 
-#create accounts
+#create system account
 cleos create account eosio spotblock $(cat pub_key.txt)
-cleos create account eosio test1 $(cat pub_key.txt)  
-#add more accounts here ...
+#cleos create account eosio test1 $(cat pub_key.txt)  
 
 #add code 
 cleos set code spotblock /var/www/contracts/parkingdb/parkingdb.wasm

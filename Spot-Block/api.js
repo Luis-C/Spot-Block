@@ -23,9 +23,10 @@ chain_api.use(cors());
 /*
  * test it is running
  */
-chain_api.get("/test", function(req, res) {
+chain_api.get("/test", function (req, res) {
   console.log("test");
-  res.json("test");
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify({ response: "test" }));
 });
 
 /*
@@ -39,7 +40,7 @@ chain_api.post("/createUser", async (req, res) => {
     rpc,
     signatureProvider,
     textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
+    textEncoder: new TextEncoder(),
   });
 
   try {
@@ -52,28 +53,30 @@ chain_api.post("/createUser", async (req, res) => {
             authorization: [
               {
                 actor: req.body.user,
-                permission: "active"
-              }
+                permission: "active",
+              },
             ],
             data: {
               accountID: req.body.account,
               initialFunds: req.body.funds,
-              spotID: req.body.spot
-            }
-          }
-        ]
+              spotID: req.body.spot,
+            },
+          },
+        ],
       },
       {
         blocksBehind: 3,
-        expireSeconds: 30
+        expireSeconds: 30,
       }
     );
     console.log("account added");
-    res.end("Account is added");
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: "Account is added" }));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(JSON.stringify(e.json, null, 2));
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: e.message }));
   }
 });
 
@@ -88,7 +91,7 @@ chain_api.post("/createSpot", async (req, res) => {
     rpc,
     signatureProvider,
     textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
+    textEncoder: new TextEncoder(),
   });
 
   try {
@@ -101,29 +104,31 @@ chain_api.post("/createSpot", async (req, res) => {
             authorization: [
               {
                 actor: req.body.user,
-                permission: "active"
-              }
+                permission: "active",
+              },
             ],
             data: {
               id: req.body.id,
               owner: req.body.owner,
               lot: req.body.lot,
-              coord: req.body.coord
-            }
-          }
-        ]
+              coord: req.body.coord,
+            },
+          },
+        ],
       },
       {
         blocksBehind: 3,
-        expireSeconds: 30
+        expireSeconds: 30,
       }
     );
     console.log("spot added");
-    res.end("Spot is added");
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: "Spot is added" }));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: e.message }));
   }
 });
 
@@ -137,7 +142,7 @@ chain_api.post("/createAuc", async (req, res) => {
     rpc,
     signatureProvider,
     textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
+    textEncoder: new TextEncoder(),
   });
 
   try {
@@ -150,27 +155,29 @@ chain_api.post("/createAuc", async (req, res) => {
             authorization: [
               {
                 actor: req.body.user,
-                permission: "active"
-              }
+                permission: "active",
+              },
             ],
             data: {
               spotid: req.body.spotid,
-              use_time: req.body.use_time
-            }
-          }
-        ]
+              use_time: req.body.use_time,
+            },
+          },
+        ],
       },
       {
         blocksBehind: 3,
-        expireSeconds: 30
+        expireSeconds: 30,
       }
     );
     console.log("auction added");
-    res.end("Auction is added");
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: "Auction is added" }));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: e.message }));
   }
 });
 
@@ -184,7 +191,7 @@ chain_api.post("/assignSpot", async (req, res) => {
     rpc,
     signatureProvider,
     textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
+    textEncoder: new TextEncoder(),
   });
 
   try {
@@ -197,27 +204,29 @@ chain_api.post("/assignSpot", async (req, res) => {
             authorization: [
               {
                 actor: req.body.user,
-                permission: "active"
-              }
+                permission: "active",
+              },
             ],
             data: {
               accountID: req.body.accountid,
-              spotID: req.body.spotid
-            }
-          }
-        ]
+              spotID: req.body.spotid,
+            },
+          },
+        ],
       },
       {
         blocksBehind: 3,
-        expireSeconds: 30
+        expireSeconds: 30,
       }
     );
     console.log("Spot assigned");
-    res.end("Spot assigned.");
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: "Spot assigned" }));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: e.message }));
   }
 });
 
@@ -231,7 +240,7 @@ chain_api.post("/bid", async (req, res) => {
     rpc,
     signatureProvider,
     textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
+    textEncoder: new TextEncoder(),
   });
 
   try {
@@ -244,42 +253,44 @@ chain_api.post("/bid", async (req, res) => {
             authorization: [
               {
                 actor: req.body.user,
-                permission: "active"
-              }
+                permission: "active",
+              },
             ],
             data: {
               userID: req.body.userid,
               auctionID: req.body.auctionid,
-              bidAmount: req.body.bidamount
-            }
-          }
-        ]
+              bidAmount: req.body.bidamount,
+            },
+          },
+        ],
       },
       {
         blocksBehind: 3,
-        expireSeconds: 30
+        expireSeconds: 30,
       }
     );
     console.log("Bid placed");
-    res.end("Bid placed.");
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: "Bid placed" }));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: e.message }));
   }
 });
 
 /*
  * fields should be key, userID, receiverID, amount
  */
-chain_api.post("/pay", async function(req, res) {
+chain_api.post("/pay", async function (req, res) {
   console.log("Call: Pay");
   const signatureProvider = new JsSignatureProvider([req.body.key]);
   const api = new Api({
     rpc,
     signatureProvider,
     textDecoder: new TextDecoder(),
-    textEncoder: new TextEncoder()
+    textEncoder: new TextEncoder(),
   });
 
   try {
@@ -292,36 +303,39 @@ chain_api.post("/pay", async function(req, res) {
             authorization: [
               {
                 actor: req.body.userID,
-                permission: "active"
+                permission: "active",
               },
               {
                 actor: req.body.receiverID,
-                permission: "active"
-              }
+                permission: "active",
+              },
             ],
             data: {
               userID: req.body.userID,
               receiverID: req.body.receiverID,
-              amount: req.body.amount
-            }
-          }
-        ]
+              amount: req.body.amount,
+            },
+          },
+        ],
       },
       {
         blocksBehind: 3,
-        expireSeconds: 30
+        expireSeconds: 30,
       }
     );
-    res.end("Paid");
+    console.log("Paid");
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: "Paid" }));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader("Content-Type", "application/json");
+    res.end(JSON.stringify({ response: e.message }));
   }
 });
 
 //starts server on 9090
-var server = chain_api.listen(9090, function() {
+var server = chain_api.listen(9090, function () {
   var host = server.address().address;
   var port = server.address().port;
   console.log("api is running on %s:%s", host, port);
