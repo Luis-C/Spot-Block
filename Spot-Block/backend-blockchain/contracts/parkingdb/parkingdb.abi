@@ -30,16 +30,32 @@
                     "type": "name"
                 },
                 {
-                    "name": "use_time",
+                    "name": "uTime",
                     "type": "uint64"
                 },
                 {
-                    "name": "finish_time",
+                    "name": "uDay",
+                    "type": "uint64"
+                },
+                {
+                    "name": "uMonth",
+                    "type": "uint64"
+                },
+                {
+                    "name": "fTime",
+                    "type": "uint64"
+                },
+                {
+                    "name": "fDay",
+                    "type": "uint64"
+                },
+                {
+                    "name": "fMonth",
                     "type": "uint64"
                 },
                 {
                     "name": "highestBid",
-                    "type": "int32"
+                    "type": "uint64"
                 },
                 {
                     "name": "currentBidder",
@@ -70,11 +86,19 @@
             "base": "",
             "fields": [
                 {
-                    "name": "spotid",
+                    "name": "spotID",
                     "type": "name"
                 },
                 {
-                    "name": "use_time",
+                    "name": "uTime",
+                    "type": "uint64"
+                },
+                {
+                    "name": "uDay",
+                    "type": "uint64"
+                },
+                {
+                    "name": "uMonth",
                     "type": "uint64"
                 }
             ]
@@ -84,20 +108,16 @@
             "base": "",
             "fields": [
                 {
-                    "name": "id",
+                    "name": "spotID",
                     "type": "name"
                 },
                 {
-                    "name": "owner",
+                    "name": "ownerID",
                     "type": "name"
                 },
                 {
                     "name": "lot",
                     "type": "uint64"
-                },
-                {
-                    "name": "coord",
-                    "type": "string"
                 }
             ]
         },
@@ -111,7 +131,7 @@
                 },
                 {
                     "name": "initialFunds",
-                    "type": "int32"
+                    "type": "uint64"
                 },
                 {
                     "name": "spotID",
@@ -120,59 +140,34 @@
             ]
         },
         {
-            "name": "debugatable",
-            "base": "",
-            "fields": []
-        },
-        {
-            "name": "debugstable",
-            "base": "",
-            "fields": []
-        },
-        {
-            "name": "debugutable",
-            "base": "",
-            "fields": []
-        },
-        {
             "name": "finish",
             "base": "",
             "fields": [
                 {
-                    "name": "auctionID",
-                    "type": "name"
+                    "name": "fMonth",
+                    "type": "uint64"
+                },
+                {
+                    "name": "fDay",
+                    "type": "uint64"
+                },
+                {
+                    "name": "fTime",
+                    "type": "uint64"
                 }
             ]
         },
         {
-            "name": "pair_uint64_name",
+            "name": "pair_string_name",
             "base": "",
             "fields": [
                 {
                     "name": "key",
-                    "type": "uint64"
+                    "type": "string"
                 },
                 {
                     "name": "value",
                     "type": "name"
-                }
-            ]
-        },
-        {
-            "name": "pay",
-            "base": "",
-            "fields": [
-                {
-                    "name": "userID",
-                    "type": "name"
-                },
-                {
-                    "name": "receiverID",
-                    "type": "name"
-                },
-                {
-                    "name": "amount",
-                    "type": "int32"
                 }
             ]
         },
@@ -193,25 +188,13 @@
                     "type": "uint64"
                 },
                 {
-                    "name": "coord",
-                    "type": "string"
-                },
-                {
-                    "name": "currentRentee",
-                    "type": "string"
-                },
-                {
-                    "name": "currentTime",
-                    "type": "string"
-                },
-                {
                     "name": "rentees",
-                    "type": "pair_uint64_name[]"
+                    "type": "pair_string_name[]"
                 }
             ]
         },
         {
-            "name": "user",
+            "name": "user_struct",
             "base": "",
             "fields": [
                 {
@@ -224,7 +207,7 @@
                 },
                 {
                     "name": "funds",
-                    "type": "int32"
+                    "type": "uint64"
                 }
             ]
         }
@@ -256,28 +239,8 @@
             "ricardian_contract": ""
         },
         {
-            "name": "debugatable",
-            "type": "debugatable",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "debugstable",
-            "type": "debugstable",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "debugutable",
-            "type": "debugutable",
-            "ricardian_contract": ""
-        },
-        {
             "name": "finish",
             "type": "finish",
-            "ricardian_contract": ""
-        },
-        {
-            "name": "pay",
-            "type": "pay",
             "ricardian_contract": ""
         }
     ],
@@ -298,7 +261,7 @@
         },
         {
             "name": "users",
-            "type": "user",
+            "type": "user_struct",
             "index_type": "i64",
             "key_names": [],
             "key_types": []
