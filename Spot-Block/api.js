@@ -17,7 +17,8 @@ const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
  */
 chain_api.get("/test", function(req, res) {
   console.log("test");
-  res.end("test");
+  res.setHeader('Content-Type', 'application/json');
+  res.end(JSON.stringify({response: "test"}));
 });
 
 /*
@@ -61,11 +62,13 @@ chain_api.post("/createUser", async (req, res) => {
       }
     );
     console.log("account added");
-    res.end("Account is added");
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: "Account is added"}));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(JSON.stringify(e.json, null, 2));
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: e.message}));
   }
 });
 
@@ -111,11 +114,13 @@ chain_api.post("/createSpot", async (req, res) => {
       }
     );
     console.log("spot added");
-    res.end("Spot is added");
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: "Spot is added"}));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: e.message}));
   }
 });
 
@@ -158,11 +163,13 @@ chain_api.post("/createAuc", async (req, res) => {
       }
     );
     console.log("auction added");
-    res.end("Auction is added");
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: "Auction is added"}));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: e.message}));
   }
 });
 
@@ -205,11 +212,13 @@ chain_api.post("/assignSpot", async (req, res) => {
       }
     );
     console.log("Spot assigned");
-    res.end("Spot assigned.");
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: "Spot assigned"}));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: e.message}));
   }
 });
 
@@ -253,11 +262,13 @@ chain_api.post("/bid", async (req, res) => {
       }
     );
     console.log("Bid placed");
-    res.end("Bid placed.");
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: "Bid placed"}));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: e.message}));
   }
 });
 
@@ -304,11 +315,14 @@ chain_api.post("/pay", async function(req, res) {
         expireSeconds: 30
       }
     );
-    res.end("Paid");
+    console.log("Paid");
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: "Paid"}));
   } catch (e) {
     console.log("error");
     console.log(e.message);
-    res.end(e.message);
+    res.setHeader('Content-Type', 'application/json');
+    res.end(JSON.stringify({response: e.message}));
   }
 });
 
