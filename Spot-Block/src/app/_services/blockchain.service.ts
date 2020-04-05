@@ -9,7 +9,7 @@ const fetch = require("node-fetch");
 const rpc = new JsonRpc("http://192.168.99.100:8888", { fetch });
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class BlockchainService {
   constructor(private http: HttpClient) {}
@@ -45,7 +45,7 @@ export class BlockchainService {
       code: "spotblock",
       scope: "spotblock",
       table: table,
-      limit: limit ?? 0
+      limit: limit ?? 0,
     };
 
     if (upperbound) query.upper_bound = upperbound;
