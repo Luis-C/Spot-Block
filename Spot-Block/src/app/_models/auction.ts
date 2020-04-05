@@ -1,5 +1,3 @@
-import { Spot } from "./spot";
-
 export interface Auction {
   id: string; // Form of "{spot}.{month}.{day}.{time}"
   spot: string; // eosio::name
