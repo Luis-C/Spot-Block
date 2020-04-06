@@ -24,6 +24,7 @@ do
   cleos wallet private_keys -n "${i}_wallet" < password.txt | grep "\"" | sed -n 2p | cut -d '"' -f 2 > priv_key.txt
   #import eosio private key???
   echo "5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3" | cleos wallet import -n "${i}_wallet"
+  cleos create account eosio "$i" $(cat pub_key.txt)
   #go back up a dir
   cd ..
 done
@@ -35,7 +36,7 @@ cleos wallet unlock < password.txt
 for ((i=1; i<=2; i++)); do
   for ((j=1; j<=5; j++)); do
     for ((k=1; k<=5; k++)); do
-      cleos push action spotblock createspot '["spot'"${i}${j}${k}"'", "", "test_lot", "'"${i}${j}${k}"'"]' -p spotblock@active
+      cleos push action spotblock createspot '["spot'"${i}${j}${k}"'", "", 0]' -p spotblock@active
     done
   done
 done
