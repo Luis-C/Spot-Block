@@ -84,15 +84,43 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             auto account = users_table.find(accountID.value);
             auto spot = spots_table.find(spotID.value);
             if (account != users_table.end() && spot != spots_table.end()) {
-                users_table.modify( account, _self, [&]( auto& row ) {
-                    row.spot = spotID;
-                });
-                spots_table.modify( spot, _self, [&]( auto& row ) {
-                    row.owner = accountID;
-                });
+                if(account->spot.to_string() == "" && spot->owner.to_string() == ""){
+                    users_table.modify( account, _self, [&]( auto& row ) {
+                        row.spot = spotID;
+                    });
+                    spots_table.modify( spot, _self, [&]( auto& row ) {
+                        row.owner = accountID;
+                    });
+                }
+                else{
+                    print("This user already owns a spot or the spot is already owned.");
+                }
             }
             else {
                 print("User or Spot did not exist");
+            }
+        }
+  //Remove a spot
+        [[eosio::action]]
+        void removespot(name accountID) {
+            require_auth(_self);
+            auto account = users_table.find(accountID.value);
+            if(account->spot.to_string() != ""){
+                auto spot = spots_table.find(account->spot.value);
+                if (account != users_table.end() && spot != spots_table.end()) {
+                    users_table.modify( account, _self, [&]( auto& row ) {
+                        row.spot = name{""};
+                    });
+                    spots_table.modify( spot, _self, [&]( auto& row ) {
+                        row.owner = name{""};
+                    });
+                }
+                else {
+                    print("User or Spot did not exist");
+                }
+            }
+            else{
+                print("This user has no spot to remove");
             }
         }
 //Adding Structs
