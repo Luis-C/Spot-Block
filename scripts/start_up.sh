@@ -40,11 +40,19 @@ cleos create account eosio spotblock $(cat pub_key.txt)
 #cleos create account eosio test1 $(cat pub_key.txt)  
 
 #add code 
-cleos set code spotblock /var/www/contracts/parkingdb/parkingdb.wasm
-cleos set abi spotblock /var/www/contracts/parkingdb/parkingdb.abi
+cleos set code spotblock /contracts/parkingdb/parkingdb.wasm
+cleos set abi spotblock /contracts/parkingdb/parkingdb.abi
+
+#all routing access in apache
+sed -i '151s/None/ALL/' /etc/httpd/conf/httpd.conf
+echo "ErrorDocument 404 /index.html" > /var/www/html/.htaccess
+
+#start api
+node api.js &
 
 #start up the angular project, this is for testing only
-cd /var/www/html
+#cd /var/www/html
 #ng serve --host 0.0.0.0 --port 80
+
 #start up apache for production, must be in foreground
 
