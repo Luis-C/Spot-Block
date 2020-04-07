@@ -3,6 +3,8 @@ import { Api, JsonRpc, RpcError } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
 import { BlockchainQuery } from "../_models/query";
 import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
+import { AuthService } from "./auth.service";
 declare function require(name: string);
 const fetch = require("node-fetch");
 
@@ -12,21 +14,55 @@ const rpc = new JsonRpc("http://192.168.99.100:8888", { fetch });
   providedIn: "root",
 })
 export class BlockchainService {
-  constructor(private http: HttpClient) {}
-
   private PATH = "http://192.168.99.100:9090/";
+  private APIKEY = "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy";
+  private USERKEY = "5JFFDxMLcMxVF8fmPwzgpJjDpJx6RwEMfqLHNKWbWeQ1Peh4aHL";
+
+  // TODO: create interface for response from API
+
+  constructor(private http: HttpClient, private auth: AuthService) {
+    // TODO set keys
+  }
+
   // private PATH = "http://localhost:9090/";
 
   test() {
     return this.http.get(`${this.PATH}test`);
   }
 
-  assignSpot({ accountid, spotid }) {
-    return this.http.post(`${this.PATH}assignSpot`, {
-      key: "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy",
+  assignSpot({ accountid, spotid }): Observable<{ response: string }> {
+    return this.http.post<{ response: string }>(`${this.PATH}assignSpot`, {
+      key: this.APIKEY,
       user: "spotblock",
       accountid: accountid,
       spotid: spotid,
+    });
+  }
+
+  bid({ auctionid, userid, bidamount }): Observable<{ response: string }> {
+    return this.http.post<{ response: string }>(`${this.PATH}bid`, {
+      key: this.USERKEY,
+      user: "spotblock",
+      userid: userid,
+      auctionid: auctionid,
+      bidamount: bidamount,
+    });
+  }
+
+  createAuc({
+    user,
+    spotid,
+    time,
+    day,
+    month,
+  }): Observable<{ response: string }> {
+    return this.http.post<{ response: string }>(`${this.PATH}createAuc`, {
+      key: this.USERKEY,
+      user: user,
+      spotid: spotid,
+      time: time,
+      day: day,
+      month: month,
     });
   }
 

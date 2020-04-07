@@ -1,0 +1,15 @@
+<div class="list__container">
+  <div class="list__search">
+    <app-search
+      table="auctions"
+      (searchResult)="resultHandler($event)"
+    ></app-search>
+  </div>
+
+  <div class="list__results">
+    <app-auction
+      *ngFor="let auction of auctionsArr"
+      [auction]="auction"
+    ></app-auction>
+  </div>
+</div>

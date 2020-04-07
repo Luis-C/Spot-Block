@@ -8,12 +8,14 @@ import { MaterialModule } from "./material-module/material-module.module";
 import { LoginComponent } from "./login/login.component";
 import { HomeComponent } from "./home/home.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { SpotComponent } from "./spot/spot.component";
+import { SpotComponent, auctionDialog } from "./spot/spot.component";
 import { SearchComponent } from "./search/search.component";
 import { SpotListComponent } from "./spot-list/spot-list.component";
 import { PurchaseComponent } from "./purchase/purchase.component";
 import { SellComponent } from "./sell/sell.component";
 import { HttpClientModule } from "@angular/common/http";
+import { AuctionListComponent } from "./auction-list/auction-list.component";
+import { AuctionComponent } from "./auction/auction.component";
 
 @NgModule({
   declarations: [
@@ -25,6 +27,9 @@ import { HttpClientModule } from "@angular/common/http";
     SpotListComponent,
     PurchaseComponent,
     SellComponent,
+    AuctionListComponent,
+    AuctionComponent,
+    auctionDialog,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +40,7 @@ import { HttpClientModule } from "@angular/common/http";
     ReactiveFormsModule,
     HttpClientModule,
   ],
+  entryComponents: [auctionDialog],
   providers: [],
   bootstrap: [AppComponent],
 })

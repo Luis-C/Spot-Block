@@ -3,6 +3,7 @@ export interface Auction {
   spot: string; // eosio::name
   uTime: number; // u = use
   uDay: number;
+  uMonth: number;
   fTime: number; // f = final
   fDay: number;
   fMonth: number;

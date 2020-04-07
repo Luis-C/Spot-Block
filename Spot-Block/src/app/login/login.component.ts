@@ -9,7 +9,7 @@ import { BlockchainService } from "../_services/blockchain.service";
 @Component({
   selector: "app-login",
   templateUrl: "./login.component.html",
-  styleUrls: ["./login.component.scss"]
+  styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
   hide = true;
@@ -32,8 +32,8 @@ export class LoginComponent implements OnInit {
           Validators.minLength(1),
           Validators.maxLength(500),
           // Validate message isn't just whitespace
-          Validators.pattern(".*\\S+.*")
-        ]
+          Validators.pattern(".*\\S+.*"),
+        ],
       ],
       key: [
         "",
@@ -42,28 +42,26 @@ export class LoginComponent implements OnInit {
           Validators.minLength(1),
           Validators.maxLength(500),
           // Validate message isn't just whitespace
-          Validators.pattern(".*\\S+.*")
-        ]
-      ]
+          Validators.pattern(".*\\S+.*"),
+        ],
+      ],
     });
   }
 
   login() {
+    // Test that the blockchain is active:
+    this.blockchain.test().subscribe((resp) => console.log(resp));
+
     this.auth
-      .login(this.loginForm.value.id)
+      .login(this.loginForm.value)
       .pipe(first())
       .subscribe(
-        data => {
+        (data) => {
           this.router.navigate(["/home"]);
         },
-        error => {
+        (error) => {
           this.notif.displayMessage("invalid");
         }
       );
-    // this.notif.notImplemented();
-    console.log(this.loginForm.value);
-
-    // TODO: send form to the backend
-    this.blockchain.test().subscribe(resp => console.log(resp));
   }
 }

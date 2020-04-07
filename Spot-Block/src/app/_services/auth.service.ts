@@ -20,14 +20,16 @@ export class AuthService {
     return this.currentUserSubject.value;
   }
 
-  login(ID: string) {
+  login(user: any) {
     return new Observable((subscriber) => {
-      // if() { //valid login
-      const person: Person = { ID, funds: 0, spot: null };
-      localStorage.setItem("currentUser", JSON.stringify(person));
-      // setTimeout(() => {
-      subscriber.next("Logged in!");
-      this.currentUserSubject.next(person);
+      if (this.isUser(user)) {
+        //valid login
+        const person: Person = { ID: user.id, funds: 20, spot: null };
+        localStorage.setItem("currentUser", JSON.stringify(person));
+        // setTimeout(() => {
+        subscriber.next("Logged in!");
+        this.currentUserSubject.next(person);
+      }
       // }, 1000);
       // } else {
       //   //reject
@@ -36,6 +38,11 @@ export class AuthService {
       //   }, 1000);
       // }
     });
+  }
+
+  private isUser(user): boolean {
+    return true;
+    // TODO: validate in the blockchain
   }
 
   logout() {
