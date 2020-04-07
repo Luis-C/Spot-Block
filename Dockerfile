@@ -7,6 +7,7 @@ RUN curl -sL https://rpm.nodesource.com/setup_10.x | bash -
 RUN yum install -y nodejs
 RUN npm install eosjs
 RUN npm install express
+RUN npm install cors
 RUN npm install node-fetch
 RUN npm install prom-client
 RUN npm install -n -g @angular/cli 
