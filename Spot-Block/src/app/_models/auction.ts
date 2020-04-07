@@ -1,5 +1,5 @@
 export interface Auction {
-  id: string; // Form of "{spot}.{month}.{day}.{time}"
+  ID: string; // Form of "{spot}.{month}.{day}.{time}"
   spot: string; // eosio::name
   uTime: number; // u = use
   uDay: number;

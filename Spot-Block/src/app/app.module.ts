@@ -13,6 +13,7 @@ import { SearchComponent } from "./search/search.component";
 import { SpotListComponent } from "./spot-list/spot-list.component";
 import { PurchaseComponent } from "./purchase/purchase.component";
 import { SellComponent } from "./sell/sell.component";
+import { HttpClientModule } from "@angular/common/http";
 
 @NgModule({
   declarations: [

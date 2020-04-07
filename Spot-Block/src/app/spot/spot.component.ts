@@ -10,7 +10,7 @@ import { Spot } from "../_models/spot";
 @Component({
   selector: "app-spot",
   templateUrl: "./spot.component.html",
-  styleUrls: ["./spot.component.scss"]
+  styleUrls: ["./spot.component.scss"],
 })
 export class SpotComponent implements OnInit {
   @Input() spot: Spot;

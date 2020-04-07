@@ -6,8 +6,8 @@ export enum Lots {
 }
 
 export interface Spot {
-  id: string; // One letter for lot, two chars for spot identifier
+  ID: string; // One letter for lot, two chars for spot identifier
   owner: string | null;
   lot: Lots;
-  rentees: any;
+  rentees: any[];
 }

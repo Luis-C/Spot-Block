@@ -21,6 +21,15 @@ export class BlockchainService {
     return this.http.get(`${this.PATH}test`);
   }
 
+  assignSpot({ accountid, spotid }) {
+    return this.http.post(`${this.PATH}assignSpot`, {
+      key: "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy",
+      user: "spotblock",
+      accountid: accountid,
+      spotid: spotid,
+    });
+  }
+
   /*
    * Function to read from a table in the block chain.
    * @param table is the name of the table you want to access. A valid name must

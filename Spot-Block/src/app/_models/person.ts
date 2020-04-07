@@ -1,5 +1,5 @@
 export interface Person {
-  id: string;
+  ID: string;
   funds: number;
   spot: string;
 }
