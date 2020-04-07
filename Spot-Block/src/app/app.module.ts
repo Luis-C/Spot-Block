@@ -15,7 +15,7 @@ import { PurchaseComponent } from "./purchase/purchase.component";
 import { SellComponent } from "./sell/sell.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AuctionListComponent } from "./auction-list/auction-list.component";
-import { AuctionComponent } from "./auction/auction.component";
+import { AuctionComponent, bidDialog } from "./auction/auction.component";
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import { AuctionComponent } from "./auction/auction.component";
     AuctionListComponent,
     AuctionComponent,
     auctionDialog,
+    bidDialog,
   ],
   imports: [
     BrowserModule,
@@ -40,7 +41,7 @@ import { AuctionComponent } from "./auction/auction.component";
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  entryComponents: [auctionDialog],
+  entryComponents: [auctionDialog, bidDialog],
   providers: [],
   bootstrap: [AppComponent],
 })

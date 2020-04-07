@@ -1,8 +1,18 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, OnInit, Input, Inject } from "@angular/core";
 import { Auction } from "../_models/auction";
 import { BlockchainService } from "../_services/blockchain.service";
 import { AuthService } from "../_services/auth.service";
 import { NotificationsService } from "../_services/notifications.service";
+import {
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+  MatDialog,
+} from "@angular/material/dialog";
+import { auctionDialog } from "../spot/spot.component";
+
+export interface DialogData {
+  amount: string;
+}
 
 @Component({
   selector: "app-auction",
@@ -11,26 +21,53 @@ import { NotificationsService } from "../_services/notifications.service";
 })
 export class AuctionComponent implements OnInit {
   @Input() auction: Auction;
+  private amount: number;
 
   constructor(
     private blockchain: BlockchainService,
     private auth: AuthService,
-    private notif: NotificationsService
+    private notif: NotificationsService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {}
 
-  // isOwnedByUser() {
-  //   return this.auth.currentUserValue.ID === this.auction;
-  // }
-
-  bid() {
+  bid(data: DialogData) {
     this.blockchain
       .bid({
         auctionid: this.auction.ID,
         userid: this.auth.currentUserValue.ID,
-        bidamount: 5,
+        bidamount: data.amount,
       })
       .subscribe((result) => this.notif.displayMessage(result.response));
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(bidDialog, {
+      width: "250px",
+      data: { amount: this.amount },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log("The dialog was closed");
+      if (result) {
+        this.bid(result);
+      }
+    });
+  }
+}
+
+@Component({
+  selector: "bid-dialog",
+  templateUrl: "bid-dialog.html",
+})
+export class bidDialog {
+  constructor(
+    public dialogRef: MatDialogRef<bidDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData
+  ) {}
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

@@ -55,7 +55,7 @@ export class SpotComponent implements OnInit {
       .subscribe((result) => this.notif.displayMessage(result.response));
   }
 
-  auction({ time, day, month }) {
+  private auction({ time, day, month }) {
     this.blockchain
       .createAuc({
         user: this.auth.currentUserValue.ID,
