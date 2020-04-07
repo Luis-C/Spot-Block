@@ -22,6 +22,7 @@ COPY /Spot-Block/api.js /
 RUN chmod +x start_up.sh
 RUN chmod +x create_test_accounts.sh
 RUN chmod +x tests.sh
+RUN chmod +x finish.sh
 EXPOSE 80
 EXPOSE 8888
 EXPOSE 9090
