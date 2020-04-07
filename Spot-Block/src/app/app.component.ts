@@ -51,14 +51,18 @@ export class AppComponent {
     this.sellDisabled = false;
   }
 
-  sell() {
-    this.homeDisabled = false;
-    this.purchaseDisabled = false;
-    this.bidDisabled = false;
-    this.sellDisabled = true;
-  }
+  // sell() {
+  //   this.homeDisabled = false;
+  //   this.purchaseDisabled = false;
+  //   this.bidDisabled = false;
+  //   this.sellDisabled = true;
+  // }
 
   logout() {
+    this.homeDisabled = true;
+    this.purchaseDisabled = false;
+    this.bidDisabled = false;
+    this.sellDisabled = false;
     this.auth.logout();
     this.router.navigate(["/login"]);
     // this.notif.notImplemented();
