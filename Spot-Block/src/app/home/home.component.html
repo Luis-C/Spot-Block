@@ -1,34 +1,35 @@
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Owned Spot</mat-card-title>
-  </mat-card-header>
+<div *ngFor="let spot of spots">
+  <mat-card *ngIf="spot.ID == currentUser">
+    <mat-card-header>
+      <mat-card-title>Owned Spot</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>ID: {{spot.ID}}</div>
+      <div>Lot: {{spot.lot}}</div>
+    </mat-card-content>
+  </mat-card>
 
-  <mat-card-content>
-    <div>Lot: </div>
-    <div>Spot: #</div>
-  </mat-card-content>
-</mat-card>
+  <mat-card *ngIf="spot.rentees.includes(currentUser)">
+    <mat-card-header>
+      <mat-card-title>Rented Spot</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>ID: {{spot.ID}}</div>
+      <div>Lot: {{spot.lot}}</div>
+    </mat-card-content>
+  </mat-card>
+</div>
 
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Rented Spot</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div>Lot: </div>
-    <div>Spot: #</div>
-    <div>Date: </div>
-    <div>Time: </div>
-  </mat-card-content>
-</mat-card>
-
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Active Bid</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div>Lot: </div>
-    <div>Spot: #</div>
-    <div>Date: </div>
-    <div>Time: </div>
-  </mat-card-content>
-</mat-card>
+<div *ngFor="let auction of auctions">
+  <mat-card *ngIf="auction.currentBidder == currentUser">
+    <mat-card-header>
+      <mat-card-title>Active Bid</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>Spot: {{auction.spot}}</div>
+      <div>uTime: {{auction.uTime}}</div>
+      <div>uDay: {{auction.uDay}}</div>
+      <div>uMonth: {{auction.uMonth}}</div>
+    </mat-card-content>
+  </mat-card>
+</div>
