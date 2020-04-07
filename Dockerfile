@@ -10,11 +10,14 @@ RUN npm install express
 RUN npm install cors
 RUN npm install node-fetch
 RUN npm install prom-client
-RUN npm install -n -g @angular/cli 
+RUN npm install -n -g @angular/cli
 RUN npm install stream
 RUN wget https://github.com/EOSIO/eos/releases/download/v2.0.0/eosio-2.0.0-1.el7.x86_64.rpm
 RUN yum -y install ./eosio-2.0.0-1.el7.x86_64.rpm
 COPY /Spot-Block/dist/Spot-Block /var/www/html
+#temp
+RUN mkdir code
+COPY /Spot-Block /code
 #COPY /Spot-Block /var/www/html
 RUN mkdir contracts
 COPY /Spot-Block/backend-blockchain/contracts /contracts

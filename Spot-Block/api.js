@@ -11,14 +11,6 @@ const { JsSignatureProvider } = require("eosjs/dist/eosjs-jssig"); // developmen
 const fetch = require("node-fetch"); // node only; not needed in browsers
 const { TextEncoder, TextDecoder } = require("util"); // node only; native TextEncoder/Decoder
 
-/*
- * This Stops the has been blocked by CORS policy:
- * No 'Access-Control-Allow-Origin' header is present on the requested resource.
- * Error from appearing.
- */
-const cors = require("cors");
-chain_api.use(cors());
-
 const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 
 const metricsInterval = Prometheus.collectDefaultMetrics();
