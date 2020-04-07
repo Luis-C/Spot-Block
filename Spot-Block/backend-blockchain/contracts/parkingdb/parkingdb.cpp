@@ -84,15 +84,43 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             auto account = users_table.find(accountID.value);
             auto spot = spots_table.find(spotID.value);
             if (account != users_table.end() && spot != spots_table.end()) {
-                users_table.modify( account, _self, [&]( auto& row ) {
-                    row.spot = spotID;
-                });
-                spots_table.modify( spot, _self, [&]( auto& row ) {
-                    row.owner = accountID;
-                });
+                if(account->spot.to_string() == "" && spot->owner.to_string() == ""){
+                    users_table.modify( account, _self, [&]( auto& row ) {
+                        row.spot = spotID;
+                    });
+                    spots_table.modify( spot, _self, [&]( auto& row ) {
+                        row.owner = accountID;
+                    });
+                }
+                else{
+                    print("This user already owns a spot or the spot is already owned.");
+                }
             }
             else {
                 print("User or Spot did not exist");
+            }
+        }
+        //Remove a spot
+        [[eosio::action]]
+        void removespot(name accountID) {
+            require_auth(_self);
+            auto account = users_table.find(accountID.value);
+            if(account->spot.to_string() != ""){
+                auto spot = spots_table.find(account->spot.value);
+                if (account != users_table.end() && spot != spots_table.end()) {
+                    users_table.modify( account, _self, [&]( auto& row ) {
+                        row.spot = name{""};
+                    });
+                    spots_table.modify( spot, _self, [&]( auto& row ) {
+                        row.owner = name{""};
+                    });
+                }
+                else {
+                    print("User or Spot did not exist");
+                }
+            }
+            else{
+                print("This user has no spot to remove");
             }
         }
 //Adding Structs
@@ -143,6 +171,72 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                     std::string str_day = std::to_string(uDay);
                     std::string str_month = std::to_string(uMonth);
                     std::string str_time = std::to_string(uTime);
+                    switch(uMonth) {
+                        case 6  :
+                            str_month = "a";
+                            break; //optional
+                        case 7  :
+                            str_month = "b";
+                            break; //optional
+                        case 8  :
+                            str_month = "c";
+                            break; //optional
+                        case 9  :
+                            str_month = "d";
+                            break; //optional
+                    }
+                    switch(uDay) {
+                        case 6  :
+                            str_day = "a";
+                            break; //optional
+                        case 7  :
+                            str_day = "b";
+                            break; //optional
+                        case 8  :
+                            str_day = "c";
+                            break; //optional
+                        case 9  :
+                            str_day = "d";
+                            break; //optional
+                        case 16  :
+                            str_day = "e";
+                            break; //optional
+                        case 17  :
+                            str_day = "f";
+                            break; //optional
+                        case 18  :
+                            str_day = "g";
+                            break; //optional
+                        case 19  :
+                            str_day = "h";
+                            break; //optional
+                        case 26  :
+                            str_day = "i";
+                            break; //optional
+                        case 27  :
+                            str_day = "j";
+                            break; //optional
+                        case 28  :
+                            str_day = "k";
+                            break; //optional
+                        case 29  :
+                            str_day = "l";
+                            break; //optional
+                    }
+                    switch(uTime) {
+                        case 6  :
+                            str_time = "a";
+                            break; //optional
+                        case 8  :
+                            str_time = "b";
+                            break; //optional
+                        case 16  :
+                            str_time = "c";
+                            break; //optional
+                        case 18  :
+                            str_time = "d";
+                            break; //optional
+                    }
                     std::string str_spotID = spotID.to_string();
                     std::string str_aucID = str_spotID + "." + str_month + "." + str_day +"." + str_time; // Note that spotIDs can't be too long since 9 other chars are needed
                     name auctionID = name{str_aucID};

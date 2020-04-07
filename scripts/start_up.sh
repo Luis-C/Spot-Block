@@ -55,4 +55,4 @@ node api.js &
 #ng serve --host 0.0.0.0 --port 80
 
 #start up apache for production, must be in foreground
-
+#httpd -D FOREGROUND

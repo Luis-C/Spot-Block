@@ -5,15 +5,15 @@ else
   echo "user funds incorrect";
 fi
 user=$(cleos get table spotblock spotblock users | grep  '"ID": "user1"' -A 2 | grep spot)
-if [[ "$user"=='"spot": "spot111",' ]]; then
+if [[ "$user"=='"spot": "111",' ]]; then
   echo "user spot correct";
 else
   echo "user spot incorrect";
 fi
 
-auction=$(cleos get table spotblock spotblock auctions | grep '"ID": "spot111.1.1.2"' -A 9)
+auction=$(cleos get table spotblock spotblock auctions | grep '"ID": "111.1.1.2"' -A 9)
 auction_spot=$(echo "$auction" | grep spot)
-str='"spot": "spot111",'
+str='"spot": "111",'
 if [[ "$auction_spot" == *$str* ]]; then
   echo "auction spot correct";
 else

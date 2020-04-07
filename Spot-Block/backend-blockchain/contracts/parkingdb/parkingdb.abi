@@ -172,6 +172,16 @@
             ]
         },
         {
+            "name": "removespot",
+            "base": "",
+            "fields": [
+                {
+                    "name": "accountID",
+                    "type": "name"
+                }
+            ]
+        },
+        {
             "name": "spot_struct",
             "base": "",
             "fields": [
@@ -241,6 +251,11 @@
         {
             "name": "finish",
             "type": "finish",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "removespot",
+            "type": "removespot",
             "ricardian_contract": ""
         }
     ],
