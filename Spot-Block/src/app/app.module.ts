@@ -11,7 +11,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SpotComponent } from "./spot/spot.component";
 import { SearchComponent } from "./search/search.component";
 import { SpotListComponent } from "./spot-list/spot-list.component";
-import { HttpClientModule } from "@angular/common/http";
+import { PurchaseComponent } from "./purchase/purchase.component";
+import { SellComponent } from "./sell/sell.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +21,9 @@ import { HttpClientModule } from "@angular/common/http";
     HomeComponent,
     SpotComponent,
     SearchComponent,
-    SpotListComponent
+    SpotListComponent,
+    PurchaseComponent,
+    SellComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,9 +32,9 @@ import { HttpClientModule } from "@angular/common/http";
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

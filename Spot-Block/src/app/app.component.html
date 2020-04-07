@@ -1,15 +1,11 @@
 <mat-toolbar class="header" color="primary" *ngIf="!isUser">
-  <!--<mat-toolbar class="header" color="primary">-->
   {{ title }}
 </mat-toolbar>
 <mat-toolbar class="header" color="primary" *ngIf="isUser">
-  <!--<mat-toolbar class="header" color="primary">-->
-  <!-- <span>Spot-Block</span> -->
-  <!-- <span class="empty-space"></span> -->
-  <button mat-button><mat-icon>home</mat-icon></button>
-  <button mat-button routerLink="/search">Purchase</button>
-  <button mat-button routerLink="/search">Bid</button>
-  <button mat-button routerLink="/search">Sell</button>
+  <button mat-button [disabled]="homeDisabled" (click)="home()" routerLink="/home"><mat-icon>home</mat-icon></button>
+  <button mat-button [disabled]="purchaseDisabled" (click)="purchase()" routerLink="/purchase">Purchase</button>
+  <button mat-button [disabled]="bidDisabled" (click)="bid()" routerLink="/search">Bid</button>
+  <button mat-button [disabled]="sellDisabled" (click)="sell()" routerLink="/sell">Sell</button>
   <button mat-button class="pull-right" (click)="logout()">Logout</button>
 </mat-toolbar>
 
