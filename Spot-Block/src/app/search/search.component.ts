@@ -1,21 +1,26 @@
-import { Component, OnInit, Output } from "@angular/core";
+import { Component, OnInit, Output, Input } from "@angular/core";
 import { FormGroup, FormBuilder } from "@angular/forms";
 import { NotificationsService } from "../_services/notifications.service";
 import { Spot } from "../_models/spot";
 import { BlockchainService } from "../_services/blockchain.service";
 import { BehaviorSubject } from "rxjs";
+import { Person } from "../_models/person";
+import { Auction } from "../_models/auction";
 
 @Component({
   selector: "app-search",
   templateUrl: "./search.component.html",
-  styleUrls: ["./search.component.scss"]
+  styleUrls: ["./search.component.scss"],
 })
 export class SearchComponent implements OnInit {
+  // TODO: take table as input
+  @Input() table: string;
   searchForm: FormGroup;
   // After a search is performed the component emits the results
-  @Output() searchResult: BehaviorSubject<Spot[]> = new BehaviorSubject<Spot[]>(
-    undefined
-  );
+  @Output() searchResult:
+    | BehaviorSubject<Spot[]>
+    | BehaviorSubject<Person[]>
+    | BehaviorSubject<Auction[]> = new BehaviorSubject<any[]>(undefined);
 
   constructor(
     private fb: FormBuilder,
@@ -25,72 +30,22 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
-      val1: [""],
-      val2: [""],
-      val3: [""]
+      table: this.table,
+      limit: undefined,
+      secondary_key: undefined,
     });
   }
 
   async search() {
-    console.log(this.searchForm.value);
     this.notif.notImplemented();
     // TODO: send query to blockchain & emit the results
-    // let result: Spot[] = await this.blockchain.query(this.searchForm.value);
-    // this.searchResult.next(result);
+    let result: any[] = await this.blockchain.query_table(
+      this.searchForm.value.table,
+      this.searchForm.value.limit,
+      this.searchForm.value.secondary_key
+    );
 
-    // for demo only
-    let demoSpotArr: Spot[] = [
-      {
-        lot: "Some Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 1000,
-        rent_time: 3
-      },
-      {
-        lot: "Another Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 500,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      },
-      {
-        lot: "Parking Lot",
-        coord: "some coords",
-        owner: undefined,
-        current_bid: 700,
-        rent_time: 2
-      }
-    ];
-
-    this.searchResult.next(demoSpotArr);
+    this.notif.displayMessage(`Returned ${result.length} results!`);
+    this.searchResult.next(result);
   }
 }
