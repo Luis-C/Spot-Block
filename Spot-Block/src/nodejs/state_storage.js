@@ -1,18 +1,5 @@
 /* This file contains data structures for storing block chain state */
-const { JsonRpc } = require('eosjs');
-const fetch = require('node-fetch');
-const rpc = new JsonRpc('http://localhost:8888', { fetch });
 
-(async () => {
-        const resp = await rpc.get_table_rows({
-                json: true,
-                code: 'spotblock',
-                scope: 'spotblock',
-                table: 'users',
-                limit: 10,
-        });
-        console.log(resp.rows);
-})();
 
 /* class to hold information on the owners and bidders for spots */
 class Person {
@@ -252,52 +239,46 @@ class Chain_Summary {
 
   /* Returns an array of spots with a price more than
      the price provided */
-  async function get_spots_more_than(price) {
-    const resp = await rpc.get_table_rows({
-      json: true,
-      code: 'spotblock',
-      scope: 'spotblock',
-      table: 'spots',
-      table_key: 'price',
-      upper_bound: price,
-      limit: 1000,
-    });
-    console.log(resp.rows);
-
+  get_spots_more_than(price) {
+    for (var i = 0; i < this.auction.length; i++) {
+      if (this.auction[i].getPrice() > price)
+        return this.auction.slice(i, this.auction.length);
+    }
     return null;
   }
 
   /* get spots less than the price */
-  async function get_spots_less_than(price) {
-    const resp = await rpc.get_table_rows({
-      json: true,
-      code: 'spotblock',
-      scope: 'spotblock',
-      table: 'spots',
-      table_key: 'price',
-      lower_bound: price,
-      limit: 1000,
-    });
-    console.log(resp.rows);
-
+  get_spots_less_than(price) {
+    for (var i = 0; i < this.auction.length; i++) {
+      if (this.auction[i].getPrice() >= price)
+        return this.auction.slice(0, i);
+    }
     return null;
   }
 
   /* get spots between the range inclusively */
   get_spots_in_range(price_min, price_max) {
-    const resp = await rpc.get_table_rows({
-      json: true,
-      code: 'spotblock',
-      scope: 'spotblock',
-      table: 'spots',
-      table_key: 'price',
-      upper_bound: price_max,
-      lower_bound: price_min,
-      limit: 1000,
-    });
-    console.log(resp.rows);
+    //console.log(this.auction[1].getPrice());
+    var j = -1;
+    var k = -1;
+    var i;
+    for (i = 0; i < this.auction.length; i++) {
+      if (j == -1 && this.auction[i].getPrice() >= price_min)
+        j = i;
+      if (k == -1 && this.auction[i].getPrice() >= price_max) {
+        k = i;
+        break;
+      }
+    }
+    //max is rest
+    if (k == -1)
+      k = i;
+    //everything below the minimum
+    if (j == -1)
+      return null;
+
     //return range
-    return null;
+    return this.auction.slice(j, k+1);
   }
 
   /* get all the spots in auction currently */

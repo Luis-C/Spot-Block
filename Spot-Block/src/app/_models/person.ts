@@ -1,5 +1,7 @@
+import { Spot } from "./spot";
+
 export interface Person {
-  ID: string;
+  id: string;
   funds: number;
-  spot: string;
+  spot: any;
 }
