@@ -36,7 +36,7 @@ cleos wallet unlock < password.txt
 for ((i=1; i<=2; i++)); do
   for ((j=1; j<=5; j++)); do
     for ((k=1; k<=5; k++)); do
-      cleos push action spotblock createspot '["spot'"${i}${j}${k}"'", "", 0]' -p spotblock@active
+      cleos push action spotblock createspot '["'${i}${j}${k}'", "", 0]' -p spotblock@active
     done
   done
 done
