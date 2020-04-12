@@ -15,13 +15,14 @@ const rpc = new JsonRpc("http://192.168.99.100:8888", { fetch });
 })
 export class BlockchainService {
   private PATH = "http://192.168.99.100:9090/";
-  private APIKEY = "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy";
+  private APIKEY = "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy"; // remove
   private USERKEY = "5JFFDxMLcMxVF8fmPwzgpJjDpJx6RwEMfqLHNKWbWeQ1Peh4aHL";
 
   // TODO: create interface for response from API
 
   constructor(private http: HttpClient, private auth: AuthService) {
-    // TODO set keys
+    // set keys:
+    this.USERKEY = this.auth.currentKeyValue;
   }
 
   // private PATH = "http://localhost:9090/";
@@ -30,6 +31,10 @@ export class BlockchainService {
     return this.http.get(`${this.PATH}test`);
   }
 
+  /**
+   *
+   * @deprecated
+   */
   assignSpot({ accountid, spotid }): Observable<{ response: string }> {
     return this.http.post<{ response: string }>(`${this.PATH}assignSpot`, {
       key: this.APIKEY,
@@ -39,26 +44,20 @@ export class BlockchainService {
     });
   }
 
-  bid({ auctionid, userid, bidamount }): Observable<{ response: string }> {
+  bid({ auctionid, bidamount }): Observable<{ response: string }> {
     return this.http.post<{ response: string }>(`${this.PATH}bid`, {
       key: this.USERKEY,
       user: "spotblock",
-      userid: userid,
+      userid: this.auth.currentUserValue.ID,
       auctionid: auctionid,
       bidamount: bidamount,
     });
   }
 
-  createAuc({
-    user,
-    spotid,
-    time,
-    day,
-    month,
-  }): Observable<{ response: string }> {
+  createAuc({ spotid, time, day, month }): Observable<{ response: string }> {
     return this.http.post<{ response: string }>(`${this.PATH}createAuc`, {
       key: this.USERKEY,
-      user: user,
+      user: this.auth.currentUserValue.ID,
       spotid: spotid,
       time: time,
       day: day,

@@ -1,14 +1,12 @@
 import { Component, OnInit, Input, Inject } from "@angular/core";
 import { Auction } from "../_models/auction";
 import { BlockchainService } from "../_services/blockchain.service";
-import { AuthService } from "../_services/auth.service";
 import { NotificationsService } from "../_services/notifications.service";
 import {
   MatDialogRef,
   MAT_DIALOG_DATA,
   MatDialog,
 } from "@angular/material/dialog";
-import { auctionDialog } from "../spot/spot.component";
 
 export interface DialogData {
   amount: string;
@@ -25,7 +23,6 @@ export class AuctionComponent implements OnInit {
 
   constructor(
     private blockchain: BlockchainService,
-    private auth: AuthService,
     private notif: NotificationsService,
     public dialog: MatDialog
   ) {}
@@ -36,7 +33,6 @@ export class AuctionComponent implements OnInit {
     this.blockchain
       .bid({
         auctionid: this.auction.ID,
-        userid: this.auth.currentUserValue.ID,
         bidamount: data.amount,
       })
       .subscribe((result) => this.notif.displayMessage(result.response));

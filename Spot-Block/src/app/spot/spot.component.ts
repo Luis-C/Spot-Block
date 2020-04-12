@@ -58,7 +58,6 @@ export class SpotComponent implements OnInit {
   private auction({ time, day, month }) {
     this.blockchain
       .createAuc({
-        user: this.auth.currentUserValue.ID,
         spotid: this.spot.ID,
         time: time,
         day: day,
