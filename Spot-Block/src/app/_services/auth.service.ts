@@ -37,14 +37,17 @@ export class AuthService {
     return new Observable((subscriber) => {
       if (this.isUser(user)) {
         // valid login
+        // TODO: do something with this person?
         const person: Person = { ID: user.id, funds: 20, spot: null };
+
         localStorage.setItem("currentUser", JSON.stringify(person));
-        subscriber.next("Logged in!");
         this.currentUserSubject.next(person);
         // set key
         localStorage.setItem("currentKey", JSON.stringify(user.key));
         this.currentKeySubject.next(user.key);
-        console.log(user.key);
+        
+        // notify login was successful
+        subscriber.next("Logged in!");
       }
     });
   }

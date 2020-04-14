@@ -16,23 +16,28 @@ const rpc = new JsonRpc("http://192.168.99.100:8888", { fetch });
 export class BlockchainService {
   private PATH = "http://192.168.99.100:9090/";
   private APIKEY = "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy"; // remove
-  private USERKEY = "5JFFDxMLcMxVF8fmPwzgpJjDpJx6RwEMfqLHNKWbWeQ1Peh4aHL";
+  private USERKEY = "";
 
   // TODO: create interface for response from API
 
-  constructor(private http: HttpClient, private auth: AuthService) {
+  constructor(private http: HttpClient, private auth: AuthService) {}
+  // private PATH = "http://localhost:9090/";
+
+  /**
+   * Update key to current value in authService
+   */
+  updateKey() {
     // set keys:
     this.USERKEY = this.auth.currentKeyValue;
+    // console.log(this.USERKEY); // for debugging only
   }
-
-  // private PATH = "http://localhost:9090/";
 
   test() {
     return this.http.get(`${this.PATH}test`);
   }
 
   /**
-   *
+   * This function will be removed
    * @deprecated
    */
   assignSpot({ accountid, spotid }): Observable<{ response: string }> {
