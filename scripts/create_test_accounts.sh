@@ -48,6 +48,13 @@ cleos push action spotblock createuser '["user3", 25, ""]' -p spotblock@active
 cleos push action spotblock assignspot '["user1", "111"]' -p spotblock@active
 cleos push action spotblock assignspot '["user2", "112"]' -p spotblock@active
 #create test auctions
-cleos push action spotblock createauc '["111", 2, 1, 1]' -p user1@active
-cleos push action spotblock createauc '["112", 4, 2, 2]' -p user2@active
+cleos push action spotblock createauc '["111", 4, 14, 4]' -p user1@active
+cleos push action spotblock createauc '["112", 6, 14, 4]' -p user2@active
 
+#give us the keys for test
+cat test_users/user1/priv_key.txt
+cat test_users/user2/priv_key.txt
+cat test_users/user3/priv_key.txt
+cat test_users/user4/priv_key.txt
+cat test_users/user5/priv_key.txt
+cat test_users/user6/priv_key.txt

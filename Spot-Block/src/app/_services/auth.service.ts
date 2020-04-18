@@ -39,12 +39,11 @@ export class AuthService {
         // valid login
         const person: Person = { ID: user.id, funds: 20, spot: null };
         localStorage.setItem("currentUser", JSON.stringify(person));
-        subscriber.next("Logged in!");
         this.currentUserSubject.next(person);
         // set key
         localStorage.setItem("currentKey", JSON.stringify(user.key));
         this.currentKeySubject.next(user.key);
-        console.log(user.key);
+        subscriber.next("Logged in!");
       }
     });
   }

@@ -56,8 +56,10 @@ export class LoginComponent implements OnInit {
       .login(this.loginForm.value)
       .pipe(first())
       .subscribe(
-        (data) => {
+        (data: string) => {
           this.router.navigate(["/home"]);
+          this.blockchain.updateKey();
+          this.notif.displayMessage(data);
         },
         (error) => {
           this.notif.displayMessage("invalid");
