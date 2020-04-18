@@ -12,28 +12,34 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         [[eosio::action]]
         void finish(uint64_t fMonth, uint64_t fDay, uint64_t fTime){    //As long as the back-end script feeds every proper 2 hour time, this works.
             require_auth(_self);
-            for ( auto auction = auctions_table.begin(); auction != auctions_table.end(); auction++ ) {
+            auto auction = auctions_table.begin();
+            while ( auction != auctions_table.end() ) {
                 if(auction->fMonth == fMonth){
                     if(auction->fDay == fDay){
                         if(auction->fTime == fTime){
                             auto spot = spots_table.find(auction->spot.value);
                             auto owner = users_table.find(spot->owner.value);
-                            users_table.modify( owner, _self, [&]( auto& row ) {
-                                row.funds = owner->funds + auction->highestBid;
-                            });
-                            std::string str_day = std::to_string(auction->uDay);
-                            std::string str_month = std::to_string(auction->uMonth);
-                            std::string str_time = std::to_string(auction->uTime);
-                            std::string str_permis = str_month + "/" + str_day +"@" + str_time;
-                            spots_table.modify( spot, _self, [&]( auto& row ) {
-                                const std::string tmp1 = str_permis;
-                                const name tmp2 = auction->currentBidder;
-                            row.rentees.insert(std::make_pair(tmp1, tmp2));
-                            });
+                            if(auction->highestBid != 0){
+                                users_table.modify( owner, _self, [&]( auto& row ) {
+                                    row.funds = owner->funds + auction->highestBid;
+                                });
+                                std::string str_day = std::to_string(auction->uDay);
+                                std::string str_month = std::to_string(auction->uMonth);
+                                std::string str_time = std::to_string(auction->uTime);
+                                std::string str_permis = str_month + "/" + str_day +"@" + str_time;
+                                spots_table.modify( spot, _self, [&]( auto& row ) {
+                                    const std::string tmp1 = str_permis;
+                                    const name tmp2 = auction->currentBidder;
+                                row.rentees.insert(std::make_pair(tmp1, tmp2));
+                                });
+                            }
                             auctions_table.erase(auction);
+                            auction = auctions_table.begin();
+                            continue;
                         }
                     }
                 }
+                auction++;
             }
         }
 

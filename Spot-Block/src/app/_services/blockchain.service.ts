@@ -21,7 +21,6 @@ export class BlockchainService {
   // TODO: create interface for response from API
 
   constructor(private http: HttpClient, private auth: AuthService) {}
-   
 
   /**
    * Update key to current value in authService
@@ -37,7 +36,7 @@ export class BlockchainService {
   }
 
   /**
-   *
+   * This function will be removed
    * @deprecated
    */
   assignSpot({ accountid, spotid }): Observable<{ response: string }> {
