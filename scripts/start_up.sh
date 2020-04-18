@@ -51,9 +51,3 @@ echo "ErrorDocument 404 /index.html" > /var/www/html/.htaccess
 #start api
 node api.js &
 
-#start up the angular project, this is for testing only
-#cd /var/www/html
-#ng serve --host 0.0.0.0 --port 80
-
-#start up apache for production, must be in foreground
-#httpd -D FOREGROUND

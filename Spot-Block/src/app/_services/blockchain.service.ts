@@ -8,20 +8,19 @@ import { AuthService } from "./auth.service";
 declare function require(name: string);
 const fetch = require("node-fetch");
 
-const rpc = new JsonRpc("http://192.168.99.100:8888", { fetch });
+const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 
 @Injectable({
   providedIn: "root",
 })
 export class BlockchainService {
-  private PATH = "http://192.168.99.100:9090/";
+  private PATH = "http://127.0.0.1:9090/";
   private APIKEY = "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy"; // remove
   private USERKEY = "";
 
   // TODO: create interface for response from API
 
   constructor(private http: HttpClient, private auth: AuthService) {}
-  // private PATH = "http://localhost:9090/";
 
   /**
    * Update key to current value in authService
@@ -52,7 +51,7 @@ export class BlockchainService {
   bid({ auctionid, bidamount }): Observable<{ response: string }> {
     return this.http.post<{ response: string }>(`${this.PATH}bid`, {
       key: this.USERKEY,
-      user: "spotblock",
+      user: this.auth.currentUserValue.ID,
       userid: this.auth.currentUserValue.ID,
       auctionid: auctionid,
       bidamount: bidamount,

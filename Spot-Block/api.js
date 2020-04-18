@@ -57,10 +57,6 @@ const httpRequestDurationMicroseconds = new Prometheus.Histogram({
   buckets: [0.1, 5, 15, 50, 100, 200, 300, 400, 500],
 });
 
-/*chain_api.use(function(req, res) {
-  res.locals.startEpoch = Date.now();
-});*/
-
 /*
  * This Stops the has been blocked by CORS policy:
  * No 'Access-Control-Allow-Origin' header is present on the requested resource.

@@ -45,7 +45,7 @@ export class AuthService {
         // set key
         localStorage.setItem("currentKey", JSON.stringify(user.key));
         this.currentKeySubject.next(user.key);
-        
+
         // notify login was successful
         subscriber.next("Logged in!");
       }
