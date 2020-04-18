@@ -1,0 +1,549 @@
+{
+	"info": {
+		"_postman_id": "cdd8858b-9615-48f8-a5f3-884c8c893c28",
+		"name": "SpotBlock",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e31d9f94-5310-48a0-a4d3-a5790ec0b375",
+						"exec": [
+							"pm.test(\"response is ok\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"repsonse body is proper\", function() {",
+							"    pm.response.to.have.jsonBody('response', 'test');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:9090/test",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"test"
+					]
+				},
+				"description": "is the api running"
+			},
+			"response": []
+		},
+		{
+			"name": "createUser Fail",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b8bb5220-5d92-4c08-b6bd-84cabe72eefd",
+						"exec": [
+							"pm.test(\"response is ok\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"repsonse body is proper\", function() {",
+							"    pm.response.to.have.jsonBody('response', \"transaction declares authority '{\\\"actor\\\":\\\"spotblock\\\",\\\"permission\\\":\\\"active\\\"}', but does not have signatures for it.\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "key",
+							"value": "5JCwFWxog6Nrixi1QBEXuSvjwriAqXFQQYZ4Wz7mZb6reTYqi5Z",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "spotblock",
+							"type": "text"
+						},
+						{
+							"key": "account",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "funds",
+							"value": "20",
+							"type": "text"
+						},
+						{
+							"key": "spot",
+							"value": "\"\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/createUser",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"createUser"
+					]
+				},
+				"description": "tests create user"
+			},
+			"response": []
+		},
+		{
+			"name": "createUser Success",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "999efc80-28b1-42bc-9bcd-91e57ff867ce",
+						"exec": [
+							"pm.test(\"response is ok\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"repsonse body is proper\", function() {",
+							"    pm.response.to.have.jsonBody('response', 'Account is added');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "key",
+							"value": "5KT4hH67amZp6bK2VgEA66RQ43wow7FMxDJQPJLQWvKNHr6GFKS",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "spotblock",
+							"type": "text"
+						},
+						{
+							"key": "account",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "funds",
+							"value": "20",
+							"type": "text"
+						},
+						{
+							"key": "spot",
+							"value": "\"\"",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/createUser",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"createUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createSpot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8cfac79c-5354-4698-a9fd-918442fbe150",
+						"exec": [
+							"pm.test(\"response is ok\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"repsonse body is proper\", function() {",
+							"    pm.response.to.have.jsonBody('response', 'Spot is added');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "key",
+							"value": "5KT4hH67amZp6bK2VgEA66RQ43wow7FMxDJQPJLQWvKNHr6GFKS",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "spotblock",
+							"type": "text"
+						},
+						{
+							"key": "id",
+							"value": "spot111",
+							"type": "text"
+						},
+						{
+							"key": "owner",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "lot",
+							"value": "0",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/createSpot",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"createSpot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAuc",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "25faa02b-d093-46f4-a881-561a898c55db",
+						"exec": [
+							"pm.test(\"response is ok\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"repsonse body is proper\", function() {",
+							"    pm.response.to.have.jsonBody('response', 'Auction is added');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "key",
+							"value": "5KGzrnAQygbPsUbhE4mRBc71pBzMqXqdh9tMip7NuYAsksy2Vgy",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "spotid",
+							"value": "spot111",
+							"type": "text"
+						},
+						{
+							"key": "time",
+							"value": "2",
+							"description": "must be even number",
+							"type": "text"
+						},
+						{
+							"key": "day",
+							"value": "2",
+							"type": "text"
+						},
+						{
+							"key": "month",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/createAuc",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"createAuc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createAuc Wrong Spot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "25faa02b-d093-46f4-a881-561a898c55db",
+						"exec": [
+							"pm.test(\"response is ok\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"repsonse body is proper\", function() {",
+							"    pm.response.to.have.jsonBody('response', 'missing authority of ');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "key",
+							"value": "5KGzrnAQygbPsUbhE4mRBc71pBzMqXqdh9tMip7NuYAsksy2Vgy",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "spotid",
+							"value": "spot113",
+							"type": "text"
+						},
+						{
+							"key": "time",
+							"value": "2",
+							"description": "must be even number",
+							"type": "text"
+						},
+						{
+							"key": "day",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "month",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/createAuc",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"createAuc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "assignSpot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ab804913-4f2d-45f0-8718-4c84f68f95e2",
+						"exec": [
+							"pm.test(\"response is ok\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"repsonse body is proper\", function() {",
+							"    pm.response.to.have.jsonBody('response', 'Spot assigned');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "key",
+							"value": "5KT4hH67amZp6bK2VgEA66RQ43wow7FMxDJQPJLQWvKNHr6GFKS",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "spotblock",
+							"type": "text"
+						},
+						{
+							"key": "accountid",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "spotid",
+							"value": "spot112",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/assignSpot",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"assignSpot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d1d89c63-834e-40af-a068-1dfce9e53850",
+						"exec": [
+							"pm.test(\"response is ok\", function() {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"repsonse body is proper\", function() {",
+							"    pm.response.to.have.jsonBody('response', 'Bid placed');",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "key",
+							"value": "5KGzrnAQygbPsUbhE4mRBc71pBzMqXqdh9tMip7NuYAsksy2Vgy",
+							"type": "text"
+						},
+						{
+							"key": "user",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "userid",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "auctionid",
+							"value": "spot111.1.1.2",
+							"type": "text"
+						},
+						{
+							"key": "bidamount",
+							"value": "2",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:9090/bid",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "9090",
+					"path": [
+						"bid"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
