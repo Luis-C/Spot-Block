@@ -30,7 +30,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
-      table: this.table,
+      table: [{ value: this.table, disabled: true }],
       limit: undefined,
       secondary_key: undefined,
     });
