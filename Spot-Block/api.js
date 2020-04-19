@@ -11,8 +11,10 @@ const { JsSignatureProvider } = require("eosjs/dist/eosjs-jssig"); // developmen
 const fetch = require("node-fetch"); // node only; not needed in browsers
 const { TextEncoder, TextDecoder } = require("util"); // node only; native TextEncoder/Decoder
 
+//Connect to the blockchain
 const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 
+//Prometheus counters
 const metricsInterval = Prometheus.collectDefaultMetrics();
 const testTotal = new Prometheus.Counter({
   name: "test_total",
@@ -70,6 +72,7 @@ chain_api.use(cors());
  */
 chain_api.get("/test", function (req, res) {
   console.log("test");
+  //increment metric
   testTotal.inc();
   res.setHeader("Content-Type", "application/json");
   res.end(JSON.stringify({ response: "test" }));
@@ -295,7 +298,21 @@ chain_api.post("/assignSpot", async (req, res) => {
 chain_api.post("/bid", async (req, res) => {
   console.log("Call: bid");
   bidTotal.inc();
-  const signatureProvider = new JsSignatureProvider([req.body.key]);
+  var signatureProvider = null;
+  try {
+    signatureProvider = new JsSignatureProvider([req.body.key]);
+  }
+  catch (e) {
+    //this means the user didn't enter a key in the proper format
+    console.log("error");
+    res.setHeader("Content-Type", "application/json");
+    console.log(e.message);
+    console.log("Key is not a valid private key");
+    res.end(JSON.stringify({ response: "Error: Your Key is Invalid" }));
+    //bad key means we shouldn't try to continue execution
+    return;
+  }
+
   const api = new Api({
     rpc,
     signatureProvider,
@@ -334,9 +351,22 @@ chain_api.post("/bid", async (req, res) => {
     res.end(JSON.stringify({ response: "Bid placed" }));
   } catch (e) {
     console.log("error");
-    console.log(e.message);
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ response: e.message }));
+    //Display just the message to the frontend
+    var x = e.message.indexOf("assertion failure with message");
+    if (x > -1) {
+      console.log(e.message.substring(32));
+      res.end(JSON.stringify({ response: e.message.substring(32) }));
+    }
+    else if (e.message.indexOf("transaction declares authority") > -1) {
+      console.log("Wrong Key for User");
+      res.end(JSON.stringify({ response: "Error: Your Key is Invalid" }));
+    }
+    else {
+      console.log(e.message);
+      res.end(JSON.stringify({ response: e.message }));
+    }
+
   }
 });
 
