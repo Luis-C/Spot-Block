@@ -11,25 +11,21 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
 
         /*
          * This should remove rentees when their two hour slot has expired
-         * Pass in the current time
+         * Pass in the current time minus 2
          */
         [[eosio::action]]
-        void expire(uint64_t curr_time) {
+        void expire(std::string time) {
           //require authority of spotblock to run
           require_auth(_self);
-          //current time minus 2 to check the keys
-          uint64_t time = curr_time - 2;
 
           //loop through the spots
           auto spot = spots_table.begin();
           while (spot != spots_table.end()) {
-            //if someone had a rent time for two hours ago
-            if (spot->rentees.find(time) != null) {
-              //remove rentees with this time
-              spots_table.modify(owner, _self, [&]( auto& row) {
-                  row.rentees.erase(time);
-              });
-            }
+            //remove rentees with this time
+            spots_table.modify(spot, _self, [&]( auto& row) {
+                row.rentees.erase(time);
+            });
+
             //increment to next spot
             spot++;
           }

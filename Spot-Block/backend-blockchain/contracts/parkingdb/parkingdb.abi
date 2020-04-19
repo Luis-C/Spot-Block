@@ -140,6 +140,16 @@
             ]
         },
         {
+            "name": "expire",
+            "base": "",
+            "fields": [
+                {
+                    "name": "time",
+                    "type": "string"
+                }
+            ]
+        },
+        {
             "name": "finish",
             "base": "",
             "fields": [
@@ -246,6 +256,11 @@
         {
             "name": "createuser",
             "type": "createuser",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "expire",
+            "type": "expire",
             "ricardian_contract": ""
         },
         {
