@@ -25,7 +25,9 @@ RUN chmod +x start_up.sh
 RUN chmod +x create_test_accounts.sh
 RUN chmod +x tests.sh
 RUN chmod +x finish.sh
-RUN mv finish.sh /etc/cron.hourly
+RUN chmod +x expire.sh
+echo "0 */2 * * * /expire.sh" >> /etc/crontab
+echo "0 */2 * * * /finish.sh" >> /etc/crontab
 EXPOSE 80
 EXPOSE 8888
 EXPOSE 9090
