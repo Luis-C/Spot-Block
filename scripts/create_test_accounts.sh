@@ -45,6 +45,10 @@ done
 cleos push action spotblock createuser '["user1", 20, ""]' -p spotblock@active
 cleos push action spotblock createuser '["user2", 5, ""]' -p spotblock@active
 cleos push action spotblock createuser '["user3", 25, ""]' -p spotblock@active
+cleos push action spotblock createuser '["user4", 25, ""]' -p spotblock@active
+cleos push action spotblock createuser '["user5", 25, ""]' -p spotblock@active
+cleos push action spotblock createuser '["usera", 25, ""]' -p spotblock@active
+
 cleos push action spotblock assignspot '["user1", "111"]' -p spotblock@active
 cleos push action spotblock assignspot '["user2", "112"]' -p spotblock@active
 #create test auctions
