@@ -113,6 +113,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 row.ID = accountID;
                 row.funds = initialFunds;
                 row.spot = spotID;
+		row.spotRentals = std::map<std::string, name>();
             });
         }
 
@@ -286,6 +287,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             name ID;
             name spot; // must match spot_struct::ID
             uint64_t funds;
+	    std::map<std::string, name> spotRentals;
 
             uint64_t primary_key () const {
                 return ID.value;
