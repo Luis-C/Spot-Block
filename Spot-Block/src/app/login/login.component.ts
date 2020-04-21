@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
     } else {
       this.notif.displayMessage("Couldn't find you in the blockchain!");
     }
-
+    // test call to get user funds
     console.log(await this.blockchain.getFunds());
   }
 }
