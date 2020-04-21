@@ -9,6 +9,36 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         using contract::contract;
 //FUCTIONALITY ACTIONS
 
+        /*
+        * This should remove rentees when their two hour slot has expired
+        * Pass in the current time minus 2
+        */
+        [[eosio::action]]
+        void expire(std::string time) {
+          //require authority of spotblock to run
+          require_auth(_self);
+
+          //loop through the spots
+          auto spot = spots_table.begin();
+          while (spot != spots_table.end()) {
+            //remove rentees with this time
+            spots_table.modify(spot, _self, [&](auto& row) {
+              row.rentees.erase(time);
+            });
+
+            //increment to next spot
+            spot++;
+          }
+          //remove spots form users
+          auto user = users_table.begin();
+          while (user != users_table.end()) {
+            users_table.modify(user, _self, [&](auto& row) {
+              row.spotRentals.erase(time);
+            });
+          }
+          user++;
+        }
+
         [[eosio::action]]
         void finish(uint64_t fMonth, uint64_t fDay, uint64_t fTime){    //As long as the back-end script feeds every proper 2 hour time, this works.
             require_auth(_self);
@@ -119,7 +149,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 row.ID = accountID;
                 row.funds = initialFunds;
                 row.spot = spotID;
-		row.spotRentals = std::map<std::string, name>();
+		            row.spotRentals = std::map<std::string, name>();
             });
         }
 
@@ -278,7 +308,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             name ID; // One letter for lot, two chars for spot identifier
             name owner; // must match user_struct::ID
             uint64_t lot;
-	        std::map<std::string, name> rentees;
+	          std::map<std::string, name> rentees;
 
             uint64_t primary_key() const {
                 return ID.value;
@@ -293,7 +323,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             name ID;
             name spot; // must match spot_struct::ID
             uint64_t funds;
-	    std::map<std::string, name> spotRentals;
+	          std::map<std::string, name> spotRentals;
 
             uint64_t primary_key () const {
                 return ID.value;
