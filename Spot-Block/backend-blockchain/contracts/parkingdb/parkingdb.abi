@@ -218,6 +218,10 @@
                 {
                     "name": "funds",
                     "type": "uint64"
+                },
+                {
+                    "name": "spotRentals",
+                    "type": "pair_string_name[]"
                 }
             ]
         }
