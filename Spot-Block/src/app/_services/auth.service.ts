@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
 import { Person } from "../_models/person";
+import { BlockchainService } from "./blockchain.service";
 
 @Injectable({
   providedIn: "root",
@@ -8,7 +9,6 @@ import { Person } from "../_models/person";
 export class AuthService {
   private currentUserSubject: BehaviorSubject<Person>;
   public currentUser: Observable<Person>;
-  // TODO: add to session Storage
   private currentKeySubject: BehaviorSubject<string>;
   public currentKey: Observable<string>;
 
@@ -35,26 +35,19 @@ export class AuthService {
 
   login(user: any) {
     return new Observable((subscriber) => {
-      if (this.isUser(user)) {
-        // valid login
-        // TODO: do something with this person?
-        const person: Person = { ID: user.id, funds: 20, spot: null };
+      // valid login
+      // TODO: do something with this person?
+      const person: Person = { ID: user.id, funds: 20, spot: null };
 
-        localStorage.setItem("currentUser", JSON.stringify(person));
-        this.currentUserSubject.next(person);
-        // set key
-        localStorage.setItem("currentKey", JSON.stringify(user.key));
-        this.currentKeySubject.next(user.key);
+      localStorage.setItem("currentUser", JSON.stringify(person));
+      this.currentUserSubject.next(person);
+      // set key
+      localStorage.setItem("currentKey", JSON.stringify(user.key));
+      this.currentKeySubject.next(user.key);
 
-        // notify login was successful
-        subscriber.next("Logged in!");
-      }
+      // notify login was successful
+      subscriber.next("Logged in!");
     });
-  }
-
-  private isUser(user): boolean {
-    return true;
-    // TODO: validate in the blockchain
   }
 
   logout() {

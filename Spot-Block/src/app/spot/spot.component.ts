@@ -42,7 +42,7 @@ export class SpotComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  isOwnedByUser() {
+  isOwnedByUser(): boolean {
     return this.auth.currentUserValue.ID === this.spot.owner;
   }
 
@@ -101,6 +101,9 @@ export class SpotComponent implements OnInit {
   }
 }
 
+/**
+ * Dialog Component to set a spot for Auction
+ */
 @Component({
   selector: "auction-dialog",
   templateUrl: "auction-dialog.html",
