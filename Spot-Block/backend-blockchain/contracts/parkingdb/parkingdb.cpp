@@ -22,13 +22,21 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
           auto spot = spots_table.begin();
           while (spot != spots_table.end()) {
             //remove rentees with this time
-            spots_table.modify(spot, _self, [&]( auto& row) {
+            spots_table.modify(spot, _self, [&](auto& row) {
               row.rentees.erase(time);
             });
 
             //increment to next spot
             spot++;
           }
+          //remove spots form users
+          auto user = users_table.begin();
+          while (user != users_table.end()) {
+            users_table.modify(user, _self, [&](auto& row) {
+              row.spotRentals.erase(time);
+            });
+          }
+          user++;
         }
 
         [[eosio::action]]
