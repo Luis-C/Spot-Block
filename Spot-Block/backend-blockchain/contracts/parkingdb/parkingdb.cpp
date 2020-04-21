@@ -20,17 +20,23 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                             auto spot = spots_table.find(auction->spot.value);
                             auto owner = users_table.find(spot->owner.value);
                             if(auction->highestBid != 0){
-                                users_table.modify( owner, _self, [&]( auto& row ) {
-                                    row.funds = owner->funds + auction->highestBid;
-                                });
                                 std::string str_day = std::to_string(auction->uDay);
                                 std::string str_month = std::to_string(auction->uMonth);
                                 std::string str_time = std::to_string(auction->uTime);
                                 std::string str_permis = str_month + "/" + str_day +"@" + str_time;
+                                users_table.modify( owner, _self, [&]( auto& row ) {
+                                    row.funds = owner->funds + auction->highestBid;
+                                });
                                 spots_table.modify( spot, _self, [&]( auto& row ) {
                                     const std::string tmp1 = str_permis;
                                     const name tmp2 = auction->currentBidder;
-                                row.rentees.insert(std::make_pair(tmp1, tmp2));
+                                    row.rentees.insert(std::make_pair(tmp1, tmp2));
+                                });
+                                auto customer = users_table.find(auction->currentBidder.value);
+                                users_table.modify( customer, _self, [&]( auto& row) {
+                                    const std::string tmp1 = str_permis;
+                                    const name tmp2 = auction->currentBidder;
+                                    row.spotRentals.insert(std::make_pair(tmp1, tmp2));
                                 });
                             }
                             auctions_table.erase(auction);
