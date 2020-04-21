@@ -51,4 +51,7 @@ what endpoints are being hit and how long requests are taking. It exposes these 
 The backend of our project consists of an api written in nodejs. This api is primarily used for the angular frontend to perform actions on the block-chain. However, the api contains endpoints for other actions on the block-chain that the frontend would not use so that we can test the block-chain. The functionality for the frontend reading information from the blockchain is contained entirely in the angular frontend as the blockchain service. We have an automated test suite for the api using postman. These tests can be imported from the json file in our project. The keys will need to be swapped out with the appropriate ones in order to sign the tests properly. There is an additional test in the container to check the values in the block-chain after the postman tests have run. 
 
 ---TODO: explain blockchain code
+
 ---TODO: explain frontend code
+
+Our front end was built using the Angular framework.
