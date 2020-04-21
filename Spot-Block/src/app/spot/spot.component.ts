@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from "@angular/core";
-import { Spot } from "../_models/spot";
+import { Spot, Lots } from "../_models/spot";
 import { BlockchainService } from "../_services/blockchain.service";
 import { AuthService } from "../_services/auth.service";
 import { NotificationsService } from "../_services/notifications.service";
@@ -53,6 +53,26 @@ export class SpotComponent implements OnInit {
         spotid: this.spot.ID,
       })
       .subscribe((result) => this.notif.displayMessage(result.response));
+  }
+
+  toLot(lot: Lots) {
+    switch (lot) {
+      case Lots.PERRY_ST: {
+        return "Perry St.";
+      }
+      case Lots.GOODWIN: {
+        return "Goodwin";
+      }
+      case Lots.DUCK_POND: {
+        return "Duck Pond";
+      }
+      case Lots.LANE_STADIUM: {
+        return "Lane Stadium";
+      }
+      default: {
+        return "Not a recognized lot";
+      }
+    }
   }
 
   private auction({ time, day, month }) {

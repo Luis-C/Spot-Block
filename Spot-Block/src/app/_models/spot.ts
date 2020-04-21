@@ -1,8 +1,10 @@
 import { Person } from "./person";
 
 export enum Lots {
-  LotA,
-  LotB,
+  PERRY_ST,
+  GOODWIN,
+  DUCK_POND,
+  LANE_STADIUM,
 }
 
 export interface Spot {

@@ -1,6 +1,7 @@
 <mat-card *ngIf="auction != undefined">
   <mat-card-header>
     <mat-card-title>Auction ID: {{ auction.ID }}</mat-card-title>
+    <mat-card-subtitle>Spot ID: {{ auction.spot }}</mat-card-subtitle>
     <mat-card-subtitle
       >Current bidder: {{ auction.currentBidder }}
     </mat-card-subtitle>
