@@ -81,7 +81,7 @@ export class BlockchainService {
         code: "spotblock",
         scope: "spotblock",
         table: "users",
-        limit: 50,
+        limit: 1000, // must be all users
       };
       let username = this.auth.currentUserValue.ID;
       if (username == undefined) throw new Error("No current user");
