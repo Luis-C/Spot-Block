@@ -48,22 +48,30 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  login() {
+  async login() {
     // Test that the blockchain is active:
     this.blockchain.test().subscribe((resp) => console.log(resp));
 
-    this.auth
-      .login(this.loginForm.value)
-      .pipe(first())
-      .subscribe(
-        (data: string) => {
-          this.router.navigate(["/home"]);
-          this.blockchain.updateKey();
-          this.notif.displayMessage(data);
-        },
-        (error) => {
-          this.notif.displayMessage("invalid");
-        }
-      );
+    let isUser = await this.blockchain.isUser(this.loginForm.value.id);
+
+    if (isUser) {
+      this.auth
+        .login(this.loginForm.value)
+        .pipe(first())
+        .subscribe(
+          (data: string) => {
+            this.router.navigate(["/home"]);
+            this.blockchain.updateKey();
+            this.notif.displayMessage(data);
+          },
+          (error) => {
+            this.notif.displayMessage("invalid");
+          }
+        );
+    } else {
+      this.notif.displayMessage("Couldn't find you in the blockchain!");
+    }
+    // test call to get user funds
+    console.log(await this.blockchain.getFunds());
   }
 }

@@ -32,6 +32,9 @@ export class BlockchainService {
     // console.log(this.USERKEY); // for debugging only
   }
 
+  /**
+   * Test call to see if the blockchain is responsive
+   */
   test() {
     return this.http.get(`${this.PATH}test`);
   }
@@ -70,6 +73,50 @@ export class BlockchainService {
     });
   }
 
+  async getFunds() {
+    let arr;
+    try {
+      let query: BlockchainQuery = {
+        json: true,
+        code: "spotblock",
+        scope: "spotblock",
+        table: "users",
+        limit: 1000, // must be all users
+      };
+      let username = this.auth.currentUserValue.ID;
+      if (username == undefined) throw new Error("No current user");
+      let resp = await rpc.get_table_rows(query);
+      arr = resp.rows.filter((user) => user.ID == username);
+      return arr[0].funds;
+    } catch (e) {
+      arr = undefined;
+    }
+    return arr;
+  }
+
+  async isUser(username: string) {
+    try {
+      let query: BlockchainQuery = {
+        json: true,
+        code: "spotblock",
+        scope: "spotblock",
+        table: "users",
+        limit: 1000, // must be all users
+      };
+
+      let resp = await rpc.get_table_rows(query);
+      let arr = resp.rows.filter((user) => user.ID == username);
+
+      if (arr[0]) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
+  }
+
   /*
    * Function to read from a table in the block chain.
    * @param table is the name of the table you want to access. A valid name must
@@ -103,11 +150,8 @@ export class BlockchainService {
 
     let x;
 
-    console.log(query);
-
     try {
       const resp = await rpc.get_table_rows(query);
-      console.log(resp.rows);
       x = resp.rows;
     } catch (e) {
       x = null;
