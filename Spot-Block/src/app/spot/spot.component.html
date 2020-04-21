@@ -1,0 +1,33 @@
+<mat-card *ngIf="spot != undefined">
+  <mat-card-header>
+    <mat-card-title>ID: {{ spot.ID }}</mat-card-title>
+    <mat-card-subtitle>Owner: {{ spot.owner }} </mat-card-subtitle>
+    <mat-card-subtitle>Lot: {{ toLot(spot.lot) }}</mat-card-subtitle>
+  </mat-card-header>
+
+  <!-- <mat-card-content>
+    {{ spot.coord }}
+  </mat-card-content> -->
+
+  <mat-card-actions>
+    <button mat-button *ngIf="!spot.owner" (click)="buy()">
+      <mat-icon>attach_money</mat-icon>BUY
+    </button>
+
+    <!-- <button mat-button *ngIf="spot.owner && !isOwnedByUser()">
+      <mat-icon>monetization_on</mat-icon>BID
+    </button> -->
+
+    <button mat-button *ngIf="isOwnedByUser()" (click)="openDialog()">
+      AUCTION
+    </button>
+
+    <a
+      mat-icon-button
+      href="https://goo.gl/maps/K3PR5Wf6rpcnvhweA"
+      target="_blank"
+    >
+      <mat-icon>location_on</mat-icon>
+    </a>
+  </mat-card-actions>
+</mat-card>
