@@ -8,13 +8,14 @@ import { AuthService } from "./auth.service";
 declare function require(name: string);
 const fetch = require("node-fetch");
 
-const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
+const rpc = new JsonRpc("http://localhost:8888", { fetch });
+// const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 
 @Injectable({
   providedIn: "root",
 })
 export class BlockchainService {
-  private PATH = "http://127.0.0.1:9090/";
+  private PATH = "http://localhost:9090/";
   private APIKEY = "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy"; // remove
   private USERKEY = "";
 
@@ -101,6 +102,8 @@ export class BlockchainService {
     if (secondary_key) query.table_key = secondary_key;
 
     let x;
+
+    console.log(query);
 
     try {
       const resp = await rpc.get_table_rows(query);

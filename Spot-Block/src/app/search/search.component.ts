@@ -38,14 +38,19 @@ export class SearchComponent implements OnInit {
 
   async search() {
     this.notif.notImplemented();
-    // TODO: send query to blockchain & emit the results
+    // Send query to blockchain & emit the results
     let result: any[] = await this.blockchain.query_table(
-      this.searchForm.value.table,
+      this.table,
       this.searchForm.value.limit,
       this.searchForm.value.secondary_key
     );
 
-    this.notif.displayMessage(`Returned ${result.length} results!`);
+    if (result == null) {
+      this.notif.displayMessage(`No results returned.`);
+    } else {
+      this.notif.displayMessage(`Returned ${result.length} results!`);
+    }
+
     this.searchResult.next(result);
   }
 }
