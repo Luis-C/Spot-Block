@@ -1,0 +1,12 @@
+<div class="spot-list__container">
+  <div class="spot-list__search">
+    <app-search
+      table="spots"
+      (searchResult)="resultHandler($event)"
+    ></app-search>
+  </div>
+
+  <div class="spot-list__results">
+    <app-spot *ngFor="let spot of spotsArr" [spot]="spot"></app-spot>
+  </div>
+</div>

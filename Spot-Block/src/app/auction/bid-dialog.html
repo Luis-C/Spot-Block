@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Bid Amount</h1>
+<div mat-dialog-content>
+  <mat-form-field autocomplete="off" color="accent">
+    <mat-label>Number</mat-label>
+    <input matInput type="number" [(ngModel)]="data.amount" />
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+    Ok
+  </button>
+</div>
