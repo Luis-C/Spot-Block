@@ -14,7 +14,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         * Pass in the current time minus 2
         */
         [[eosio::action]]
-        void expire(std::string time) {
+        void expire_spot(std::string time) {
           //require authority of spotblock to run
           require_auth(_self);
 
@@ -29,6 +29,16 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
             //increment to next spot
             spot++;
           }
+        }
+
+        /*
+        * This should remove rental spots from users when their two hour slot has expired
+        * Pass in the current time minus 2
+        */
+        [[eosio::action]]
+        void expire_rental(std::string time) {
+          //require authority of spotblock to run
+          require_auth(_self);
           //remove spots form users
           auto user = users_table.begin();
           while (user != users_table.end()) {
