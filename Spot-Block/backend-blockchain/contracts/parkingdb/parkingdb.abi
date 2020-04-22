@@ -140,7 +140,17 @@
             ]
         },
         {
-            "name": "expire",
+            "name": "exprental",
+            "base": "",
+            "fields": [
+                {
+                    "name": "time",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "expspot",
             "base": "",
             "fields": [
                 {
@@ -263,8 +273,13 @@
             "ricardian_contract": ""
         },
         {
-            "name": "expire",
-            "type": "expire",
+            "name": "exprental",
+            "type": "exprental",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "expspot",
+            "type": "expspot",
             "ricardian_contract": ""
         },
         {

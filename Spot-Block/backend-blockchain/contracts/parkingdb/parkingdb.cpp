@@ -14,7 +14,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         * Pass in the current time minus 2
         */
         [[eosio::action]]
-        void expire_spot(std::string time) {
+        void expspot(std::string time) {
           //require authority of spotblock to run
           require_auth(_self);
 
@@ -36,7 +36,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
         * Pass in the current time minus 2
         */
         [[eosio::action]]
-        void expire_rental(std::string time) {
+        void exprental(std::string time) {
           //require authority of spotblock to run
           require_auth(_self);
           //remove spots form users
