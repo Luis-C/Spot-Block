@@ -92,7 +92,31 @@ appropriate ones in order to sign the tests properly. There is an additional
 test in the container to check the values in the block-chain after the postman
 tests have run.
 
---- TODO: explain blockchain code
+Blockchain:
+
+The blockchain is encoded in the parkingdb contract. This contract has tables
+of user_structs, spot_structs, and auction_structs. These three data structures
+represent the users of the application, the spots on campus, and spots that are
+currently up for bidding for rental. The actions createspot and createuser are
+used to create new users or spots in the blockchain and can only be executed
+using the blockhain's key (So by an administrator). Similarly, assignspot is
+used to assign a spot to a user and can only be done using the blockchain's key.
+Removespot can be used with the blockchain's key to remove a spot from the
+blockchain.
+
+Users can call createauc to put their spot up for bidding. The time, day, and month
+at which the spot would be used by the rentee is entered. Users can then call bid
+to place a bid on an available auction. If the bid is the new highest bid on the
+auction, tokens are subtracted from the user and placed on the auction. Whenever
+an old bid is overruled, tokens on the auction are returned to the previous bidder.
+
+The finish auction is called with a month, date, and time to finish all auctions 
+that should finish as such time, an can only be done using the blockchain key. 
+A script on the back-end executes this action every two hours. The highestbidder
+is granted an entry in their rented spots map which shows the spot they rented 
+and the date/time at which the spot is rented for. The tokens on the auction 
+are then granted to the user who put the spot up for auction. Finally, the 
+expire action is called periodically to clear users' rent maps of old spots.
 
 --- TODO: explain frontend code
 

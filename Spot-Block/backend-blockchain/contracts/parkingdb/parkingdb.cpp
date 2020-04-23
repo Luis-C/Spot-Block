@@ -3,7 +3,7 @@
 //#include "spot.cpp"
 
 using namespace eosio;
-//TODO: Switch the if else to eosio.assert
+
 class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
     public:
         using contract::contract;
