@@ -1,22 +1,38 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Funds: {{ funds }}</mat-card-title>
+  </mat-card-header>
+</mat-card>
+
 <div *ngFor="let spot of spots">
-  <mat-card *ngIf="spot.ID == currentUser">
+  <mat-card *ngIf="spot.owner == currentUser">
     <mat-card-header>
       <mat-card-title>Owned Spot</mat-card-title>
+      <mat-card-subtitle>Spot: {{ spot.ID }}</mat-card-subtitle>
+      <mat-card-subtitle>Lot: {{ toLot(spot.lot) }}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
-      <div>ID: {{ spot.ID }}</div>
-      <div>Lot: {{ spot.lot }}</div>
-    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button (click)="openDialog(spot.ID)">
+        <mat-icon>storefront</mat-icon>
+        AUCTION
+      </button>
+      <a mat-icon-button href="https://goo.gl/maps/K3PR5Wf6rpcnvhweA" target="_blank">
+        <mat-icon>location_on</mat-icon>
+      </a>
+    </mat-card-actions>
   </mat-card>
 
   <mat-card *ngIf="spot.rentees.includes(currentUser)">
     <mat-card-header>
       <mat-card-title>Rented Spot</mat-card-title>
+      <mat-card-subtitle>Spot: {{ spot.ID }}</mat-card-subtitle>
+      <mat-card-subtitle>Lot: {{ toLot(spot.lot) }}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
-      <div>ID: {{ spot.ID }}</div>
-      <div>Lot: {{ spot.lot }}</div>
-    </mat-card-content>
+    <mat-card-actions>
+      <a mat-icon-button href="https://goo.gl/maps/K3PR5Wf6rpcnvhweA" target="_blank">
+        <mat-icon>location_on</mat-icon>
+      </a>
+    </mat-card-actions>
   </mat-card>
 </div>
 
@@ -24,12 +40,16 @@
   <mat-card *ngIf="auction.currentBidder == currentUser">
     <mat-card-header>
       <mat-card-title>Active Bid</mat-card-title>
+      <mat-card-subtitle>Spot: {{ auction.spot }}</mat-card-subtitle>
+      <mat-card-subtitle>Lot: {{ aucLot(auction.spot) }}</mat-card-subtitle>
+      <mat-card-subtitle>Your Bid: {{ auction.highestBid }}</mat-card-subtitle>
+      <mat-card-subtitle>Time: {{ auction.uTime > 12 ? auction.uTime-12+':00 PM' : auction.uTime+':00 AM' }}</mat-card-subtitle>
+      <mat-card-subtitle>Date: {{ auction.uMonth + '/' + auction.uDay }}</mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content>
-      <div>Spot: {{ auction.spot }}</div>
-      <div>uTime: {{ auction.uTime }}</div>
-      <div>uDay: {{ auction.uDay }}</div>
-      <div>uMonth: {{ auction.uMonth }}</div>
-    </mat-card-content>
+    <mat-card-actions>
+      <a mat-icon-button href="https://goo.gl/maps/K3PR5Wf6rpcnvhweA" target="_blank">
+        <mat-icon>location_on</mat-icon>
+      </a>
+    </mat-card-actions>
   </mat-card>
 </div>

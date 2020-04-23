@@ -13,9 +13,8 @@ export class AppComponent {
   title = "Spot-Block";
   currentUser: Person;
   homeDisabled: boolean;
-  purchaseDisabled: boolean;
-  bidDisabled: boolean;
-  sellDisabled: boolean;
+  auctionsDisabled: boolean;
+  searchDisabled: boolean;
 
   constructor(
     private router: Router,
@@ -32,39 +31,28 @@ export class AppComponent {
 
   home() {
     this.homeDisabled = true;
-    this.purchaseDisabled = false;
-    this.bidDisabled = false;
-    this.sellDisabled = false;
+    this.auctionsDisabled = false;
+    this.searchDisabled = false;
   }
 
-  purchase() {
+  auctions() {
     this.homeDisabled = false;
-    this.purchaseDisabled = true;
-    this.bidDisabled = false;
-    this.sellDisabled = false;
+    this.auctionsDisabled = true;
+    this.searchDisabled = false;
   }
 
-  bid() {
+  search() {
     this.homeDisabled = false;
-    this.purchaseDisabled = false;
-    this.bidDisabled = true;
-    this.sellDisabled = false;
+    this.auctionsDisabled = false;
+    this.searchDisabled = true;
   }
 
-  // sell() {
-  //   this.homeDisabled = false;
-  //   this.purchaseDisabled = false;
-  //   this.bidDisabled = false;
-  //   this.sellDisabled = true;
-  // }
 
   logout() {
     this.homeDisabled = true;
-    this.purchaseDisabled = false;
-    this.bidDisabled = false;
-    this.sellDisabled = false;
+    this.auctionsDisabled = false;
+    this.searchDisabled = false;
     this.auth.logout();
     this.router.navigate(["/login"]);
-    // this.notif.notImplemented();
   }
 }

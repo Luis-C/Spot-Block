@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import {NotificationsService} from "../_services/notifications.service";
 
 @Component({
   selector: "app-spot-list",
@@ -7,12 +8,20 @@ import { Component, OnInit } from "@angular/core";
 })
 export class SpotListComponent implements OnInit {
   spotsArr;
+  lot: number;
 
-  constructor() {}
+  constructor(private notif: NotificationsService) {}
 
   ngOnInit(): void {}
 
+  lotHandler(selected) {
+    this.lot = selected;
+  }
+
   resultHandler(result) {
-    this.spotsArr = result;
+    if (result) {
+      this.spotsArr = result.filter(s => s.lot == this.lot);
+      this.notif.displayMessage(`Returned ${this.spotsArr.length} results!`);
+    }
   }
 }

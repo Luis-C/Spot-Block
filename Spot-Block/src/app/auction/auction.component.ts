@@ -7,6 +7,8 @@ import {
   MAT_DIALOG_DATA,
   MatDialog,
 } from "@angular/material/dialog";
+import {Lots, Spot} from "../_models/spot";
+import {AuthService} from "../_services/auth.service";
 
 export interface DialogData {
   amount: string;
@@ -19,15 +21,34 @@ export interface DialogData {
 })
 export class AuctionComponent implements OnInit {
   @Input() auction: Auction;
+  @Input() lot: number;
   private amount: number;
+  spots: Spot[];
 
   constructor(
     private blockchain: BlockchainService,
     private notif: NotificationsService,
+    private auth: AuthService,
     public dialog: MatDialog
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.load().then((r) => console.log(r));
+  }
+
+  async load() {
+    this.spots = await this.blockchain.query_table('spots', 1000, undefined);
+  }
+
+  owned(id: string): boolean {
+    if (this.spots) {
+      const spot = this.spots.find(s => s.ID === id);
+      if (spot) {
+        return spot.owner === this.auth.currentUserValue.ID;
+      }
+    }
+    return false;
+  }
 
   bid(data: DialogData) {
     this.blockchain
@@ -45,11 +66,38 @@ export class AuctionComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log("The dialog was closed");
       if (result) {
         this.bid(result);
       }
     });
+  }
+
+  toLot(spot: string) {
+    let found;
+    if (this.spots) {
+      found = this.spots.find(s => s.ID === spot);
+    }
+    let lot;
+    if (found) {
+      lot = found.lot;
+    }
+    switch (lot) {
+      case Lots.PERRY_ST: {
+        return "Perry St.";
+      }
+      case Lots.GOODWIN: {
+        return "Goodwin";
+      }
+      case Lots.DUCK_POND: {
+        return "Duck Pond";
+      }
+      case Lots.LANE_STADIUM: {
+        return "Lane Stadium";
+      }
+      default: {
+        return "Not a recognized lot";
+      }
+    }
   }
 }
 
