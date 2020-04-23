@@ -1,10 +1,14 @@
-import {Component, Inject, OnInit} from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 import { BlockchainService } from "../_services/blockchain.service";
-import {Lots, Spot} from "../_models/spot";
+import { Lots, Spot } from "../_models/spot";
 import { AuthService } from "../_services/auth.service";
 import { Auction } from "../_models/auction";
-import {NotificationsService} from "../_services/notifications.service";
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from "@angular/material/dialog";
+import { NotificationsService } from "../_services/notifications.service";
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogRef,
+} from "@angular/material/dialog";
 
 export interface DialogData {
   time: string;
@@ -34,12 +38,18 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUser = this.auth.currentUserValue.ID;
+    console.log(this.currentUser);
+
     this.load().then((r) => console.log(r));
   }
 
   async load() {
     this.spots = await this.blockchain.query_table("spots", 1000, undefined);
-    this.auctions = await this.blockchain.query_table("auctions", 1000, undefined);
+    this.auctions = await this.blockchain.query_table(
+      "auctions",
+      1000,
+      undefined
+    );
     this.funds = await this.blockchain.getFunds();
   }
 
@@ -64,7 +74,7 @@ export class HomeComponent implements OnInit {
   }
 
   aucLot(spot: string) {
-    const found = this.spots.find(s => s.ID === spot);
+    const found = this.spots.find((s) => s.ID === spot);
     if (found) {
       return this.toLot(found.lot);
     }
@@ -76,7 +86,7 @@ export class HomeComponent implements OnInit {
         spotid: this.aucSpotID,
         time: time,
         day: date.getDate(),
-        month: (date.getMonth() + 1)
+        month: date.getMonth() + 1,
       })
       .subscribe((result) => this.notif.displayMessage(result.response));
   }
@@ -115,4 +125,3 @@ export class auctionDialog {
     this.dialogRef.close();
   }
 }
-

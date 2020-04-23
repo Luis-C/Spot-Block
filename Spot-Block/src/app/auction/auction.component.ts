@@ -50,6 +50,10 @@ export class AuctionComponent implements OnInit {
     return false;
   }
 
+  userIsBidding(): boolean {
+    return this.auction.currentBidder === this.auth.currentUserValue.ID;
+  }
+
   bid(data: DialogData) {
     this.blockchain
       .bid({
