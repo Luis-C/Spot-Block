@@ -4,7 +4,6 @@ import { BlockchainService } from "../_services/blockchain.service";
 import { AuthService } from "../_services/auth.service";
 import { NotificationsService } from "../_services/notifications.service";
 
-
 /**
  * Reusable component to display a Spot
  *
@@ -55,6 +54,27 @@ export class SpotComponent implements OnInit {
       }
       default: {
         return "Not a recognized lot";
+      }
+    }
+  }
+
+  getLotUrl(lot: Lots) {
+    switch (lot) {
+      case Lots.PERRY_ST: {
+        return "https://goo.gl/maps/zxtJ7QT4aVv8x3wc6";
+      }
+      case Lots.GOODWIN: {
+        return "https://goo.gl/maps/MC4qrcHVL92LhL2n6";
+      }
+      case Lots.DUCK_POND: {
+        return "https://goo.gl/maps/XKRaKz78mNraBkZe9";
+      }
+      case Lots.LANE_STADIUM: {
+        return "https://goo.gl/maps/LwNbTBfn8BtBexz66";
+      }
+      default: {
+        // Virginia tech on Google Maps
+        return "https://goo.gl/maps/K3PR5Wf6rpcnvhweA";
       }
     }
   }

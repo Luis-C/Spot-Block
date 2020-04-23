@@ -7,8 +7,8 @@ import {
   MAT_DIALOG_DATA,
   MatDialog,
 } from "@angular/material/dialog";
-import {Lots, Spot} from "../_models/spot";
-import {AuthService} from "../_services/auth.service";
+import { Lots, Spot } from "../_models/spot";
+import { AuthService } from "../_services/auth.service";
 
 export interface DialogData {
   amount: string;
@@ -37,12 +37,12 @@ export class AuctionComponent implements OnInit {
   }
 
   async load() {
-    this.spots = await this.blockchain.query_table('spots', 1000, undefined);
+    this.spots = await this.blockchain.query_table("spots", 1000, undefined);
   }
 
   owned(id: string): boolean {
     if (this.spots) {
-      const spot = this.spots.find(s => s.ID === id);
+      const spot = this.spots.find((s) => s.ID === id);
       if (spot) {
         return spot.owner === this.auth.currentUserValue.ID;
       }
@@ -72,10 +72,44 @@ export class AuctionComponent implements OnInit {
     });
   }
 
+  /**
+   * FIXME: Going to default
+   * @param spot
+   */
+  getLotUrl(spot: string) {
+    let found;
+    if (this.spots) {
+      found = this.spots.find((s) => s.ID === spot);
+      console.log(found);
+    }
+    let lot;
+    if (found) {
+      lot = found.lot;
+    }
+    switch (lot) {
+      case Lots.PERRY_ST: {
+        return "https://goo.gl/maps/zxtJ7QT4aVv8x3wc6";
+      }
+      case Lots.GOODWIN: {
+        return "https://goo.gl/maps/MC4qrcHVL92LhL2n6";
+      }
+      case Lots.DUCK_POND: {
+        return "https://goo.gl/maps/XKRaKz78mNraBkZe9";
+      }
+      case Lots.LANE_STADIUM: {
+        return "https://goo.gl/maps/LwNbTBfn8BtBexz66";
+      }
+      default: {
+        // Virginia tech on Google Maps
+        return "https://goo.gl/maps/K3PR5Wf6rpcnvhweA";
+      }
+    }
+  }
+
   toLot(spot: string) {
     let found;
     if (this.spots) {
-      found = this.spots.find(s => s.ID === spot);
+      found = this.spots.find((s) => s.ID === spot);
     }
     let lot;
     if (found) {
