@@ -80,7 +80,6 @@ export class AuctionComponent implements OnInit {
     let found;
     if (this.spots) {
       found = this.spots.find((s) => s.ID === spot);
-      console.log(found);
     }
     let lot;
     if (found) {
