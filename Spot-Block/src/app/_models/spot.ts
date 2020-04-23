@@ -1,5 +1,3 @@
-import { Person } from "./person";
-
 export enum Lots {
   PERRY_ST,
   GOODWIN,
