@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
     if (this.spots) {
       found = this.spots.find((s) => s.ID === spot);
     }
-    return this.toLot(found);
+    return this.toLot(found.lot);
   }
 
   rentedSpots(rentees: any[]) {
