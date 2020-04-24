@@ -92,8 +92,6 @@ appropriate ones in order to sign the tests properly. There is an additional
 test in the container to check the values in the block-chain after the postman
 tests have run.
 
-Blockchain:
-
 The blockchain is encoded in the parkingdb contract. This contract has tables
 of user_structs, spot_structs, and auction_structs. These three data structures
 represent the users of the application, the spots on campus, and spots that are
@@ -117,8 +115,6 @@ is granted an entry in their rented spots map which shows the spot they rented
 and the date/time at which the spot is rented for. The tokens on the auction 
 are then granted to the user who put the spot up for auction. Finally, the 
 expire action is called periodically to clear users' rent maps of old spots.
-
---- TODO: explain frontend code
 
 Our front end was built using the Angular framework in conjunction with the
 Material design component library. Following common strategies such as the Model
