@@ -66,7 +66,7 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                                 auto customer = users_table.find(auction->currentBidder.value);
                                 users_table.modify( customer, _self, [&]( auto& row) {
                                     const std::string tmp1 = str_permis;
-                                    const name tmp2 = spot;
+                                    const name tmp2 = spot->ID;
                                     row.spotRentals.insert(std::make_pair(tmp1, tmp2));
                                 });
                             }
