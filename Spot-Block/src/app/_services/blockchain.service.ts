@@ -116,18 +116,10 @@ export class BlockchainService {
   }
 
   async isUser(username: string) {
+    let resp = await this.query_table("users", 1000);
+    let arr = resp.filter((user) => user.ID == username);
+
     try {
-      let query: BlockchainQuery = {
-        json: true,
-        code: "spotblock",
-        scope: "spotblock",
-        table: "users",
-        limit: 1000, // must be all users
-      };
-
-      let resp = await rpc.get_table_rows(query);
-      let arr = resp.rows.filter((user) => user.ID == username);
-
       if (arr[0]) {
         return true;
       } else {
