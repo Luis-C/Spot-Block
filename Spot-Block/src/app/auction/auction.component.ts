@@ -136,6 +136,18 @@ export class AuctionComponent implements OnInit {
       }
     }
   }
+
+  displayTime(t: number): string {
+    if (t === 0) {
+      return '12:00 AM';
+    } else if (t < 12) {
+      return t + ':00 AM';
+    } else if (t === 12) {
+      return t + ':00 PM';
+    } else {
+      return (t - 12) + ':00 PM';
+    }
+  }
 }
 
 @Component({

@@ -23,11 +23,7 @@
 
     <mat-card-subtitle>
       Time:
-      {{
-        auction.uTime > 12
-          ? auction.uTime - 12 + ":00 PM"
-          : auction.uTime + ":00 AM"
-      }}
+      {{ displayTime(auction.uTime) + "-" + displayTime(auction.uTime + 2) }}
     </mat-card-subtitle>
     <mat-card-subtitle>
       Date: {{ auction.uMonth + "/" + auction.uDay }}
