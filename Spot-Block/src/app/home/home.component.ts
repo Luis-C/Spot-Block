@@ -75,6 +75,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  searchLot(spot: string) {
+    let found;
+    if (this.spots) {
+      found = this.spots.find((s) => s.ID === spot);
+    }
+    return this.toLot(found);
+  }
+
   rentedSpots(rentees: any[]) {
     return rentees.filter((e) => e.value === this.currentUser);
   }
