@@ -73,10 +73,24 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  aucLot(spot: string) {
-    const found = this.spots.find((s) => s.ID === spot);
-    if (found) {
-      return this.toLot(found.lot);
+  rentedSpots(rentees: any[]) {
+    return rentees.filter(e => e.value === this.currentUser);
+  }
+
+  displayRented(s: string, n: number) {
+    return s.split('@')[n];
+  }
+
+  displayTime(n: string, i: number): string {
+    const t: number = +n + i;
+    if (t === 0) {
+      return '12:00 AM';
+    } else if (t < 12) {
+      return t + ':00 AM';
+    } else if (t === 12) {
+      return t + ':00 PM';
+    } else {
+      return (t - 12) + ':00 PM';
     }
   }
 
