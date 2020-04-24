@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit {
   time: string;
   date: Date;
   aucSpotID: string;
+  spotRentals: any[];
 
   constructor(
     private auth: AuthService,
@@ -51,6 +52,7 @@ export class HomeComponent implements OnInit {
       undefined
     );
     this.funds = await this.blockchain.getFunds();
+    this.spotRentals = await this.blockchain.getSpotRentals();
   }
 
   toLot(lot: Lots) {
@@ -74,23 +76,23 @@ export class HomeComponent implements OnInit {
   }
 
   rentedSpots(rentees: any[]) {
-    return rentees.filter(e => e.value === this.currentUser);
+    return rentees.filter((e) => e.value === this.currentUser);
   }
 
   displayRented(s: string, n: number) {
-    return s.split('@')[n];
+    return s.split("@")[n];
   }
 
   displayTime(n: string, i: number): string {
     const t: number = +n + i;
     if (t === 0) {
-      return '12:00 AM';
+      return "12:00 AM";
     } else if (t < 12) {
-      return t + ':00 AM';
+      return t + ":00 AM";
     } else if (t === 12) {
-      return t + ':00 PM';
+      return t + ":00 PM";
     } else {
-      return (t - 12) + ':00 PM';
+      return t - 12 + ":00 PM";
     }
   }
 
