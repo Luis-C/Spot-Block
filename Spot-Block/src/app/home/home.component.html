@@ -26,11 +26,13 @@
     </mat-card-actions>
   </mat-card>
 
-  <mat-card *ngIf="spot.rentees.includes(currentUser)">
+  <mat-card *ngFor="let rent of rentedSpots(spot.rentees)">
     <mat-card-header>
       <mat-card-title>Rented Spot</mat-card-title>
       <mat-card-subtitle>Spot: {{ spot.ID }}</mat-card-subtitle>
       <mat-card-subtitle>Lot: {{ toLot(spot.lot) }}</mat-card-subtitle>
+      <mat-card-subtitle>Time: {{ displayTime(displayRented(rent.key,1),0) + '-' + displayTime(displayRented(rent.key, 1), 2) }}</mat-card-subtitle>
+      <mat-card-subtitle>Date: {{ displayRented(rent.key,0) }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions>
       <a
