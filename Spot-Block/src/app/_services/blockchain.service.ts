@@ -74,24 +74,15 @@ export class BlockchainService {
   }
 
   async getFunds() {
-    let arr;
     try {
-      let query: BlockchainQuery = {
-        json: true,
-        code: "spotblock",
-        scope: "spotblock",
-        table: "users",
-        limit: 1000, // must be all users
-      };
       let username = this.auth.currentUserValue.ID;
       if (username == undefined) throw new Error("No current user");
-      let resp = await rpc.get_table_rows(query);
-      arr = resp.rows.filter((user) => user.ID == username);
+      let resp = await this.query_table("users", 1000);
+      let arr = resp.filter((user) => user.ID == username);
       return arr[0].funds;
     } catch (e) {
-      arr = undefined;
+      return undefined;
     }
-    return arr;
   }
 
   async getSpotRentals() {
