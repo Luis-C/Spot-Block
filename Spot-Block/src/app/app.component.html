@@ -12,28 +12,21 @@
   </button>
   <button
     mat-button
-    [disabled]="purchaseDisabled"
-    (click)="purchase()"
+    [disabled]="auctionsDisabled"
+    (click)="auctions()"
     routerLink="/purchase"
   >
-    Purchase
+    Auctions
   </button>
   <button
     mat-button
-    [disabled]="bidDisabled"
-    (click)="bid()"
+    [disabled]="searchDisabled"
+    (click)="search()"
     routerLink="/search"
   >
-    Search
+    Spots
   </button>
-  <!--  <button-->
-  <!--    mat-button-->
-  <!--    [disabled]="sellDisabled"-->
-  <!--    (click)="sell()"-->
-  <!--    routerLink="/sell"-->
-  <!--  >-->
-  <!--    Sell-->
-  <!--  </button>-->
+
   <button mat-button class="pull-right" (click)="logout()">Logout</button>
 </mat-toolbar>
 

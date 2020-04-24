@@ -2,6 +2,9 @@
   <div class="list__search">
     <app-search
       table="auctions"
+      (searchLot)="lotHandler($event)"
+      (searchTime)="timeHandler($event)"
+      (searchDate)="dateHandler($event)"
       (searchResult)="resultHandler($event)"
     ></app-search>
   </div>

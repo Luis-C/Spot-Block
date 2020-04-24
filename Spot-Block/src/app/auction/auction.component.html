@@ -1,14 +1,33 @@
 <mat-card *ngIf="auction != undefined">
   <mat-card-header>
-    <mat-card-title>Auction ID: {{ auction.ID }}</mat-card-title>
-    <mat-card-subtitle>Spot ID: {{ auction.spot }}</mat-card-subtitle>
-    <mat-card-subtitle
-      >Current bidder: {{ auction.currentBidder }}
+    <mat-card-title *ngIf="userIsBidding()"> Active Bid</mat-card-title>
+    <mat-card-subtitle *ngIf="userIsBidding()">
+      Spot: {{ auction.spot }}
     </mat-card-subtitle>
-    <mat-card-subtitle>High Bid: {{ auction.highestBid }}</mat-card-subtitle>
-    <mat-card-subtitle>uTime: {{ auction.uTime }}</mat-card-subtitle>
-    <mat-card-subtitle>uDay: {{ auction.uDay }}</mat-card-subtitle>
-    <mat-card-subtitle>uMonth: {{ auction.uMonth }}</mat-card-subtitle>
+    <mat-card-title *ngIf="!userIsBidding()">
+      Spot: {{ auction.spot }}
+    </mat-card-title>
+    <mat-card-subtitle>Lot: {{ toLot(auction.spot) }}</mat-card-subtitle>
+    <mat-card-subtitle>
+      Current bidder:
+      {{ auction.currentBidder ? auction.currentBidder : "None" }}
+    </mat-card-subtitle>
+    <!-- if user has a bid let them know -->
+    <mat-card-subtitle *ngIf="!userIsBidding()">
+      Highest Bid:
+      {{ auction.highestBid }}</mat-card-subtitle
+    >
+    <mat-card-subtitle *ngIf="userIsBidding()"
+      >Your Bid: {{ auction.highestBid }}</mat-card-subtitle
+    >
+
+    <mat-card-subtitle>
+      Time:
+      {{ displayTime(auction.uTime) + "-" + displayTime(auction.uTime + 2) }}
+    </mat-card-subtitle>
+    <mat-card-subtitle>
+      Date: {{ auction.uMonth + "/" + auction.uDay }}
+    </mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-actions>
@@ -16,11 +35,11 @@
       <mat-icon>attach_money</mat-icon>BUY
     </!-->
 
-    <button mat-button (click)="openDialog()">
+    <button mat-button *ngIf="!owned(auction.spot)" (click)="openDialog()">
       <mat-icon>attach_money</mat-icon>BID
     </button>
 
-    <a mat-icon-button href="https://www.google.com/maps" target="_blank">
+    <a mat-icon-button [href]="getLotUrl(auction.spot)" target="_blank">
       <mat-icon>location_on</mat-icon>
     </a>
   </mat-card-actions>

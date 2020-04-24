@@ -1,26 +1,47 @@
 <form autocomplete="off" [formGroup]="searchForm">
   <mat-card class="search-card">
     <!-- 1 -->
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>Table</mat-label>
-      <input matInput formControlName="table" />
-    </mat-form-field>
+<!--    <mat-form-field appearance="outline" color="accent">-->
+<!--      <mat-label>Table</mat-label>-->
+<!--      <input matInput formControlName="table" />-->
+<!--    </mat-form-field>-->
     <!-- 2 -->
-    <mat-form-field appearance="outline" color="accent">
-      <mat-label>limit</mat-label>
-      <input matInput formControlName="limit" type="number" />
-    </mat-form-field>
+<!--    <mat-form-field appearance="outline" color="accent">-->
+<!--      <mat-label>limit</mat-label>-->
+<!--      <input matInput formControlName="limit" type="number" />-->
+<!--    </mat-form-field>-->
     <!-- 3 -->
     <!-- <mat-form-field appearance="outline" color="accent">
       <mat-label>Secondary Key</mat-label>
       <input matInput formControlName="secondary_key" />
     </mat-form-field> -->
-    <!-- <mat-form-field>
-      <mat-label>Pick a Date:</mat-label>
-      <input matInput [matDatepicker]="picker2" formControlName="val3" />
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field> -->
+    <mat-form-field appearance="outline" color="accent" *ngIf="page === '/purchase'">
+      <mat-label>Select a time</mat-label>
+      <mat-select formControlName="time" [(value)]="time">
+        <mat-option value="6">6 AM-8 AM</mat-option>
+        <mat-option value="8">8 AM-10 AM</mat-option>
+        <mat-option value="10">10 AM-12 PM</mat-option>
+        <mat-option value="12">12 PM-2 PM</mat-option>
+        <mat-option value="14">2 PM-4 PM</mat-option>
+        <mat-option value="16">4 PM-6 PM</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" color="accent" *ngIf="page === '/purchase'">
+      <mat-label>Choose a date</mat-label>
+      <input matInput formControlName="date" [min]="today" [matDatepicker]="picker" (click)="picker.open()" [(ngModel)]="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" color="accent">
+      <mat-label>Select a lot</mat-label>
+      <mat-select formControlName="lot" [(value)]="selected">
+        <mat-option value="0">Perry St.</mat-option>
+        <mat-option value="1">Goodwin</mat-option>
+        <mat-option value="2">Duck Pond</mat-option>
+        <mat-option value="3">Lane Stadium</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <!-- Search Button -->
     <button mat-button [disabled]="searchForm.invalid" (click)="search()">

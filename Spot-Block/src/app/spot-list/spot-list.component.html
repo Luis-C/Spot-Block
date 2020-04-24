@@ -2,6 +2,7 @@
   <div class="spot-list__search">
     <app-search
       table="spots"
+      (searchLot)="lotHandler($event)"
       (searchResult)="resultHandler($event)"
     ></app-search>
   </div>

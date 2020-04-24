@@ -4,7 +4,7 @@ declare -a users=("user1"
                   "user3"
                   "user4"
                   "user5"
-                  "user6")
+                  "usera")
 mkdir test_users
 cd test_users
 
@@ -41,6 +41,10 @@ for ((i=1; i<=2; i++)); do
   done
 done
 
+cleos push action spotblock createspot '["311", "", 1]' -p spotblock@active
+cleos push action spotblock createspot '["312", "", 2]' -p spotblock@active
+cleos push action spotblock createspot '["313", "", 3]' -p spotblock@active
+
 #insert test users
 cleos push action spotblock createuser '["user1", 20, ""]' -p spotblock@active
 cleos push action spotblock createuser '["user2", 5, ""]' -p spotblock@active
@@ -52,8 +56,8 @@ cleos push action spotblock createuser '["usera", 25, ""]' -p spotblock@active
 cleos push action spotblock assignspot '["user1", "111"]' -p spotblock@active
 cleos push action spotblock assignspot '["user2", "112"]' -p spotblock@active
 #create test auctions
-cleos push action spotblock createauc '["111", 4, 14, 4]' -p user1@active
-cleos push action spotblock createauc '["112", 6, 14, 4]' -p user2@active
+cleos push action spotblock createauc '["111", 16, 14, 5]' -p user1@active
+cleos push action spotblock createauc '["112", 12, 14, 5]' -p user2@active
 
 #give us the keys for test
 cat test_users/user1/priv_key.txt
@@ -61,4 +65,4 @@ cat test_users/user2/priv_key.txt
 cat test_users/user3/priv_key.txt
 cat test_users/user4/priv_key.txt
 cat test_users/user5/priv_key.txt
-cat test_users/user6/priv_key.txt
+cat test_users/usera/priv_key.txt
