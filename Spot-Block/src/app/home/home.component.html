@@ -37,8 +37,8 @@
 <mat-card *ngFor="let rent of spotRentals">
   <mat-card-header>
     <mat-card-title>Rented Spot</mat-card-title>
-    <mat-card-subtitle>Spot: {{ rent.key }}</mat-card-subtitle>
-    <mat-card-subtitle>Lot: {{ searchLot(rent.key) }}</mat-card-subtitle>
+    <mat-card-subtitle>Spot: {{ rent.value }}</mat-card-subtitle>
+    <mat-card-subtitle>Lot: {{ searchLot(rent.value) }}</mat-card-subtitle>
     <mat-card-subtitle
       >Time:
       {{
