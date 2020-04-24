@@ -189,6 +189,9 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 case 9  :
                     str_month = "d";
                     break; //optional
+                case 10  :
+                    str_month = "z";
+                    break;
             }
             switch(uDay) {
                 case 6  :
@@ -203,6 +206,9 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 case 9  :
                     str_day = "d";
                     break; //optional
+                case 10  :
+                    str_day = "z";
+                    break;
                 case 16  :
                     str_day = "e";
                     break; //optional
@@ -215,6 +221,9 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 case 19  :
                     str_day = "h";
                     break; //optional
+                case 20  :
+                    str_day = "y";
+                    break;
                 case 26  :
                     str_day = "i";
                     break; //optional
@@ -227,20 +236,32 @@ class [[eosio::contract("parkingdb")]] parkingdb : public eosio::contract {
                 case 29  :
                     str_day = "l";
                     break; //optional
+                case 30  :
+                    str_day = "x";
+                    break;
             }
             switch(uTime) {
+                case 0  :
+                    str_time = "z";
+                    break;
                 case 6  :
                     str_time = "a";
                     break; //optional
                 case 8  :
                     str_time = "b";
                     break; //optional
+                case 10  :
+                    str_time = "y";
+                    break;
                 case 16  :
                     str_time = "c";
                     break; //optional
                 case 18  :
                     str_time = "d";
                     break; //optional
+                case 20  :
+                    str_time = "x";
+                    break;
             }
             std::string str_spotID = spotID.to_string();
             std::string str_aucID = str_spotID + "." + str_month + "." + str_day +"." + str_time; // Note that spotIDs can't be too long since 9 other chars are needed
