@@ -6,7 +6,7 @@ import { BlockchainService } from "../_services/blockchain.service";
 import { BehaviorSubject } from "rxjs";
 import { Person } from "../_models/person";
 import { Auction } from "../_models/auction";
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-search",
@@ -14,7 +14,6 @@ import {Router} from "@angular/router";
   styleUrls: ["./search.component.scss"],
 })
 export class SearchComponent implements OnInit {
-  // TODO: take table as input
   @Input() table: string;
   searchForm: FormGroup;
   selected: number;
@@ -27,9 +26,15 @@ export class SearchComponent implements OnInit {
     | BehaviorSubject<Spot[]>
     | BehaviorSubject<Person[]>
     | BehaviorSubject<Auction[]> = new BehaviorSubject<any[]>(undefined);
-  @Output() searchLot: BehaviorSubject<number> = new BehaviorSubject<number>(undefined);
-  @Output() searchTime: BehaviorSubject<number> = new BehaviorSubject<number>(undefined);
-  @Output() searchDate: BehaviorSubject<Date> = new BehaviorSubject<Date>(undefined);
+  @Output() searchLot: BehaviorSubject<number> = new BehaviorSubject<number>(
+    undefined
+  );
+  @Output() searchTime: BehaviorSubject<number> = new BehaviorSubject<number>(
+    undefined
+  );
+  @Output() searchDate: BehaviorSubject<Date> = new BehaviorSubject<Date>(
+    undefined
+  );
 
   constructor(
     private fb: FormBuilder,
@@ -45,7 +50,7 @@ export class SearchComponent implements OnInit {
       time: undefined,
       date: undefined,
       lot: undefined,
-      secondary_key: undefined
+      secondary_key: undefined,
     });
 
     this.page = this.router.url;
@@ -60,8 +65,9 @@ export class SearchComponent implements OnInit {
     );
 
     if (result == null) {
-        this.notif.displayMessage(`No results returned.`);
+      this.notif.displayMessage(`No results returned.`);
     }
+    // TODO: (optional) it would be cleaner to condense these to a single observable
     this.searchLot.next(this.selected);
     this.searchTime.next(this.time);
     this.searchDate.next(this.date);
