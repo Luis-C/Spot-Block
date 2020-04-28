@@ -29,15 +29,10 @@ export class SpotComponent implements OnInit {
     return this.auth.currentUserValue.ID === this.spot.owner;
   }
 
-  // buy() {
-  //   this.blockchain
-  //     .assignSpot({
-  //       accountid: this.auth.currentUserValue.ID,
-  //       spotid: this.spot.ID,
-  //     })
-  //     .subscribe((result) => this.notif.displayMessage(result.response));
-  // }
-
+  /**
+   * Convert a lot enum to a string
+   * @param lot from Lots enum
+   */
   toLot(lot: Lots) {
     switch (lot) {
       case Lots.PERRY_ST: {
@@ -58,6 +53,10 @@ export class SpotComponent implements OnInit {
     }
   }
 
+  /**
+   * Used to link the Map button to the appropriate location
+   * @param lot from Lots enum
+   */
   getLotUrl(lot: Lots) {
     switch (lot) {
       case Lots.PERRY_ST: {
