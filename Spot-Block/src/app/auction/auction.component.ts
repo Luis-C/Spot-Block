@@ -50,10 +50,17 @@ export class AuctionComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Return true if the user has a bid on this auction
+   */
   userIsBidding(): boolean {
     return this.auction.currentBidder === this.auth.currentUserValue.ID;
   }
 
+  /**
+   * Send bid to the blockchain
+   * @param data
+   */
   bid(data: DialogData) {
     this.blockchain
       .bid({
@@ -63,12 +70,17 @@ export class AuctionComponent implements OnInit {
       .subscribe((result) => this.notif.displayMessage(result.response));
   }
 
+  /**
+   * Open dialog form to place a bid on this auction
+   * @param data
+   */
   openDialog(): void {
     const dialogRef = this.dialog.open(bidDialog, {
       width: "250px",
       data: { amount: this.amount },
     });
 
+    // s
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.bid(result);
@@ -77,7 +89,7 @@ export class AuctionComponent implements OnInit {
   }
 
   /**
-   * FIXME: Going to default
+   * Get lot from a spot and use that to display the appropriate google maps link
    * @param spot
    */
   getLotUrl(spot: string) {
@@ -139,17 +151,20 @@ export class AuctionComponent implements OnInit {
 
   displayTime(t: number): string {
     if (t === 0) {
-      return '12:00 AM';
+      return "12:00 AM";
     } else if (t < 12) {
-      return t + ':00 AM';
+      return t + ":00 AM";
     } else if (t === 12) {
-      return t + ':00 PM';
+      return t + ":00 PM";
     } else {
-      return (t - 12) + ':00 PM';
+      return t - 12 + ":00 PM";
     }
   }
 }
 
+/**
+ * Dialog to place a bid
+ */
 @Component({
   selector: "bid-dialog",
   templateUrl: "bid-dialog.html",

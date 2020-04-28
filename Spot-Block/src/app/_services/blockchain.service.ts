@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Api, JsonRpc, RpcError } from "eosjs";
-import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
+import { JsonRpc } from "eosjs";
 import { BlockchainQuery } from "../_models/query";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
@@ -11,15 +10,20 @@ const fetch = require("node-fetch");
 const rpc = new JsonRpc("http://localhost:8888", { fetch });
 // const rpc = new JsonRpc("http://127.0.0.1:8888", { fetch });
 
+/**
+ * This service is in charge of directly communicating with the blockchain
+ * Query tables is the main function to retrieve any data from the blockchain,
+ * however we also have some specialized functions like getFunds
+ */
 @Injectable({
   providedIn: "root",
 })
 export class BlockchainService {
   private PATH = "http://localhost:9090/";
-  private APIKEY = "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy"; // remove
+  private APIKEY = "5JXHv4edenfu75SB45mDChEnw9yZ5oZMBfbmtJ6mJNjxxnDatgy"; // TODO: remove
   private USERKEY = "";
 
-  // TODO: create interface for response from API
+  // TODO: (optional) create interface for response from API
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
@@ -52,6 +56,12 @@ export class BlockchainService {
     });
   }
 
+  /**
+   * Let user place a bid on an auction
+   * @param {any} data
+   * @param {string} data.auctionid - unique auction ID in the blockchain
+   * @param {string} data.bidamount - amount the user is bidding
+   */
   bid({ auctionid, bidamount }): Observable<{ response: string }> {
     return this.http.post<{ response: string }>(`${this.PATH}bid`, {
       key: this.USERKEY,
@@ -62,6 +72,14 @@ export class BlockchainService {
     });
   }
 
+  /**
+   * Let user create an auction
+   * @param {any} data - to be sent to the blockchain
+   * @param data.spotid - unique id of the spot
+   * @param data.time - hour interval (must be a multiple of 2)
+   * @param data.day - day for the bid
+   * @param data.month - month in which to place the bid (1 = Jan)
+   */
   createAuc({ spotid, time, day, month }): Observable<{ response: string }> {
     return this.http.post<{ response: string }>(`${this.PATH}createAuc`, {
       key: this.USERKEY,
@@ -73,6 +91,9 @@ export class BlockchainService {
     });
   }
 
+  /**
+   * Retrieve the users current balance
+   */
   async getFunds() {
     try {
       let username = this.auth.currentUserValue.ID;
@@ -85,6 +106,9 @@ export class BlockchainService {
     }
   }
 
+  /**
+   * Retrieve an array of rented spots for the current user
+   */
   async getSpotRentals() {
     let arr;
     try {
@@ -106,6 +130,10 @@ export class BlockchainService {
     return arr;
   }
 
+  /**
+   * Function used before authentication to verify if the user is in the blockchain
+   * @param username - name to be verified
+   */
   async isUser(username: string) {
     let resp = await this.query_table("users", 1000);
     let arr = resp.filter((user) => user.ID == username);

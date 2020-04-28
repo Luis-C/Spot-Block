@@ -31,10 +31,6 @@
   </mat-card-header>
 
   <mat-card-actions>
-    <!-- <button mat-button *ngIf="!spot.owner" (click)="buy()">
-      <mat-icon>attach_money</mat-icon>BUY
-    </!-->
-
     <button mat-button *ngIf="!owned(auction.spot)" (click)="openDialog()">
       <mat-icon>attach_money</mat-icon>BID
     </button>

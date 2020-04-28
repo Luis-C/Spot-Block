@@ -33,10 +33,17 @@ export class AuthService {
     return this.currentKeySubject.value;
   }
 
+  /**
+   * Save user info into session storage
+   * NOTE: Validation is done by the blockchain service
+   * @param user info to be saved
+   */
   login(user: any) {
     return new Observable((subscriber) => {
       // valid login
       // TODO: do something with this person?
+      // FIXME: session storage does not save an accurate copy of the user from
+      // the blockchain
       const person: Person = { ID: user.id, funds: 20, spot: null };
 
       localStorage.setItem("currentUser", JSON.stringify(person));
@@ -50,6 +57,9 @@ export class AuthService {
     });
   }
 
+  /**
+   * Set observables to null and clear session storage
+   */
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem("currentUser");
@@ -57,5 +67,8 @@ export class AuthService {
 
     localStorage.removeItem("currentKey");
     this.currentKeySubject.next(null);
+
+    // clear session storage
+    location.reload();
   }
 }
