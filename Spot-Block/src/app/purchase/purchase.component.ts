@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 
 /**
  * This has been deprecated and should be deleted
+ * We use search component instead
  * @deprecated
  */
 @Component({
