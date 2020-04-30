@@ -1,3 +1,6 @@
+/**
+ * Represents the parameter necessary to make a query to the blockchain
+ */
 export interface BlockchainQuery {
   json: boolean;
   code: string;
